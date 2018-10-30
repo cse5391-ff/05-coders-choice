@@ -6,6 +6,10 @@ A random Spotify playlist generator that curates playlists created by your frien
 
 ## Outline Structure
 
-First, a user's music taste needs to be examined and that data is stored in a local database. Then, I would be able to start examining the playlists of all of the people that a specific user follows. This project is the perfect playground for processes and supervisors. There can be a user supervisor that manages processes that examine each followed user. Each playlist also warrents a process that is managed by another supervisor. 
+First, a user's music taste needs to be examined and that data is stored in a local database. Then, I would be able to start examining the playlists of all of the people that a specific user follows. This project is the perfect playground for processes and supervisors. There can be a user supervisor that manages followed user supervisors. Each followed user supervisor also spawns a worker that examines a playlist of a given user. 
 
- ![image](architecture_chart.png)
+![image](architecture_chart.png)
+
+![supervisor tree](./supervisor_tree.png)
+
+My goal is to use the Phoenix framework and utilize the server side rendering. If I have the time, I would like to plug some React components in the the application. 
