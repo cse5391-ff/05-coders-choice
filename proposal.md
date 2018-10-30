@@ -1,20 +1,11 @@
-Name: ____________           ID:   ____________
+Name: Zach Banducci          ID: 44671228
 
 ## Proposed Project
 
-> Replace this paragraph with the description of what your project
-> will do. Tell me what kind of interface it will have, and roughly
-> how it will work. I don't need more than three or four sentences,
-> unless you feel compelled to write more.
+A random Spotify playlist generator that curates playlists created by your friends based on your music taste. Spotify offers a web API that would allow me to get playlists created by specific users along with the artists that they listen to. By examining your most listened to songs and artists that you listen to and comparing that to your friends' playlists, the generator would be able to curate suggested playlists for you to follow. 
 
 ## Outline Structure
 
-> Describe how you'll organize your code. What is the process and
-> supervision structure? If it uses a framework, how does it fit in. I
-> just need to understand the direction you plan to take. Again, three
-> or four sentences are probably enough.
+First, a user's music taste needs to be examined and that data is stored in a local database. Then, I would be able to start examining the playlists of all of the people that a specific user follows. This project is the perfect playground for processes and supervisors. There can be a user supervisor that manages processes that examine each followed user. Each playlist also warrents a process that is managed by another supervisor. 
 
-
-
-> replace all the ">" lines with your content, then push this to
-> github and issue a merge request.
+ ![image](architecture_chart.png)
