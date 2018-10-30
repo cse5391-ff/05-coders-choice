@@ -6,6 +6,7 @@ A random Spotify playlist generator that curates playlists created by your frien
 
 ## Outline Structure
 
+
 First, a user's music taste needs to be examined and that data is stored in a local database. Then, I would be able to start examining the playlists of all of the people that a specific user follows. This project is the perfect playground for processes and supervisors. There can be a user supervisor that manages followed user supervisors. Each followed user supervisor also spawns a worker that examines a playlist of a given user. 
 
 ![image](architecture_chart.png)
