@@ -1,20 +1,17 @@
-Name: ____________           ID:   ____________
+Name: Christian Ventura          ID:   43810316
 
 ## Proposed Project
 
-> Replace this paragraph with the description of what your project
-> will do. Tell me what kind of interface it will have, and roughly
-> how it will work. I don't need more than three or four sentences,
-> unless you feel compelled to write more.
+I plan to create Scrabble SOS. It should be an application that allows
+for people to input the letters they have into the system, which then returns
+a list of possible combinations of those letters. There will probably
+be multiple text boxes to hold one character each and a button to start.
 
 ## Outline Structure
 
-> Describe how you'll organize your code. What is the process and
-> supervision structure? If it uses a framework, how does it fit in. I
-> just need to understand the direction you plan to take. Again, three
-> or four sentences are probably enough.
+I suppose the supervisor strategy will be one_for_one. There should only be one
+process for this project, I think. I will send multiple lengths of letters in at
+a time and find matching words. I'm pretty sure this approach will work.
 
-
-
-> replace all the ">" lines with your content, then push this to
-> github and issue a merge request.
+Please let me know if there's anything I need to clarify and/or improve my structure.
+Thank you.
