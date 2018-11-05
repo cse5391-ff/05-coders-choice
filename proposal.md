@@ -13,3 +13,4 @@ It will be hosted as a webapp and function muchâ€”as far as user interfaces goâ€
 
 It will be built on the Phoenix Framework, with builtin OTP processes and servers for each user and each addressing specification with address filtering.
 State transfer will take place in the message templating schema for users to request and respond to messages based on user provided templates.
+Based on the notification type and template, a user can specify a "notification prioritization" level, such as a calendar invite has a higher prioritization than a text message at 2 AM.
