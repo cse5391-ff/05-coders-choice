@@ -1,4 +1,4 @@
-Name: Jenn Le, Seung Ki Lee ID: 45920619, 35460312
+**Name**: Jenn Le, Seung Ki Lee **ID**: 45920619, 35460312
 
 ## Proposed Project
 
