@@ -1,11 +1,8 @@
-Name: ____________           ID:   ____________
+Name: Chris Ragsdale   ID: 43584103
 
 ## Proposed Project
 
-> Replace this paragraph with the description of what your project
-> will do. Tell me what kind of interface it will have, and roughly
-> how it will work. I don't need more than three or four sentences,
-> unless you feel compelled to write more.
+I will make a piano-teaching webapp that provides on-screen pianos for both student and teacher. The pianos will be keyboard-controlled, will sound for both members of the room, and will have visual feedback so that both members can see what the other is doing. To build on this further, there will be a built-in UI chord and scale library that highlights relevant keys for said chords/scales, and there will be a live room chat.
 
 ## Outline Structure
 
