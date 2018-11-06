@@ -1,20 +1,13 @@
-Name: ____________           ID:   ____________
+Name: Casey Hittinger           ID:   43199706
 
 ## Proposed Project
 
-> Replace this paragraph with the description of what your project
-> will do. Tell me what kind of interface it will have, and roughly
-> how it will work. I don't need more than three or four sentences,
-> unless you feel compelled to write more.
+My project will be a user interacted game of connect four. It will have a UI that simulates a board and will allow the user to either play against a friend or the computer. It will take click-events to determine what row it will be put on, and then check to see if the user has won.
 
 ## Outline Structure
 
-> Describe how you'll organize your code. What is the process and
-> supervision structure? If it uses a framework, how does it fit in. I
-> just need to understand the direction you plan to take. Again, three
-> or four sentences are probably enough.
+The supervision structure will look like one supervisor that is overviewing all the playable games that will be their own processes. That way no two browser will mess the others up. At the moment there will be no frameworks needed for this project
 
 
 
-> replace all the ">" lines with your content, then push this to
-> github and issue a merge request.
+
