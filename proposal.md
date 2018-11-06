@@ -1,20 +1,10 @@
-Name: ____________           ID:   ____________
+Name: Austin Chen           ID: 46797586
 
 ## Proposed Project
 
-> Replace this paragraph with the description of what your project
-> will do. Tell me what kind of interface it will have, and roughly
-> how it will work. I don't need more than three or four sentences,
-> unless you feel compelled to write more.
+For my project, I plan on creating an ESPN Fantasy Basketball utility webapp for H2H 9-cat NBA leagues. In Fantasy basketball, it is typical to have week-long 1v1 matchups where your team competes against another team to rack up statistics in 9 different categories. Whichever player has the most "rebounds" or "assists" or "points" (three categories, for example) wins the category. The goal for each week is to win the most number of categories. While ESPN provides some basic statistics, there are a few ways one could present more useful statistics that helps guide one's strategic decisions for acquiring players or choosing which players to play vs. bench. Furtermore, I can calculate statistics that ESPN's interface does not offer such as FG% by volume, player statistics for the last 8 games, your category score if you had been playing other players, and more.
+
+I plan on implementing a web interface in which a player can provide a link to their league, and then be displayed a plethora of statistics, information, and recommendations. If I have time, I could perhaps build on this and create interactive charts and plots, or create far more advanced recommendations on how the fantasy manager should run their team for their weekly matchup.
 
 ## Outline Structure
-
-> Describe how you'll organize your code. What is the process and
-> supervision structure? If it uses a framework, how does it fit in. I
-> just need to understand the direction you plan to take. Again, three
-> or four sentences are probably enough.
-
-
-
-> replace all the ">" lines with your content, then push this to
-> github and issue a merge request.
+For now, I plan on using Phoenix for my web framework. As for the supervision structure, NBA games are live. Therefore, information is constantly being updated as games (in real life) are being played on a nightly basis. I plan on utilizing supervisors that refresh game stats, player stats, and fantasy team manager stats frequently in order to keep an up to date webpage. I'm still debating what the best way of structuring supervision will be. Although ALL 9-cat fantasy NBA leagues draw from the same source (the NBA), some of the stats that comprise the 9 categories might actually differ from league to league, depending on the specifications for that league.. For now, a top level supervisor can supervise leagues, which supervise each team within the league (and all the player stats that accompany each team). 
