@@ -1,20 +1,13 @@
-Name: ____________           ID:   ____________
+Name: Rui Lin           ID: 44367652
 
 ## Proposed Project
 
-> Replace this paragraph with the description of what your project
-> will do. Tell me what kind of interface it will have, and roughly
-> how it will work. I don't need more than three or four sentences,
-> unless you feel compelled to write more.
+I plan to implement the 2048 game using elixir. Currently, in my mind,
+it will be a console program, since I may not have enough time to make
+a cool web interface for it. After that, if I have enough time, I will
+try to create a web interface.
 
 ## Outline Structure
 
-> Describe how you'll organize your code. What is the process and
-> supervision structure? If it uses a framework, how does it fit in. I
-> just need to understand the direction you plan to take. Again, three
-> or four sentences are probably enough.
-
-
-
-> replace all the ">" lines with your content, then push this to
-> github and issue a merge request.
+The project will have four modules: game, input, move, board.
+The application will supervise the game.
