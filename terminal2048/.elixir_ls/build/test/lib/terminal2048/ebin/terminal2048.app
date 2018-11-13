@@ -1,0 +1,8 @@
+{application,terminal2048,
+             [{applications,[kernel,stdlib,elixir,logger]},
+              {description,"terminal2048"},
+              {modules,['Elixir.Terminal2048',
+                        'Elixir.Terminal2048.Application']},
+              {registered,[]},
+              {vsn,"0.1.0"},
+              {mod,{'Elixir.Terminal2048.Application',[]}}]}.
