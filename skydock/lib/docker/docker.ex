@@ -13,6 +13,10 @@ defmodule SkyDock.Docker do
 
   def kill_container(name_id), do: socket_message("POST", "containers/#{name_id}/kill")
 
+  def pause_container(name_id), do: socket_message("POST", "containers/#{name_id}/pause")
+
+  def unpause_container(name_id), do: socket_message("POST", "containers/#{name_id}/unpause")
+
   def get_volumes(), do: socket_message("GET", "volumes")
 
   def get_images(), do: socket_message("GET", "images/json")
@@ -20,4 +24,8 @@ defmodule SkyDock.Docker do
   def create_image(image, tag), do: socket_message("POST", "images/create", %{"fromImage"=>image, "tag"=>tag})
 
   def get_sys_info(), do: socket_message("GET", "info")
+
+  #TODO: add ability start an "exec", return its ID, and periodically have a process query it
+  # once the ececution has completed, send its "tail" or an image of the output
+
 end
