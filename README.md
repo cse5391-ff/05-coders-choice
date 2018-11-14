@@ -1,3 +1,3 @@
 # Coder's Choice
 
-See the assignment on Canvas for details
+Code resides [here](https://github.com/jorgeavaldez/dropcop/).
