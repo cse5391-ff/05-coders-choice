@@ -6,6 +6,7 @@
               {modules,['Elixir.Scope','Elixir.Scope.Application',
                         'Elixir.Scope.DataCase','Elixir.Scope.Repo',
                         'Elixir.ScopeWeb','Elixir.ScopeWeb.ChannelCase',
+                        'Elixir.ScopeWeb.ChatRoomChannel',
                         'Elixir.ScopeWeb.ConnCase','Elixir.ScopeWeb.Endpoint',
                         'Elixir.ScopeWeb.ErrorHelpers',
                         'Elixir.ScopeWeb.ErrorView','Elixir.ScopeWeb.Gettext',
