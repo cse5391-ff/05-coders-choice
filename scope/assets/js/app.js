@@ -24,8 +24,8 @@ import "phoenix_html"
 
 let channel = socket.channel('chat_room:lobby', {});
 let list = $('#message-list');
-let message = $('#NewMessage');
-let name = $('#name');
+let message = $('#message');
+let name = $('#username');
 
 message.on('keypress', event => {
     if (event.keyCode == 13) {
