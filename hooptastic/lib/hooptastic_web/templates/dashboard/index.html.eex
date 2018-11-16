@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <h2>Weekly Matchup</h2>
   <hr>
-  <%= link "View current matchup", to: players_path(@conn, :index) %>
+  <%= link "View current matchup", to: weekly_path(@conn, :index) %>
 </div>
 
 <div class="jumbotron">

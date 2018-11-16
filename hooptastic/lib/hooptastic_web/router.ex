@@ -18,6 +18,7 @@ defmodule HooptasticWeb.Router do
 
     get "/", PageController, :index
     resources "/dashboard", DashboardController, only: [:index]
+    resources "/weekly", WeeklyController, only: [:index]
     resources "/season", SeasonController, only: [:index]
     resources "/players", PlayersController, only: [:index]
   end

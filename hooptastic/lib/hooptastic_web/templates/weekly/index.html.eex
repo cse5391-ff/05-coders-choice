@@ -1,0 +1,32 @@
+<div class="jumbotron">
+  <h2>Your Current Matchup</h2>
+
+  <table border="1" style="width:100%">
+  <tr>
+    <th></th>
+    <th style="text-align:center">FG%</th> 
+    <th style="text-align:center">FT%</th>
+    <th style="text-align:center">3PM</th>
+    <th style="text-align:center">REB</th>
+    <th style="text-align:center">AST</th>
+    <th style="text-align:center"></th>
+    <th style="text-align:center">Record</th>
+    <th style="text-align:center">Record</th>
+
+  </tr>
+
+  <tr>
+    <td align="center">FG%</td>
+    <td align="center">Team DeAndre Jordan</td>
+    <td align="center">0.5583</td>
+  </tr>
+
+  <tr>
+    <td align="center">FT%</td>
+    <td align="center">Team Stephen Curry</td>
+    <td align="center">.8723</td>
+    
+  </tr>
+
+  <h2>Round Robin Matchup Hypothetical</h2>
+</div>
