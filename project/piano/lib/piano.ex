@@ -6,9 +6,9 @@ defmodule Piano do
   """
 
 
-  defdelegate new_piano(),       to: Impl
-  defdelegate press_key(),       to: Impl
-  defdelegate release_key(),     to: Impl
+  defdelegate start(),           to: Impl
+  defdelegate press(),           to: Impl
+  defdelegate release(),         to: Impl
   defdelegate start_recording(), to: Impl
   defdelegate stop_recording(),  to: Impl
 

@@ -1,14 +1,14 @@
 defmodule Piano.Impl do
 
-  def new_piano() do
+  def start() do
 
   end
 
-  def press_key() do
+  def press() do
 
   end
 
-  def release_key()
+  def release() do
 
   end
 
