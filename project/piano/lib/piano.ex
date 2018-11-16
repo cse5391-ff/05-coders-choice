@@ -5,6 +5,7 @@ defmodule Piano do
   to generate MIDI sequences.
   """
 
+
   defdelegate new_piano(),       to: Impl
   defdelegate press_key(),       to: Impl
   defdelegate release_key(),     to: Impl
