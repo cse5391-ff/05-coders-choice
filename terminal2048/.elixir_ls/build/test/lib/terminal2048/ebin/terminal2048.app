@@ -2,7 +2,10 @@
              [{applications,[kernel,stdlib,elixir,logger]},
               {description,"terminal2048"},
               {modules,['Elixir.Terminal2048',
-                        'Elixir.Terminal2048.Application']},
+                        'Elixir.Terminal2048.Application',
+                        'Elixir.Terminal2048.Board',
+                        'Elixir.Terminal2048.Game',
+                        'Elixir.Terminal2048.State']},
               {registered,[]},
               {vsn,"0.1.0"},
               {mod,{'Elixir.Terminal2048.Application',[]}}]}.
