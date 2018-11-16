@@ -2,69 +2,69 @@
   <h2>Your Ranking Over Time:</h2>
   <img src="https://raw.githubusercontent.com/austinchenCS/a05-coders-choice/skeleton/hooptastic/assets/images/chart.png" style="width:600px;height:300px;" ><br><br>
   <h2>Strongest team in...</h2>
+    
   <table border="1" style="width:100%">
-  <tr>
-    <th></th>
-    <th style="text-align:center">Team</th> 
-    <th style="text-align:center">Record</th>
-  </tr>
+    <tr>
+      <th></th>
+      <th style="text-align:center">Team</th> 
+      <th style="text-align:center">Record</th>
+    </tr>
 
- 
+    <tr>
+      <td align="center">FG%</td>
+      <td align="center">Team DeAndre Jordan</td>
+      <td align="center">0.5583</td>
+    </tr>
 
-  <tr>
-    <td align="center">FG%</td>
-    <td align="center">Team DeAndre Jordan</td>
-    <td align="center">0.5583</td>
-  </tr>
+    <tr>
+      <td align="center">FT%</td>
+      <td align="center">Team Stephen Curry</td>
+      <td align="center">.8723</td>
+      
+    </tr>
 
-  <tr>
-    <td align="center">FT%</td>
-    <td align="center">Team Stephen Curry</td>
-    <td align="center">.8723</td>
-    
-  </tr>
+    <tr>
+      <td align="center">3PM</td>
+      <td align="center">Team Klay Thompson</td>
+      <td align="center">253</td>
+    </tr>
 
-  <tr>
-    <td align="center">3PM</td>
-    <td align="center">Team Klay Thompson</td>
-    <td align="center">253</td>
-  </tr>
+    <tr>
+      <td align="center">REB</td>
+      <td align="center">Team Shaquille O'Neal</td>
+      <td align="center">200</td>
+    </tr>
 
-  <tr>
-    <td align="center">REB</td>
-    <td align="center">Team Shaquille O'Neal</td>
-    <td align="center">200</td>
-  </tr>
+    <tr>
+      <td align="center">AST</td>
+      <td align="center">Team Chris Paul</td>
+      <td align="center">123</td>
+    </tr>
 
-  <tr>
-    <td align="center">AST</td>
-    <td align="center">Team Chris Paul</td>
-    <td align="center">123</td>
-  </tr>
+    <tr>
+      <td align="center">STL</td>
+      <td align="center">Team Draymond Green</td>
+      <td align="center">88</td>
+    </tr>
 
-  <tr>
-    <td align="center">STL</td>
-    <td align="center">Team Draymond Green</td>
-    <td align="center">88</td>
-  </tr>
+    <tr>
+      <td align="center">BLK</td>
+      <td align="center">Team Rudy Gobert</td>
+      <td align="center">90</td>
+    </tr>
 
-  <tr>
-    <td align="center">BLK</td>
-    <td align="center">Team Rudy Gobert</td>
-    <td align="center">90</td>
-  </tr>
+    <tr>
+      <td align="center">TO</td>
+      <td align="center">Team Russell Westbrook</td>
+      <td align="center">931</td>
+    </tr>
 
-  <tr>
-    <td align="center">TO</td>
-    <td align="center">Team Russell Westbrook</td>
-    <td align="center">931</td>
-  </tr>
+    <tr>
+      <td align="center">PTS</td>
+      <td align="center">Team E'Twaun Moore</td>
+      <td align="center">1323</td>
+    </tr> 
+  </table>
 
-  <tr>
-    <td align="center">PTS</td>
-    <td align="center">Team E'Twaun Moore</td>
-    <td align="center">1323</td>
-  </tr> 
-    
-</table>
+  <%= link "Back to dashboard", to: dashboard_path(@conn, :index) %>
 </div>

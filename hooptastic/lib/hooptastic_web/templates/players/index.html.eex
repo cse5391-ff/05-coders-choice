@@ -1,3 +1,4 @@
 <div class="jumbotron">
-  <h2>All NBA Players 2017-2018</h2>
+  <h2>All NBA Players 2017-2018</h2>  
+  <%= link "Back to dashboard", to: dashboard_path(@conn, :index) %>
 </div>

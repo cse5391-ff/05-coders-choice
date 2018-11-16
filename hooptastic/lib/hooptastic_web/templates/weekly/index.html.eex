@@ -1,4 +1,5 @@
 <div class="jumbotron">
+
   <h2>Your Current Matchup</h2>
 
     <table border="1" style="width:100%">
@@ -464,4 +465,6 @@
         <td align="center">321</td>
       </tr>
     </table>
+
+    <%= link "Back to dashboard", to: dashboard_path(@conn, :index) %>
 </div>
