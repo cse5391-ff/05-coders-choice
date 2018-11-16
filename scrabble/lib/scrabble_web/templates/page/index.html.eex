@@ -1,0 +1,13 @@
+<div class="jumbotron">
+  <h2><%= gettext "Welcome to %{name}!", name: "Scrabble SOS" %></h2>
+</div>
+
+<div class="row marketing">
+  <div class="col-lg-6">
+    
+  </div>
+
+  <div class="col-lg-6">
+    
+  </div>
+</div>
