@@ -1,4 +1,24 @@
 <div class="jumbotron">
   <h2>Your Ranking Over Time:</h2>
-  <img src=".jpg">
+  <img src="https://raw.githubusercontent.com/austinchenCS/a05-coders-choice/skeleton/hooptastic/assets/images/chart.png" style="width:600px;height:300px;" ><br><br>
+  <h2>Strongest team in...</h2>
+  <table border="1" style="width:100%">
+  <tr>
+    <th></th>
+    <th style="text-align:center">Team</th> 
+    <th style="text-align:center">Record</th>
+  </tr>
+  
+  <tr>
+    <td  align="center">Jill</td>
+    <td  align="center">Smith</td> 
+    <td  align="center">50</td>
+  </tr>
+
+  <tr>
+    <td  align="center">Eve</td>
+    <td  align="center">Jackson</td> 
+    <td  align="center">94</td>
+  </tr>
+</table>
 </div>
