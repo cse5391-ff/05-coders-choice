@@ -1,6 +1,40 @@
 <div class="jumbotron">
   <h2><%= gettext "Welcome to %{name}!", name: "CONNECT 4" %></h2>
-  
+  <br><br>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8">
+        <table>
+          <tr>
+              <td id="0" ></td>
+              <td id="1"></td>
+              <td id="2"></td>
+              <td id="3"></td>
+          </tr>
+          <tr>
+              <td id="4"></td>
+              <td id="5"></td>
+              <td id="6"></td>
+              <td id="7"></td>
+          </tr>
+          <tr>
+              <td id="8"></td>
+              <td id="9"></td>
+              <td id="10"></td>
+              <td id="11"></td>
+          </tr>
+          <tr>
+              <td id="12"></td>
+              <td id="13"></td>
+              <td id="14"></td>
+              <td id="15"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+  </div>
 </div>
 
 

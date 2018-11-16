@@ -11,7 +11,7 @@ defmodule Connect4.Application do
       # Start the endpoint when the application starts
       supervisor(Connect4Web.Endpoint, []),
       # Start your own worker by calling: Connect4.Worker.start_link(arg1, arg2, arg3)
-      # worker(Connect4.Worker, [arg1, arg2, arg3]),
+      # worker(Connect4.GameState, []),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
