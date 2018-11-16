@@ -1,26 +1,24 @@
 defmodule Piano.Impl do
 
+  # State struct, passed recursively in run()
+  defstruct(
+    keys_currently_pressed: nil,
+    recording:              false
+  )
+
   def start() do
-
+    # Start MapSetStore genserver
+    # Start Piano process (passing state struct w/ genserver name to run)
   end
 
-  def press(id, keys) do
+  # send process messages with relevant data
+  def press(id, keys),     do:
+  def release(id, keys),   do:
+  def start_recording(id), do:
+  def stop_recording(id),  do:
 
-  end
-
-  def release(id, keys) do
-
-  end
-
-  def start_recording(id)
-
-  end
-
-  def stop_recording(id)
-
-  end
-
-  defp run() do
+  # Piano process
+  defp run(state) do
 
     receive do
 
@@ -34,7 +32,7 @@ defmodule Piano.Impl do
 
     end
 
-    run()
+    run(new_state)
 
   end
 
