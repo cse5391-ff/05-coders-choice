@@ -8,17 +8,63 @@
     <th style="text-align:center">Team</th> 
     <th style="text-align:center">Record</th>
   </tr>
-  
+
+ 
+
   <tr>
-    <td  align="center">Jill</td>
-    <td  align="center">Smith</td> 
-    <td  align="center">50</td>
+    <td align="center">FG%</td>
+    <td align="center">Team DeAndre Jordan</td>
+    <td align="center">0.5583</td>
   </tr>
 
   <tr>
-    <td  align="center">Eve</td>
-    <td  align="center">Jackson</td> 
-    <td  align="center">94</td>
+    <td align="center">FT%</td>
+    <td align="center">Team Stephen Curry</td>
+    <td align="center">.8723</td>
+    
   </tr>
+
+  <tr>
+    <td align="center">3PM</td>
+    <td align="center">Team Klay Thompson</td>
+    <td align="center">253</td>
+  </tr>
+
+  <tr>
+    <td align="center">REB</td>
+    <td align="center">Team Shaquille O'Neal</td>
+    <td align="center">200</td>
+  </tr>
+
+  <tr>
+    <td align="center">AST</td>
+    <td align="center">Team Chris Paul</td>
+    <td align="center">123</td>
+  </tr>
+
+  <tr>
+    <td align="center">STL</td>
+    <td align="center">Team Draymond Green</td>
+    <td align="center">88</td>
+  </tr>
+
+  <tr>
+    <td align="center">BLK</td>
+    <td align="center">Team Rudy Gobert</td>
+    <td align="center">90</td>
+  </tr>
+
+  <tr>
+    <td align="center">TO</td>
+    <td align="center">Team Russell Westbrook</td>
+    <td align="center">931</td>
+  </tr>
+
+  <tr>
+    <td align="center">PTS</td>
+    <td align="center">Team E'Twaun Moore</td>
+    <td align="center">1323</td>
+  </tr> 
+    
 </table>
 </div>
