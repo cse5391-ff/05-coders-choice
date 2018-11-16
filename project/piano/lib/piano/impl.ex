@@ -4,19 +4,37 @@ defmodule Piano.Impl do
 
   end
 
-  def press() do
+  def press(id, keys) do
 
   end
 
-  def release() do
+  def release(id, keys) do
 
   end
 
-  def start_recording()
+  def start_recording(id)
 
   end
 
-  def stop_recording()
+  def stop_recording(id)
+
+  end
+
+  defp run() do
+
+    receive do
+
+      { :press, keys } ->
+
+      { :release, keys } ->
+
+      { :start_recording } ->
+
+      { :end_recording } ->
+
+    end
+
+    run()
 
   end
 
