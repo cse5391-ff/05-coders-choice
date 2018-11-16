@@ -32,6 +32,19 @@ defmodule Accounts.Actions do
     |> Repo.insert()
   end
 
+  def delete_user(id) do
+    user = Repo.get!(User, id)
+    case Repo.delete user do
+      {:ok, struct} -> {:ok, struct}
+      {:error, changeset} -> {:error, changeset}
+    end
+  end
+
+  def delete_all_users() do
+    from(u in User) |> Repo.delete_all()
+  end
+
+
   def auth_by_username_and_pass(username, given_pass) do
     user = get_user_by_username(username)
 

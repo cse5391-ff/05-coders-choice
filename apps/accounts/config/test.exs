@@ -8,6 +8,7 @@ use Mix.Config
 config :accounts, Accounts.Repo,
   username: "postgres",
   password: "postgres",
-  database: "endlist_test",
+  database: "accounts_test",
+  # database: "endlist_test",  
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
