@@ -1,0 +1,17 @@
+<div class="jumbotron">
+  <h2>Weekly Matchup</h2>
+  <hr>
+  <%= link "View current matchup", to: players_path(@conn, :index) %>
+</div>
+
+<div class="jumbotron">
+  <h2>Season Rankings</h2>
+  <hr>
+  <%= link "View your league's season-long rankings", to: season_path(@conn, :index) %>
+</div>
+
+<div class="jumbotron">
+  <h2>NBA Player Stats</h2>
+  <hr>
+  <%= link "View ALL NBA Player Stats", to: players_path(@conn, :index) %>
+</div>

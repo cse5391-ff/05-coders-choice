@@ -1,0 +1,20 @@
+<div class="jumbotron"> 
+  <h2>Welcome to Hooptastic!</h2>
+  <hr>
+  <p>Your one stop shop to winning your fantasy basketball matchups.</p>
+  <br>
+  Please enter the URL of your ESPN league office page.
+
+  <%= form_for @conn, dashboard_path(@conn, :index), fn f -> %>
+    League URL:<br>
+    <%= text_input f, :league_url, placeholder: "ex. http://fantasy.espn.com/basketball/league?leagueId=268438"%>
+    <br><%= submit "Submit", to: dashboard_path(@conn, :index) %>
+  <% end %>
+
+  <%= link "Go to dashboard (temporary, in lieu of Submit/API integration)", to: dashboard_path(@conn, :index) %>
+  
+  <ul>
+    
+  </ul>
+
+</div>
