@@ -26,14 +26,20 @@ let channel = socket.channel('chat_room:lobby', {});
 let list = $('#message-list');
 let message = $('#message');
 let name = $('#username');
+let urgent = $('#urgent');
+let peripheral = $('#peripheral');
 
 message.on('keypress', event => {
     if (event.keyCode == 13) {
         channel.push('shout', {
             name: name.val(),
-            message: message.val()
+            message: message.val(),
+            urgent: urgent.val(),
+            peripheral: peripheral.val()
         });
         message.val('');
+        urgent.val('unchecked');
+        peripheral.val('');
     }
 });
 

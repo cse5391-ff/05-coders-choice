@@ -25,4 +25,5 @@ defmodule ScopeWeb.ChatRoomChannelTest do
     broadcast_from! socket, "broadcast", %{"some" => "data"}
     assert_push "broadcast", %{"some" => "data"}
   end
+
 end
