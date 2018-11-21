@@ -1,6 +1,11 @@
 /* This file is for your main application css. */
-td {
-    border: 1px solid black;
+.board {
+    border: 5px solid blue;
     height: 100px;
     width: 100px;
+}
+
+#columns {
+    font-size: 30px;
+    cursor: pointer;
 }

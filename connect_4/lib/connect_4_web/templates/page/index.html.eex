@@ -1,38 +1,56 @@
 <div class="jumbotron">
   <h2><%= gettext "Welcome to %{name}!", name: "CONNECT 4" %></h2>
-  <br><br>
+  <br>
+  <h5>Choose the column to add your piece</h5>
   <div class="container">
     <div class="row">
-      <div class="col-xs-2"></div>
-      <div class="col-xs-8">
+      <div class="col-xs-1"></div>
+      <div class="col-xs-10">
+      
         <table>
-          <tr>
-              <td id="0" ></td>
-              <td id="1"></td>
-              <td id="2"></td>
-              <td id="3"></td>
+          <tr id="columns">
+            <td id="c0" >C1</td>
+            <td id="c1">C2</td>
+            <td id="c2">C3</td>
+            <td id="c3">C4</td>
+            <td id="c4">C5</td>
+            <td id="c5">C6</td>
+          </tr>
+          <tr >
+              <td id="0" class="board"></td>
+              <td id="1" class="board"></td>
+              <td id="2" class="board"></td>
+              <td id="3" class="board"></td>
+              <td id="4" class="board"></td>
+              <td id="5" class="board"></td>
           </tr>
           <tr>
-              <td id="4"></td>
-              <td id="5"></td>
-              <td id="6"></td>
-              <td id="7"></td>
+              <td id="6" class="board"></td>
+              <td id="7" class="board"></td>
+              <td id="8" class="board"></td>
+              <td id="9" class="board"></td>
+              <td id="10" class="board"></td>
+              <td id="11" class="board"></td>
           </tr>
           <tr>
-              <td id="8"></td>
-              <td id="9"></td>
-              <td id="10"></td>
-              <td id="11"></td>
+              <td id="12" class="board"></td>
+              <td id="13" class="board"></td>
+              <td id="14" class="board"></td>
+              <td id="15" class="board"></td>
+              <td id="16" class="board"></td>
+              <td id="17" class="board"></td>
           </tr>
           <tr>
-              <td id="12"></td>
-              <td id="13"></td>
-              <td id="14"></td>
-              <td id="15"></td>
+              <td id="18" class="board"></td>
+              <td id="19" class="board"></td>
+              <td id="20" class="board"></td>
+              <td id="21" class="board"></td>
+              <td id="22" class="board"></td>
+              <td id="23" class="board"></td>
           </tr>
         </table>
       </div>
-      <div class="col-xs-2"></div>
+      <div class="col-xs-1"></div>
     </div>
   </div>
 </div>

@@ -23,8 +23,13 @@ export class Connect {
     }
 
     setupEventHandlers() {
-        var arr = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"];
-        var board = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        var arr = ["c0","c1","c2","c3","c4","c5"];
+        var board = [
+            0,0,0,0,0,0,
+            0,0,0,0,0,0,
+            0,0,0,0,0,0,
+            0,0,0,0,0,0
+        ];
         var turn = 0;
 
         
@@ -33,14 +38,42 @@ export class Connect {
             // console.log(ev.target.id);
             var targ = ev.target.id;
             if(arr.includes(targ)) {
-                var intTarg = parseInt(targ);
-                if(turn == 0) {
-                    ev.target.style.backgroundColor = "red";
-                    turn = 1
+                var intColumn = arr.indexOf(targ);
+                var newArr = [(6*3)+intColumn, (6*2)+intColumn, (6*1)+intColumn, (6*0)+intColumn];
+                console.log(newArr);
+                var newSpot;
+                var full = false;
+                if(board[newArr[0]] == 0){
+                    newSpot = newArr[0];
+                } else if(board[newArr[1]] == 0) {
+                    newSpot = newArr[1];
+                } else if(board[newArr[2]] == 0) {
+                    newSpot = newArr[2];
+                } else if(board[newArr[3]] == 0) {
+                    newSpot = newArr[3];
                 } else {
-                    ev.target.style.backgroundColor = "blue";
-                    turn = 0;
+                    full = true;
                 }
+                if(turn == 0 && !full) {
+                    board[newSpot] = 1;
+                    console.log(board);
+                    document.getElementById(newSpot.toString()).style.backgroundColor = "red";
+                    // block.target.style.backgroundColor = "red";
+                    
+                    this.channel.push("turn_played", {board: board, turn: turn});
+                    turn = 1;
+                } else if(!full && turn == 1) {
+                    board[newSpot] = 1;
+                    console.log(board);
+                    document.getElementById(newSpot.toString()).style.backgroundColor = "black";
+                    // block.style.backgroundColor = "blue";
+                    
+                    this.channel.push("turn_played", {board: board, turn: turn});
+                    turn = 1;
+                } else {
+                    console.log("col is full")
+                }
+                
                 
             }
 
