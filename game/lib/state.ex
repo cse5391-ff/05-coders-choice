@@ -13,20 +13,21 @@ defmodule Game.State do
 
   def determine_result(board, new_move) do
     # IO.inspect(new_move["board"])
-    # horz_check = check_horz(new_move, board)
+    horz_check = check_horz(new_move, board)
     vert_check = check_vert(new_move, board)
-    if vert_check == true do
-      %{board | game_state: :win, board: new_move["board"], turn: new_move["turn"]}
-    else
-      %{board | game_state: :new_move, board: new_move["board"], turn: new_move["turn"]}
+    diag_check = check_diag(new_move, board)
+
+
+    cond do
+      vert_check == true ->
+        %{board | game_state: :win, board: new_move["board"], turn: new_move["turn"]}
+      horz_check == true ->
+        %{board | game_state: :win, board: new_move["board"], turn: new_move["turn"]}
+      diag_check == true ->
+        %{board | game_state: :win, board: new_move["board"], turn: new_move["turn"]}
+      true ->
+        %{board | game_state: :new_move, board: new_move["board"], turn: new_move["turn"]}
     end
-    # if horz_check == true do
-    #   %{board | game_state: :win, board: new_move["board"], turn: new_move["turn"]}
-    # else
-    #   %{board | game_state: :new_move, board: new_move["board"], turn: new_move["turn"]}
-    # end
-
-
 
   end
 
@@ -151,6 +152,33 @@ defmodule Game.State do
     end
 
   end
+
+  def check_diag(new_move, board) do
+    chip = new_move["turn"]
+
+    check_diag(chip, new_move["diag"] , 0, board)
+
+  end
+
+  def check_diag(chip, [h1 | t1], count, board) do
+    if count != 4 do
+      check_diag(chip, t1, check(h1, chip), board)
+    else
+      check_diag(chip, [], count, board)
+    end
+  end
+
+  def check_diag(_chip, [], count, _board) do
+    if count == 4 do
+      IO.puts("four")
+      true
+    else
+      IO.puts("nothign")
+      false
+    end
+
+  end
+
 
 end
 

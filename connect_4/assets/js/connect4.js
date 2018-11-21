@@ -71,16 +71,16 @@ export class Connect {
                     // console.log(board);
                     document.getElementById(newSpot.toString()).style.backgroundColor = "red";
                     // block.target.style.backgroundColor = "red";
-                    
-                    this.channel.push("turn_played", {board: board, turn: turn});
+                    var diag = this.setupDiagnol(board);
+                    this.channel.push("turn_played", {board: board, turn: turn, diag: diag});
                     turn = "B";
                 } else if(!full && turn == "B") {
                     board[newSpot] = "B";
                     // console.log(board);
                     document.getElementById(newSpot.toString()).style.backgroundColor = "black";
                     // block.style.backgroundColor = "blue";
-                    
-                    this.channel.push("turn_played", {board: board, turn: turn});
+                    var diag = this.setupDiagnol(board);
+                    this.channel.push("turn_played", {board: board, turn: turn, diag: diag});
                     turn = "R";
                 } else {
                     console.log("col is full")
@@ -92,6 +92,45 @@ export class Connect {
             
 
         })
+    }
+
+    setupDiagnol(board) {
+        var diags = [];
+        var d1 = [];
+        var d2 = [];
+        var d3 = [];
+        var d4 = [];
+        var d5 = [];
+        var d6 = [];
+        for(var i = 0; i < board.length; i++) {
+            if(i == 3 | i == 8 | i == 13 |i == 18 ) {
+                d1.push(board[i]);
+            }
+            if(i == 4 | i == 9 |i == 14 |i == 19 ) {
+                d2.push(board[i]);
+            }
+            if(i == 5 | i == 10 |i == 15 | i == 20 ) {
+                d3.push(board[i]);
+            }
+            if(i == 0 | i == 7 |i == 14 |i == 21 ) {
+                d4.push(board[i]);
+            }
+            if(i == 1 |i == 8 |i == 15 |i == 22 ) {
+                d5.push(board[i]);
+            }
+            if(i == 2 |i == 9 |i == 16 |i == 23 ) {
+                d6.push(board[i]);
+            }
+        }
+        diags.push(d1);
+        diags.push(d2);
+        diags.push(d3);
+        diags.push(d4);
+        diags.push(d5);
+        diags.push(d6);
+        console.log(diags);
+        return diags;
+
     }
 
     
