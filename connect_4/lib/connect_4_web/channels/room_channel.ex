@@ -11,9 +11,13 @@ defmodule Connect4Web.RoomChannel do
   end
 
   def handle_in("turn_played", msg, socket) do
-
-    broadcast!(socket, "echo", msg)
-    {:reply, {:ok, msg}, socket}
+    game = socket.assigns[:game];
+    g = Game.play(game, msg);
+    socket =
+      socket
+      |> assign(:game, g)
+    broadcast!(socket, "echo", g)
+    {:reply, {:ok, g}, socket}
 
   end
 

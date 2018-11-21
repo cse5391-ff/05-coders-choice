@@ -7,6 +7,9 @@ defmodule Game do
     %Game.State{game_state: :init}
   end
 
-
+  def play(game, new_move) do
+    g = Game.State.determine_result(game, new_move)
+    g
+  end
 
 end

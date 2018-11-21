@@ -30,8 +30,11 @@ export class Connect {
             0,0,0,0,0,0,
             0,0,0,0,0,0
         ];
-        var turn = 0;
+        var turn = "Red";
 
+        this.channel.on("echo", msg => {
+            console.log(msg);
+        });
         
 
         document.body.addEventListener("click", ev => {
@@ -40,7 +43,7 @@ export class Connect {
             if(arr.includes(targ)) {
                 var intColumn = arr.indexOf(targ);
                 var newArr = [(6*3)+intColumn, (6*2)+intColumn, (6*1)+intColumn, (6*0)+intColumn];
-                console.log(newArr);
+                // console.log(newArr);
                 var newSpot;
                 var full = false;
                 if(board[newArr[0]] == 0){
@@ -54,22 +57,22 @@ export class Connect {
                 } else {
                     full = true;
                 }
-                if(turn == 0 && !full) {
+                if(turn == "Red" && !full) {
                     board[newSpot] = 1;
-                    console.log(board);
+                    // console.log(board);
                     document.getElementById(newSpot.toString()).style.backgroundColor = "red";
                     // block.target.style.backgroundColor = "red";
                     
                     this.channel.push("turn_played", {board: board, turn: turn});
-                    turn = 1;
-                } else if(!full && turn == 1) {
-                    board[newSpot] = 1;
-                    console.log(board);
+                    turn = "Black";
+                } else if(!full && turn == "Black") {
+                    board[newSpot] = 2;
+                    // console.log(board);
                     document.getElementById(newSpot.toString()).style.backgroundColor = "black";
                     // block.style.backgroundColor = "blue";
                     
                     this.channel.push("turn_played", {board: board, turn: turn});
-                    turn = 1;
+                    turn = "Red";
                 } else {
                     console.log("col is full")
                 }
