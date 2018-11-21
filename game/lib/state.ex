@@ -13,12 +13,20 @@ defmodule Game.State do
 
   def determine_result(board, new_move) do
     # IO.inspect(new_move["board"])
-    horz_check = check_horz(new_move, board)
-    if horz_check == true do
+    # horz_check = check_horz(new_move, board)
+    vert_check = check_vert(new_move, board)
+    if vert_check == true do
       %{board | game_state: :win, board: new_move["board"], turn: new_move["turn"]}
     else
       %{board | game_state: :new_move, board: new_move["board"], turn: new_move["turn"]}
     end
+    # if horz_check == true do
+    #   %{board | game_state: :win, board: new_move["board"], turn: new_move["turn"]}
+    # else
+    #   %{board | game_state: :new_move, board: new_move["board"], turn: new_move["turn"]}
+    # end
+
+
 
   end
 
@@ -38,7 +46,7 @@ defmodule Game.State do
     end
   end
 
-  def check_horz(chip, [], count, board) do
+  def check_horz(_chip, [], count, _board) do
     if count == 4 do
       IO.puts("four")
       true
@@ -65,6 +73,83 @@ defmodule Game.State do
 
     end
     IO.inspect Ex02.get_curr(count)
+  end
+
+  def check_vert(new_move, board) do
+    check = new_move["board"]
+    chip = new_move["turn"]
+    cols = div_boardVert(check)
+
+    check_vert(chip, cols, 0, board)
+
+  end
+
+  def div_boardVert(board) do
+    count = Ex02.new_counter(0)
+
+    col = div_boardVert(count, board)
+    IO.inspect(col)
+  end
+
+  def div_boardVert(count, board) do
+
+    Ex02.reset(count)
+    c00 = Enum.filter board, fn _item ->
+      Ex02.next_value(count)
+      rem(Ex02.get_curr(count), 6) == 0
+    end
+
+    Ex02.reset(count)
+    c01 = Enum.filter board, fn _item ->
+      Ex02.next_value(count)
+      rem(Ex02.get_curr(count), 6) == 1
+    end
+
+    Ex02.reset(count)
+    c02 = Enum.filter board, fn _item ->
+      Ex02.next_value(count)
+      rem(Ex02.get_curr(count), 6) == 2
+    end
+
+    Ex02.reset(count)
+    c03 = Enum.filter board, fn _item ->
+      Ex02.next_value(count)
+      rem(Ex02.get_curr(count), 6) == 3
+    end
+
+    Ex02.reset(count)
+    c04 = Enum.filter board, fn _item ->
+      Ex02.next_value(count)
+      rem(Ex02.get_curr(count), 6) == 4
+    end
+
+    Ex02.reset(count)
+    c05 = Enum.filter board, fn _item ->
+      Ex02.next_value(count)
+      rem(Ex02.get_curr(count), 6) == 5
+    end
+
+    [c01, c02, c03, c04, c05, c00]
+  end
+
+
+  def check_vert(chip, [h1 | t1], count, board) do
+    if count != 4 do
+      check_vert(chip, t1, check(h1, chip), board)
+    else
+      check_vert(chip, [], count, board)
+    end
+  end
+
+  def check_vert(_chip, [], count, _board) do
+    if count == 4 do
+      IO.puts("four")
+      true
+    else
+      IO.puts("nothign")
+      false
+    end
+
   end
 
 end
