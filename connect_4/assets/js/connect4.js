@@ -30,17 +30,26 @@ export class Connect {
             0,0,0,0,0,0,
             0,0,0,0,0,0
         ];
-        var turn = "Red";
+        var turn = "R";
+        var clickable = true;
 
         this.channel.on("echo", msg => {
             console.log(msg);
+            if(msg["game_state"] == "win") {
+                clickable = false;
+                if(msg["turn"] == "R") {
+                    document.getElementById("Rwins").style.display = "block";
+                } else {
+                    document.getElementById("Bwins").style.display = "block";
+                }
+            }
         });
         
 
         document.body.addEventListener("click", ev => {
             // console.log(ev.target.id);
             var targ = ev.target.id;
-            if(arr.includes(targ)) {
+            if(arr.includes(targ) && clickable) {
                 var intColumn = arr.indexOf(targ);
                 var newArr = [(6*3)+intColumn, (6*2)+intColumn, (6*1)+intColumn, (6*0)+intColumn];
                 // console.log(newArr);
@@ -57,22 +66,22 @@ export class Connect {
                 } else {
                     full = true;
                 }
-                if(turn == "Red" && !full) {
-                    board[newSpot] = 1;
+                if(turn == "R" && !full) {
+                    board[newSpot] = "R";
                     // console.log(board);
                     document.getElementById(newSpot.toString()).style.backgroundColor = "red";
                     // block.target.style.backgroundColor = "red";
                     
                     this.channel.push("turn_played", {board: board, turn: turn});
-                    turn = "Black";
-                } else if(!full && turn == "Black") {
-                    board[newSpot] = 2;
+                    turn = "B";
+                } else if(!full && turn == "B") {
+                    board[newSpot] = "B";
                     // console.log(board);
                     document.getElementById(newSpot.toString()).style.backgroundColor = "black";
                     // block.style.backgroundColor = "blue";
                     
                     this.channel.push("turn_played", {board: board, turn: turn});
-                    turn = "Red";
+                    turn = "R";
                 } else {
                     console.log("col is full")
                 }

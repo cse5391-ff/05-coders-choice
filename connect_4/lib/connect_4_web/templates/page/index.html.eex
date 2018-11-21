@@ -7,7 +7,7 @@
       <div class="col-xs-1"></div>
       <div class="col-xs-10">
       
-        <table>
+        <table id="board">
           <tr id="columns">
             <td id="c0" >C1</td>
             <td id="c1">C2</td>
@@ -49,6 +49,8 @@
               <td id="23" class="board"></td>
           </tr>
         </table>
+        <h2 id="Rwins" style="display: none;">RED WINS</h2>
+        <h2 id="Bwins" style="display: none;">BLACK WINS</h2>
       </div>
       <div class="col-xs-1"></div>
     </div>

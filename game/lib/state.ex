@@ -6,13 +6,106 @@ defmodule Game.State do
       0,0,0,0,0,0,
       0,0,0,0,0,0
     ],
-    turn: "",
-    game_state: :none
+    turn: 0,
+    game_state: :none,
+    count: 0
   )
 
   def determine_result(board, new_move) do
     # IO.inspect(new_move["board"])
-    %{board | game_state: :new_move, board: new_move["board"], turn: new_move["turn"]}
+    horz_check = check_horz(new_move, board)
+    if horz_check == true do
+      %{board | game_state: :win, board: new_move["board"], turn: new_move["turn"]}
+    else
+      %{board | game_state: :new_move, board: new_move["board"], turn: new_move["turn"]}
+    end
+
+  end
+
+  def check_horz(new_move, board) do
+    check = new_move["board"]
+    chip = new_move["turn"]
+
+    check_horz(chip, Enum.chunk_every(check, 6), 0, board)
+
+  end
+
+  def check_horz(chip, [h1 | t1], count, board) do
+    if count != 4 do
+      check_horz(chip, t1, check(h1, chip), board)
+    else
+      check_horz(chip, [], count, board)
+    end
+  end
+
+  def check_horz(chip, [], count, board) do
+    if count == 4 do
+      IO.puts("four")
+      true
+    else
+      IO.puts("nothign")
+      false
+    end
+
+  end
+
+  def check(list, chip) do
+    count = Ex02.new_counter(1)
+    IO.inspect(list)
+    Enum.each list, fn item ->
+
+      if chip == item do
+        # IO.puts("count increments")
+        Ex02.next_value(count)
+      else
+        if Ex02.get_curr(count) != 4 do
+          Ex02.reset(count)
+        end
+      end
+
+    end
+    IO.inspect Ex02.get_curr(count)
+  end
+
+end
+
+
+defmodule Ex02 do
+
+
+  def new_global_counter(init_val \\ 0) do
+    Agent.start_link(fn -> init_val end, name: Global_Counter)
+  end
+
+  def global_next_value() do
+    Agent.get_and_update(Global_Counter, fn state ->
+      new_state = state + 1
+      {state, new_state}
+    end)
+  end
+
+
+  def new_counter(init_val \\ 0) do
+    { :ok, pid} = Agent.start_link(fn -> init_val-1 end)
+    pid
+  end
+
+  def next_value(pid) do
+      Agent.get_and_update(pid, fn state ->
+        state = state + 1
+        { state, state }
+      end)
+  end
+
+  def get_curr(pid) do
+    Agent.get(pid, &( &1 ))
+  end
+
+  def reset(pid) do
+    Agent.get_and_update(pid, fn state ->
+      state = 0
+      { state, state }
+    end)
   end
 
 end
