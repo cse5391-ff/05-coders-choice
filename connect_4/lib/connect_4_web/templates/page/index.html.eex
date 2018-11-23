@@ -2,6 +2,8 @@
   <h2><%= gettext "Welcome to %{name}!", name: "CONNECT 4" %></h2>
   <br>
   <h5>Choose the column to add your piece</h5>
+  <h2 id="Rturn" style="display: block;">RED'S TURN</h2>
+  <h2 id="Bturn" style="display: none;">BLACK'S TURN</h2>
   <div class="container">
     <div class="row">
       <div class="col-xs-1"></div>

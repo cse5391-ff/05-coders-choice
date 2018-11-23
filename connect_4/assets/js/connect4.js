@@ -43,6 +43,25 @@ export class Connect {
                     document.getElementById("Bwins").style.display = "block";
                 }
             }
+
+            if(msg["turn"] == "R") {
+                document.getElementById("Bturn").style.display = "block";
+                document.getElementById("Rturn").style.display = "none";
+            } else {
+                document.getElementById("Rturn").style.display = "block";
+                document.getElementById("Bturn").style.display = "none";
+            }
+
+            for(var x = 0; x < msg["board"].length; x++){
+                if(msg["board"][x] != 0) {
+                    if(msg["board"][x] == "R"){
+                        document.getElementById(x.toString()).style.backgroundColor = "red";
+                    } else {
+                        document.getElementById(x.toString()).style.backgroundColor = "black";
+                    }
+                }
+            }
+
         });
         
 

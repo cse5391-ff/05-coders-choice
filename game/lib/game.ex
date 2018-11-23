@@ -4,7 +4,7 @@ defmodule Game do
 
   def new_game() do
     IO.puts "New Game Started"
-    %Game.State{game_state: :init}
+    %Game.State{game_state: :init, turn: "R"}
   end
 
   def play(game, new_move) do
