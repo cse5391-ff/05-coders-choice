@@ -4,6 +4,7 @@
   </div>
 <div id="message-list" class='row'>
 </div>
+
   <div class="col-md-8">
     <h2>Messages</h2>
     <input type="text" id="username" placeholder="Username" class="form-control">
@@ -23,8 +24,69 @@
     <span class="custom-control-description">Peripheral</span> 
     </label>
 
-
     <ul id="MessageList" class="list-unstyled"></ul>
+
+    <h4>Tacton</h4>
+    <div class="row">
+    <div class="col-md-4">  
+    <audio controls>
+    <source src="sounds/gong.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+    </div>
+    <div class="col-md-4">  
+    <audio controls>
+    <source src="sounds/gong.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+    </div>
+    <div class="col-md-4">
+    <audio controls>
+    <source src="sounds/gong.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-md-4">  
+    <audio controls>
+    <source src="sounds/gong.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+    </div>
+    <div class="col-md-4">  
+    <audio controls>
+    <source src="sounds/gong.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+    </div>
+    <div class="col-md-4">
+    <audio controls>
+    <source src="sounds/gong.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-md-4">  
+    <audio controls>
+    <source src="sounds/gong.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+    </div>
+    <div class="col-md-4">  
+    <audio controls>
+    <source src="sounds/gong.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+    </div>
+    <div class="col-md-4">
+    <audio controls>
+    <source src="sounds/gong.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+    </div>
+    </div>
   </div>
   <div  class="col-md-4">
     <h2>Who’s Online</h2>
