@@ -28,18 +28,27 @@ let message = $('#message');
 let name = $('#username');
 let urgent = $('#urgent');
 let peripheral = $('#peripheral');
-
+let urgent_val = "unchecked";
+let peripheral_val = "unchecked";
 message.on('keypress', event => {
     if (event.keyCode == 13) {
+        if (urgent.is(":checked"))
+        {
+          urgent_val = "checked";
+        }
+        if (peripheral.is(":checked"))
+        {
+          peripheral_val = "checked";
+        }
         channel.push('shout', {
             name: name.val(),
             message: message.val(),
-            urgent: urgent.val(),
-            peripheral: peripheral.val()
+            urgent: urgent_val,
+            peripheral: peripheral_val,
         });
         message.val('');
-        urgent.val('unchecked');
-        peripheral.val('');
+        urgent_val = "unchecked";
+        peripheral_val = "unchecked";
     }
 });
 

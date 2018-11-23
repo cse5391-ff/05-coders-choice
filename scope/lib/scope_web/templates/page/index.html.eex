@@ -6,19 +6,23 @@
 </div>
   <div class="col-md-8">
     <h2>Messages</h2>
+    <input type="text" id="username" placeholder="Username" class="form-control">
     <input type="text" id="message" placeholder="Type and press enter..." class="form-control">
-    <input type="hidden" id="username" value=<%= @conn.params["user"] %>
     
     <label class="custom-control custom-checkbox">
-    <input type="checkbox" id="urgent" class="custom-control-input" required>
+    <input type="checkbox" id="urgent" class="custom-control-input" >
     <span class="custom-control-indicator"></span>
     <span class="custom-control-description">Urgent</span> 
     </label>
+
     <label class="custom-control custom-checkbox">
-    <input type="checkbox" id="peripheral" class="custom-control-input" required>
+    <input type="checkbox" id="peripheral" class="custom-control-input">
+    <input type="hidden" id="peripheral" class="custom-control-input">
+
     <span class="custom-control-indicator"></span>
     <span class="custom-control-description">Peripheral</span> 
     </label>
+
 
     <ul id="MessageList" class="list-unstyled"></ul>
   </div>
