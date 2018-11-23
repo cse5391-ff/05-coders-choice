@@ -1,12 +1,18 @@
 <div class="row">
-  <div class="col-md-12 alert alert-info">
+  <div class="col-md-8 alert alert-info">
     Hello, <span id="User"><%= @conn.params["user"] %></span>!
   </div>
+  <div class="col-md-4 btn btn-primary">
+  Start a new channel
+  </div>
+</div>
+<div id="channel-list" class='row'>
 <div id="message-list" class='row'>
 </div>
 
   <div class="col-md-8">
     <h2>Messages</h2>
+    <input type="text" id="channel" placeholder="Channel"  class="form-control">
     <input type="text" id="username" placeholder="Username" class="form-control">
     <input type="text" id="message" placeholder="Type and press enter..." class="form-control">
     

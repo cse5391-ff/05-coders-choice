@@ -9,6 +9,14 @@ defmodule ScopeWeb.ChatRoomChannel do
     end
   end
 
+  def join("chat_room:12", _payload, socket) do
+    {:ok, socket}
+  end
+
+  def join("chat_room:" <> room_id, _payload, socket) do
+    {:ok, socket}
+  end
+
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
   def handle_in("ping", payload, socket) do
