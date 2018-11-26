@@ -38,7 +38,6 @@ defmodule FileShredder.Fragmentor do
 
   defp make_dummy_part(part_size) do
     to_string(:string.chars(0, part_size))
-    #Utils.Crypto.rand_bytes(part_size-1)
   end
 
   defp retrieve_pload(in_file, src_pos, part_size, file_size) do
@@ -59,9 +58,6 @@ defmodule FileShredder.Fragmentor do
   defp det_dest(payload, src_pos, bytes_per_frag) do
     seq_id = div(src_pos, bytes_per_frag)
     write_pos = rem(src_pos, bytes_per_frag)
-    IO.inspect bytes_per_frag, label: "bytes_per_frag"
-    IO.inspect src_pos, label: "src_pos"
-    IO.inspect write_pos, label: "write_pos"
     {seq_id, write_pos}
   end
 
@@ -97,7 +93,7 @@ defmodule FileShredder.Fragmentor do
     hmac = Utils.Crypto.gen_multi_hash(hmac_parts)
   end
 
-  ###### ALLOC AND FIELDS ###### TODO: break into separate module
+  ###### ALLOC AND FIELDS ###### TODO: break into separate module + pass in parameters in a struct
   defp alloc_and_fields(seq_id, file_size, file_name, part_size, hashkey, frag_size, pos_map_pid, seq_map_pid) do
     seq_id
     |> add_seq_hash(hashkey)
@@ -110,43 +106,43 @@ defmodule FileShredder.Fragmentor do
   end
 
   defp add_seq_hash(seq_id, hashkey) do
-    IO.puts "at add_seq_hash"
+    if @debug do IO.puts "at add_seq_hash" end
     {seq_id, gen_seq_hash(seq_id, hashkey)}
   end
 
   defp add_to_seq_map({seq_id, seq_hash}, seq_map_pid) do
-    IO.puts "at add_to_seq_map"
+    if @debug do IO.puts "at add_to_seq_map" end
     {seq_id, seq_hash, State.Map.put(seq_map_pid, seq_id, seq_hash)}
   end
 
   defp add_frag_path({seq_id, seq_hash, _ok}) do
-    IO.puts "at add_frag_path"
+    if @debug do IO.puts "at add_frag_path" end
     {seq_id, seq_hash, gen_frag_path(seq_hash)}
   end
 
   defp allocate_frag({seq_id, seq_hash, frag_path}, frag_size) do
-    IO.puts "at allocate_frag"
+    if @debug do IO.puts "at allocate_frag" end
     {seq_id, seq_hash, frag_path, Utils.File.create(frag_path, frag_size)}
   end
 
   defp open_frag({seq_id, seq_hash, frag_path, _ok}) do
-    IO.puts "at open_frag"
+    if @debug do IO.puts "at open_frag" end
     {seq_id, seq_hash, File.open!(frag_path, [:read, :write, :raw])}
   end
 
   defp gen_frag_fields({seq_id, seq_hash, frag_file}, file_size, file_name, part_size, hashkey) do
-    IO.puts "at gen_frag_fields"
+    if @debug do IO.puts "at gen_frag_fields" end
     {gen_fields(file_size, file_name, seq_hash, part_size, hashkey), frag_file}
   end
 
   defp write_frag_fields({field_map, frag_file}, pos_map_pid) do
-    IO.puts "at write_frag_fields"
+    if @debug do IO.puts "at write_frag_fields" end
     write_fields(frag_file, field_map, pos_map_pid)
   end
   #############################
 
 
-  ###### PROCESS PL PARTS ###### TODO: break into separate module
+  ###### PROCESS PL PARTS ###### TODO: break into separate module + pass in parameters in a struct
   defp process_pl_parts(src_pos, part_size, file_size, bytes_per_frag, file_path, hashkey, seq_map_pid) do
     #in_file = File.open!(file_path, [:read, :binary])
     src_pos
@@ -158,26 +154,27 @@ defmodule FileShredder.Fragmentor do
 
   defp retr_partition(src_pos, part_size, file_size, in_file) do
     in_file = File.open!(in_file, [:read, :raw])
-    IO.puts "at retrieve_partition"
+    if @debug do IO.puts "at retrieve_partition" end
     {src_pos, retrieve_pload(in_file, src_pos, part_size, file_size)}
   end
   
   defp add_dest_info({src_pos, pl_partition}, bytes_per_frag) do
-    IO.puts "at add_dest_info"
+    if @debug do IO.puts "at add_dest_info" end
     {pl_partition, det_dest(pl_partition, src_pos, bytes_per_frag)}
   end 
 
   defp encr_part({pl_partition, {seq_id, write_pos}}, hashkey) do
-    IO.puts "at encr_part"
+    if @debug do IO.puts "at encr_part" end
     {Utils.Crypto.encrypt(pl_partition, hashkey), {seq_id, write_pos}}
   end
 
   defp write_out_part({pl_partition, {seq_id, write_pos}}, seq_map_pid) do
-    IO.puts "at write_out_part"
+    if @debug do IO.puts "at write_out_part" end
     write_part(pl_partition, seq_id, write_pos, seq_map_pid)
     #{pl_partition, seq_id, write_part(pl_partition, seq_id, write_pos, seq_map_pid)}
   end
   #############################
+
 
   def fragment(file_path, n, password) when n > 1 do
     hashkey = Utils.Crypto.gen_key(password)

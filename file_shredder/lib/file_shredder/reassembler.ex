@@ -116,9 +116,12 @@ defmodule FileShredder.Reassembler do
     cipherdata = Map.get(map, field)
     plaindata = Utils.Crypto.decrypt(cipherdata, hashkey)
     integer_rep = Integer.parse(plaindata)
+    IO.inspect plaindata, label: "plaindata"
+    IO.inspect integer_rep, label: "integer_rep"
     case integer_rep do
-      :error   -> Map.put(map, field, plaindata)
-      {int, _} -> Map.put(map, field, int)
+      :error    -> Map.put(map, field, plaindata)
+      {int, ""} -> Map.put(map, field, int)
+      {int, _}  -> Map.put(map, field, plaindata)
     end
   end
 
@@ -132,9 +135,8 @@ defmodule FileShredder.Reassembler do
   end
 
 
-  ###### TRANSFER FRAGMENTS ###### TODO: break into separate module
-  defp transfer_frag({seq_id, frag_path}, fields_map_pid, hashkey, target_path, file_size) do
-    part_size = State.Map.get(fields_map_pid, :part_size)
+  ###### TRANSFER FRAGMENTS ###### TODO: break into separate module + pass in parameters in a struct
+  defp transfer_frag({seq_id, frag_path}, part_size, hashkey, target_path, file_size) do
     frag_size = Utils.File.size(frag_path)
     payload_size = frag_size - @max_file_name_size - @max_file_size_int - @max_part_size
     part_count = div(payload_size, part_size)
@@ -143,6 +145,7 @@ defmodule FileShredder.Reassembler do
     Enum.map(0..(part_count - 1), fn x -> x * part_size end)
     # TODO: replace with fanned-out pooled map
     |> Enum.map(&process_pl_parts(&1, seq_id, hashkey, frag_path, target_path, part_size, part_count, file_size))
+
   end
 
   defp process_pl_parts(src_pos, seq_id, hashkey, frag_path, target_path, part_size, part_count, file_size) 
@@ -204,9 +207,11 @@ defmodule FileShredder.Reassembler do
     fields_map = deserialize_fields(frag_file, frag_size, pos_map_pid)
     |> decr_field(:file_size, hashkey)
     |> decr_field(:file_name, hashkey)
-    |> decr_field(:part_size, hashkey)
+    |> decr_field(:part_size, hashkey) |> IO.inspect()
     {:ok, fields_map_pid} = State.Map.start_link(fields_map)
 
+    # TODO: just pass the map pid
+    part_size = State.Map.get(fields_map_pid, :part_size)
     file_name = State.Map.get(fields_map_pid, :file_name)
     file_size = State.Map.get(fields_map_pid, :file_size)
     target_path = "debug/done/#{file_name}"
@@ -214,7 +219,8 @@ defmodule FileShredder.Reassembler do
 
     # read each partition from each fragment and write them to the target file
     iter_frag_seq(0, hashkey, dirpath, [])
-    |> Enum.map(&transfer_frag(&1, fields_map_pid, hashkey, target_path, file_size))
+    |> Enum.map(&transfer_frag(&1, part_size, hashkey, target_path, file_size))
+    |> IO.inspect()
 
   end
 
