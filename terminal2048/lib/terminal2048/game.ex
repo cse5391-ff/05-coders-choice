@@ -13,5 +13,8 @@ defmodule Terminal2048.Game do
   end
 
   # Implementation
+  def init(_) do
+    {:ok, Terminal2048.Board.new_game()}
+  end
 
 end
