@@ -11,13 +11,15 @@ defmodule Skydock.Application do
       # Start the endpoint when the application starts
       supervisor(SkydockWeb.Endpoint, []),
       # Start your own worker by calling: Skydock.Worker.start_link(arg1, arg2, arg3)
-      # worker(Skydock.Worker, [arg1, arg2, arg3]),
+      worker(Skydock.CommandHandler, []),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Skydock.Supervisor]
     Supervisor.start_link(children, opts)
+
+    Skydock.CommandHandler.start_link(CommandHandler)
   end
 
   # Tell Phoenix to update the endpoint configuration
