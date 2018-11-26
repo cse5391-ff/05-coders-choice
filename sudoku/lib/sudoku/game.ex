@@ -15,10 +15,51 @@ defmodule Sudoku.Game do
   def new_game() do
     # To-do:
     instantiate_board()
-    #generate_puzzle()
+    |> generate_puzzle()
   end
 
-  def generate_puzzle() do
+  # The gist of the general algorithm:
+  #   1. Assumption: Given the rules of sudoku, given a 9x9 board that can be broken up
+  #      into 3x3 segments, the first 3 diagonal 3x3 segments can be randomly generated with numbers 1-9
+  #      with no collisions.
+  #   2. After the first 3 3x3 diagonal segments are generated, randomly populate each other 3x3 segment
+  #      in the board. At each individual square, check to see if there are column collisions or row collisions.
+  #   3. Remove elements to complete the "puzzle". There are smart ways to do this and dumb ways to do this.
+
+  # Next steps:
+  # 1. Add validation to the "add move" that can't overwrite original generated values
+  # 2. Perhaps create a game struct that contains the board.
+  # 3. Add concurrency
+  # 4. Create GUI for webapp
+
+  @rows   'ABCDEFGHI'
+  @columns '123456789'
+
+  def generate_puzzle(board) do
+    for row <- @rows do
+       for col <- @columns do
+
+
+        add_move(board, Enum.random(1..9)
+
+       end
+    end
+  end
+
+  def check_column(board, val) do
+
+  end
+
+  def check_row(board, val) do
+
+  end
+
+  def check_group(board, val) do
+
+  end
+
+  # If every value is non-zero, then
+  def check_win(board) do
 
   end
 
