@@ -6,7 +6,7 @@
   Start a new channel
   </div>
 </div>
-<div id="channel-list" class='row'>
+<div id="channel-list" class='row'></div>
 <div id="message-list" class='row'>
 </div>
 

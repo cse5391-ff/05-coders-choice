@@ -67,7 +67,7 @@ message.on('keypress', event => {
 });
 
 channel.on('shout', payload => {
-    list.append(`<b>${payload.name || 'new_user'}:</b> ${payload.message}<br>`);
+    list.append(`${payload.urgent}<b>${payload.name || 'new_user'}:</b> ${payload.message}<br>`);
     list.prop({
         scrollTop: list.prop('scrollHeight')
     });

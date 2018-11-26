@@ -41,6 +41,9 @@ defmodule ScopeWeb.ChatRoomChannel do
     %{
       name: msg.name,
       message: msg.message,
+      urgent: msg.urgent,
+      peripheral: msg.peripheral,
+      tacton: msg.tacton
     }) end)
     {:noreply, socket}
   end

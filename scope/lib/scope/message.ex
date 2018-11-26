@@ -6,6 +6,9 @@ defmodule Scope.Message do
 
     field :message, :string
     field :name, :string
+    field :urgent, :boolean
+    field :peripheral, :boolean
+    field :tacton, :string
 
     timestamps()
   end
@@ -13,8 +16,8 @@ defmodule Scope.Message do
   @doc false
   def changeset(message, attrs) do
     message
-    |> cast(attrs, [:name, :message])
-    |> validate_required([:name, :message])
+    |> cast(attrs, [:name, :message, :urgent, :peripheral, :tacton])
+    |> validate_required([:name, :message, :urgent, :peripheral, :tacton])
   end
 
   def get_msgs(limit \\ 20) do
