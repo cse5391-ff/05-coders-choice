@@ -1,5 +1,0 @@
-<div class="jumbotron">
-  <h2>All NBA Players 2017-2018</h2>
-  <p>This is where I'd be using my Players module logic to call the API for NBA player stats and populate a large table for NBA stats. My logic isn't quite working for API requests right now though, so I'll be patching this.</p>  
-  <%= link "Back to dashboard", to: dashboard_path(@conn, :index) %>
-</div>
