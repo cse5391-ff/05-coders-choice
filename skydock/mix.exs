@@ -39,7 +39,8 @@ defmodule Skydock.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:plug_cowboy, "~> 1.0"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      {:ex_twilio, github: "danielberkompas/ex_twilio"}
     ]
   end
 end

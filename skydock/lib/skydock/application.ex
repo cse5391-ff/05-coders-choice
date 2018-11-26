@@ -12,6 +12,7 @@ defmodule Skydock.Application do
       supervisor(SkydockWeb.Endpoint, []),
       # Start your own worker by calling: Skydock.Worker.start_link(arg1, arg2, arg3)
       worker(Skydock.CommandHandler, []),
+      worker(Skydock.TwilioSender, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -20,6 +21,7 @@ defmodule Skydock.Application do
     Supervisor.start_link(children, opts)
 
     Skydock.CommandHandler.start_link(CommandHandler)
+    Skydock.TwilioSender.start_link(TwilioSender)
   end
 
   # Tell Phoenix to update the endpoint configuration
