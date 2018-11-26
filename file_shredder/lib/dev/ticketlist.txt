@@ -1,0 +1,23 @@
+Informal To-Do List
+
+Priorities
+1. HMACs
+2. Break fragmentor and reassembler into sub-modules (and pass all necessary state via agents)
+2. Address partition-level parallelism
+3. Address slow dummy creation speed (read from /urandom in a chunk instead of generating 0s?)
+4. Build a CLI (important!!!)
+5. Make project "production ready" 
+    - Take out hard coded paths
+    - Refactor where necessary
+    - Comment where necessary
+    - Add ModuleDocs
+    - Testing
+    - CLI (!!!)
+
+Reach Goals
+1. Figure out formula to determine optimal partition size based on RAM and cores
+2. Figure out formula to determine optimal thread pool size based on machine
+3. Write make file to install program in usr/bash to allow for simple Unix shortcut to use utility
+4. Add CLI flags/options to pick and choose security vs speed optimizations (+ others)
+5. Succesfully fragment a 1TB file in < 15 minutes
+6. Succesfully reassemble a 1TB file in < 20 minutes

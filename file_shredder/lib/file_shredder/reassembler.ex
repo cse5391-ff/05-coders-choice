@@ -116,8 +116,6 @@ defmodule FileShredder.Reassembler do
     cipherdata = Map.get(map, field)
     plaindata = Utils.Crypto.decrypt(cipherdata, hashkey)
     integer_rep = Integer.parse(plaindata)
-    IO.inspect plaindata, label: "plaindata"
-    IO.inspect integer_rep, label: "integer_rep"
     case integer_rep do
       :error    -> Map.put(map, field, plaindata)
       {int, ""} -> Map.put(map, field, int)
@@ -141,7 +139,6 @@ defmodule FileShredder.Reassembler do
     payload_size = frag_size - @max_file_name_size - @max_file_size_int - @max_part_size
     part_count = div(payload_size, part_size)
     # TODO: fan-out parallelism HERE (break into another function?)
-    IO.inspect part_size, label: "part_size"
     Enum.map(0..(part_count - 1), fn x -> x * part_size end)
     # TODO: replace with fanned-out pooled map
     |> Enum.map(&process_pl_parts(&1, seq_id, hashkey, frag_path, target_path, part_size, part_count, file_size))
@@ -159,12 +156,10 @@ defmodule FileShredder.Reassembler do
     |> get_partition(frag_path, part_size)
     |> decr_partition(hashkey)
     |> write_to_dest(target_path)
-    |> IO.inspect
   end
 
   defp dest_pos_offset(src_pos, seq_id, part_size, part_count) do
     dest_pos = (part_size-1) * part_count * seq_id + src_pos
-    IO.inspect dest_pos, label: "dest_pos"
     {src_pos, dest_pos}
   end
 
@@ -207,7 +202,7 @@ defmodule FileShredder.Reassembler do
     fields_map = deserialize_fields(frag_file, frag_size, pos_map_pid)
     |> decr_field(:file_size, hashkey)
     |> decr_field(:file_name, hashkey)
-    |> decr_field(:part_size, hashkey) |> IO.inspect()
+    |> decr_field(:part_size, hashkey)
     {:ok, fields_map_pid} = State.Map.start_link(fields_map)
 
     # TODO: just pass the map pid
@@ -219,7 +214,7 @@ defmodule FileShredder.Reassembler do
 
     # read each partition from each fragment and write them to the target file
     iter_frag_seq(0, hashkey, dirpath, [])
-    |> Enum.map(&transfer_frag(&1, part_size, hashkey, target_path, file_size))
+    |> Utils.Parallel.pooled_map(&transfer_frag(&1, part_size, hashkey, target_path, file_size))
     |> IO.inspect()
 
   end
