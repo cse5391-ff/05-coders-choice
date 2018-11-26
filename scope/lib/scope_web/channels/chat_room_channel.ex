@@ -10,13 +10,15 @@ defmodule ScopeWeb.ChatRoomChannel do
     end
   end
 
-  def join("chat_room:12", _payload, socket) do
-    {:ok, socket}
+  def join("chat_room:" <> _private_room_id, payload, socket) do
+    if authorized?(payload) do
+      send(self(), :after_join)
+      {:ok, socket}
+    else
+      {:error, %{reason: "unauthorized"}}
+    end
   end
 
-  def join("chat_room:" <> room_id, _payload, socket) do
-    {:ok, socket}
-  end
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
@@ -33,6 +35,7 @@ defmodule ScopeWeb.ChatRoomChannel do
   end
 
   def handle_info(:after_join, socket) do
+    room = String.replace_prefix(socket.topic, "chat:", "")
     Scope.Message.get_msgs()
     |> Enum.each(fn msg -> push(socket, "shout",
     %{
@@ -49,6 +52,5 @@ defmodule ScopeWeb.ChatRoomChannel do
   defp save_msg(msg) do
     Scope.Message.changeset(%Scope.Message{}, msg) |> Scope.Repo.insert
   end
-
 
 end

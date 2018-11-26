@@ -23,7 +23,7 @@ import "phoenix_html"
 // Source: https://github.com/tensor-programming/phoenix_1.3_chat_app/blob/master/assets/js/app.js
 
 let channel_field = $('channel');
-let channel = socket.channel('chat_room:lobby', {});
+let channel = socket.channel('chat_room:12', {});
 let list = $('#message-list');
 let message = $('#message');
 let name = $('#username');

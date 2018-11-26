@@ -3,7 +3,7 @@ defmodule ScopeWeb.UserSocket do
 
   ## Channels
   channel "chat_room:lobby", ScopeWeb.ChatRoomChannel
-  channel "chat_room: 12", ScopeWeb.ChatRoomChannel
+  channel "chat_room:12", ScopeWeb.ChatRoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
