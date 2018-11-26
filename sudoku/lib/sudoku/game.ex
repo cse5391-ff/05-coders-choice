@@ -3,34 +3,38 @@ defmodule Sudoku.Game do
   def new_game() do
     # To-do:
     instantiate_board()
-    |> print_board()
   end
 
-  def add_move(board, string, move) do
-    valid_move = string
+  def add_move(board, coord, move) do
+    valid_coord = coord
     |> String.match?(~r/[a-iA-I][1-9]$/)
 
-    board
-    |> try_move(string, move, valid_move)
-  end
+    valid_move = move
+    |> Integer.to_string
+    |> String.match?(~r/[1-9]$/)
 
-  def try_move(_board, _string, _move, false) do
-    IO.puts("Invalid move!")
+    board
+    |> try_move(coord, move, valid_coord, valid_move)
   end
 
   # Regex: // ~r/[A-I][1-9]/
-  def try_move(board, string, move, true) do
-    [r, c] = string
+  def try_move(board, coord, move, true, true) do
+    [r, c] = coord
     |> String.capitalize()
     |> String.codepoints()
+    #|> Enum.each(&(&1 |> String.to_atom))
+    IO.puts(r)
+    IO.puts(c)
+    Map.replace!(Map.get(board, r), c, move)
+  end
 
-    board[r]
-    |> Map.replace!(c, move)
+  def try_move(_board, _string, _move, _valid_coord, _valid_move) do
+    IO.puts("Invalid move!")
   end
 
   def instantiate_board() do
     _board = %{
-      "A" => %{"1" => 0, "2" => 0, "3" => 5,   "4" => 0, "5" => 0, "6" => 0,   "7" => 0, "8" => 0, "9" => 0},
+      "A" => %{"1" => 0, "2" => 0, "3" => 0,   "4" => 0, "5" => 0, "6" => 0,   "7" => 0, "8" => 0, "9" => 0},
       "B" => %{"1" => 0, "2" => 0, "3" => 0,   "4" => 0, "5" => 0, "6" => 0,   "7" => 0, "8" => 0, "9" => 0},
       "C" => %{"1" => 0, "2" => 0, "3" => 0,   "4" => 0, "5" => 0, "6" => 0,   "7" => 0, "8" => 0, "9" => 0},
 
