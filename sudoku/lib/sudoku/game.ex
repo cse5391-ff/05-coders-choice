@@ -38,10 +38,11 @@ defmodule Sudoku.Game do
   def generate_puzzle(board) do
     for row <- @rows do
        for col <- @columns do
-
-
-        add_move(board, Enum.random(1..9)
-
+        r = List.to_string([row])
+        c = List.to_string([col])
+        # IO.puts(r)
+        # IO.puts(c)
+        board = add_move(board, Enum.join([r, c]), Enum.random(1..9))
        end
     end
   end
@@ -58,10 +59,14 @@ defmodule Sudoku.Game do
 
   end
 
-  # If every value is non-zero, then
+  # If every value is non-zero, then check for a win.
   def check_win(board) do
 
   end
+
+  # To-do with add move:
+  # once check_group, check_row, and check_column is implemented, integrate this into validity checking
+  # for add_move.
 
   def add_move(board, coord, move) do
     valid_coord = coord
