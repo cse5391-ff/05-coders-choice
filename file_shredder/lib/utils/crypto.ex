@@ -21,7 +21,7 @@ defmodule Utils.Crypto do
     |> String.slice(0..desired_len - 1)
   end
 
-  def encrypt(data, key, pad_size \\ 32) do
+  def encrypt(data, key, pad_size \\ 16) do
     # IO.inspect pad_size, label: "pad_size"
     # IO.inspect byte_size(data), label: "data"
     # IO.inspect byte_size(key), label: "key"
