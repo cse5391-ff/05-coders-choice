@@ -21,8 +21,9 @@ defmodule Terminal2048.Board do
     |> set_or_reselect(board)
   end
 
+  # use the same possibility as the original version
   defp select_2_or_4(pos) do
-    num = :rand.uniform(2) * 2
+    num = if :rand.uniform < 0.9, do: 2, else: 4
     {pos, num}
   end
 
