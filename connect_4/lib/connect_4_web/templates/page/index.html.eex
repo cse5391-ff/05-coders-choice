@@ -62,6 +62,7 @@
         </table>
         <h2 id="Rwins" style="display: none;">RED WINS</h2>
         <h2 id="Bwins" style="display: none;">BLACK WINS</h2>
+        <h2 id="tie" style="display: none;">TIE GAME</h2>
       </div>
       <div class="col-xs-1"></div>
     </div>

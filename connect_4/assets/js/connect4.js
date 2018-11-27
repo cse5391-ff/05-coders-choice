@@ -49,10 +49,19 @@ export class Connect {
                 }
             }
 
-            if(msg["turn"] == "R" && msg["game_state"] != "win" && msg["game_state"] != "init") {
+            if(msg["game_state"] == "tie") {
+                clickable = false;
+                document.getElementById("restart").style.display = "block";
+                document.getElementById("Rturn").style.display = "none"; 
+                document.getElementById("Bturn").style.display = "none";
+                document.getElementById("tie").style.display = "block";
+                alert("TIE GAME");
+            }
+
+            if(msg["turn"] == "R" && msg["game_state"] != "win" && msg["game_state"] != "init" && msg["game_state"] != "tie") {
                 document.getElementById("Bturn").style.display = "block";
                 document.getElementById("Rturn").style.display = "none";
-            } else if(msg["turn"] == "B" && msg["game_state"] != "win" && msg["game_state"] != "init") {
+            } else if(msg["turn"] == "B" && msg["game_state"] != "win" && msg["game_state"] != "init" && msg["game_state"] != "tie") {
                 document.getElementById("Rturn").style.display = "block";
                 document.getElementById("Bturn").style.display = "none";
             }
@@ -71,7 +80,7 @@ export class Connect {
         
 
         document.body.addEventListener("click", ev => {
-            console.log(ev.target.id);
+            // console.log(ev.target.id);
             var targ = ev.target.id;
             if(arr.includes(targ) && clickable) {
                 var intColumn = arr.indexOf(targ);
@@ -133,6 +142,7 @@ export class Connect {
             
             document.getElementById("Bwins").style.display = "none";
             document.getElementById("Rwins").style.display = "none"; 
+            document.getElementById("tie").style.display = "none";
             document.getElementById("restart").style.display = "none";
 
             this.channel.push("new_game");
@@ -176,7 +186,7 @@ export class Connect {
         diags.push(d4);
         diags.push(d5);
         diags.push(d6);
-        console.log(diags);
+        // console.log(diags);
         return diags;
 
     }

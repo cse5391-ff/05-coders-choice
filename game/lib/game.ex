@@ -8,6 +8,7 @@ defmodule Game do
   end
 
   def play(game, new_move) do
+    # IO.inspect(new_move)
     g = Game.State.determine_result(game, new_move)
     g
   end

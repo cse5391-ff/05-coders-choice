@@ -16,6 +16,7 @@ defmodule Game.State do
     horz_check = check_horz(new_move, board)
     vert_check = check_vert(new_move, board)
     diag_check = check_diag(new_move, board)
+    full_check = check_full(new_move)
 
 
     cond do
@@ -25,10 +26,16 @@ defmodule Game.State do
         %{board | game_state: :win, board: new_move["board"], turn: new_move["turn"]}
       diag_check == true ->
         %{board | game_state: :win, board: new_move["board"], turn: new_move["turn"]}
+      full_check == false ->
+        %{board | game_state: :tie, board: new_move["board"], turn: new_move["turn"]}
       true ->
         %{board | game_state: :new_move, board: new_move["board"], turn: new_move["turn"]}
     end
 
+  end
+
+  def check_full(new_move) do
+    Enum.member?(new_move["board"], 0)
   end
 
   def check_horz(new_move, board) do
@@ -215,7 +222,7 @@ defmodule Ex02 do
   end
 
   def reset(pid) do
-    Agent.get_and_update(pid, fn state ->
+    Agent.get_and_update(pid, fn _state ->
       state = 0
       { state, state }
     end)
