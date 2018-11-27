@@ -21,6 +21,15 @@ defmodule Connect4Web.RoomChannel do
 
   end
 
+  def handle_in("new_game", _msg, socket) do
+    game = Game.new_game()
+    socket =
+      socket
+      |> assign(:game, game)
+    broadcast!(socket, "echo", game)
+    {:reply, {:ok, game}, socket}
+  end
+
 
 
 

@@ -37,17 +37,22 @@ export class Connect {
             console.log(msg);
             if(msg["game_state"] == "win") {
                 clickable = false;
+                document.getElementById("restart").style.display = "block";
                 if(msg["turn"] == "R") {
                     document.getElementById("Rwins").style.display = "block";
+                    document.getElementById("Rturn").style.display = "none";
+                    alert("RED WINS!!!");
                 } else {
                     document.getElementById("Bwins").style.display = "block";
+                    document.getElementById("Bturn").style.display = "none";
+                    alert("BLACK WINS!!!");
                 }
             }
 
-            if(msg["turn"] == "R") {
+            if(msg["turn"] == "R" && msg["game_state"] != "win" && msg["game_state"] != "init") {
                 document.getElementById("Bturn").style.display = "block";
                 document.getElementById("Rturn").style.display = "none";
-            } else {
+            } else if(msg["turn"] == "B" && msg["game_state"] != "win" && msg["game_state"] != "init") {
                 document.getElementById("Rturn").style.display = "block";
                 document.getElementById("Bturn").style.display = "none";
             }
@@ -66,7 +71,7 @@ export class Connect {
         
 
         document.body.addEventListener("click", ev => {
-            // console.log(ev.target.id);
+            console.log(ev.target.id);
             var targ = ev.target.id;
             if(arr.includes(targ) && clickable) {
                 var intColumn = arr.indexOf(targ);
@@ -111,6 +116,30 @@ export class Connect {
             
 
         })
+
+        document.getElementById("restart").addEventListener("click", ev=>{
+            // alert("Restarted");
+            board = [
+                0,0,0,0,0,0,
+                0,0,0,0,0,0,
+                0,0,0,0,0,0,
+                0,0,0,0,0,0
+            ];
+            turn = "R";
+            for(var x = 0; x < board.length; x++){
+                document.getElementById(x.toString()).style.backgroundColor = "white";
+                   
+            }
+            
+            document.getElementById("Bwins").style.display = "none";
+            document.getElementById("Rwins").style.display = "none"; 
+            document.getElementById("restart").style.display = "none";
+
+            this.channel.push("new_game");
+            clickable = true;
+            document.getElementById("Bturn").style.display = "none";
+            document.getElementById("Rturn").style.display = "block";
+        });
     }
 
     setupDiagnol(board) {
