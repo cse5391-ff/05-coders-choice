@@ -1,4 +1,4 @@
-defmodule Server do
+defmodule ScopeServer do
   use GenServer
 
   @impl true

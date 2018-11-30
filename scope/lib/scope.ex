@@ -1,5 +1,4 @@
 defmodule Scope do
-  use Application
   @moduledoc """
   Documentation for Scope.
   """
@@ -17,7 +16,7 @@ defmodule Scope do
     :world
   end
 
-  def create_world do
+  def create_world(_type, _args) do
 
   end
 
