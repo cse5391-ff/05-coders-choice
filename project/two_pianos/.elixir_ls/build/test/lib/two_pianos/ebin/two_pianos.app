@@ -1,5 +1,5 @@
 {application,two_pianos,
-             [{applications,[kernel,stdlib,elixir,logger,gettext,
+             [{applications,[kernel,stdlib,elixir,logger,gettext,comeonin,
                              phoenix_pubsub,cowboy,postgrex,phoenix,
                              phoenix_html,plug_cowboy,phoenix_ecto]},
               {description,"two_pianos"},

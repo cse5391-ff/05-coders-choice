@@ -22,7 +22,7 @@ defmodule TwoPianos.UserController do
 
     # Generate changeset. Think of it like generating a user struct w/
     # params from the filled out form.
-    changeset = User.changeset(%User{}, user_params)
+    changeset = User.reg_changeset(%User{}, user_params)
 
     case Repo.insert(changeset) do
       # If above changeset struct satisfies rules of model's changeset...
@@ -46,7 +46,7 @@ defmodule TwoPianos.UserController do
   def update(conn, %{"id" => id, "user" => user_params}) do
 
     user = Repo.get!(User, id)
-    changeset = User.changeset(user, user_params)
+    changeset = User.reg_changeset(user, user_params)
 
     case Repo.update(changeset) do
       {:ok, user} ->
