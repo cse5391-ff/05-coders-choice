@@ -3,7 +3,6 @@ defmodule Server do
 
   @impl true
   def init(scope) do
-
     messages =
     {:ok, scope}
   end
@@ -32,6 +31,14 @@ defmodule Server do
 
   def handle_in("ping", payload, socket) do
     {:reply, {:ok, payload}, socket}
+  end
+
+  def handle_cast({ :set, key, value }, state) do
+    { :noreply, Map.put(state, key, value) }
+  end
+
+  def handle_call({ :get, key }, _from, state) do
+    { :reply, state[key], state }
   end
 
   # It is also common to receive messages from the client and
