@@ -1,16 +1,18 @@
 defmodule TwoPianos.User do
+
   use TwoPianos.Web, :model
 
   schema "users" do
-
-    field :email,        :string
+    field :email, :string
     field :encrypt_pass, :string
-    field :password,     :string, virtual: true
+    field :password, :string, virtual: true
 
     timestamps()
-
   end
 
+  @doc """
+  Builds a changeset based on the `struct` and `params`.
+  """
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:email, :password])
