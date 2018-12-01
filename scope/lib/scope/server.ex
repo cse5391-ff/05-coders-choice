@@ -1,8 +1,10 @@
-defmodule ScopeServer do
+defmodule Server do
   use GenServer
 
   @impl true
   def init(scope) do
+
+    messages =
     {:ok, scope}
   end
 

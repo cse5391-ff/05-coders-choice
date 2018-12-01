@@ -7,15 +7,15 @@ defmodule ScopeTest do
   end
 
   test "creates chat server" do
-    assert Manager.create_channel(:new, "Test Channel") == {:ok, pid}
+    assert Manager.create_channel(:new, "Test Channel") == {:ok, :pid}
   end
 
   test "sends message to client" do
-    assert Server.send_message(:urgent, "test message") == {ok, payload}
+    assert Server.send_message(:peripheral, "test message") == {:noreply, "test message"}
   end
 
   test "lists messages" do
-    assert Server.list_messages() != null
+    assert Server.list_messages() != :null
   end
 
   test "deletes supervisor", sup do
