@@ -42,7 +42,8 @@ defmodule TwoPianos.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:plug_cowboy, "~> 1.0"},
-      {:comeonin, "~> 3.0"}
+      {:comeonin, "~> 3.0"},
+      {:guardian, "~> 0.14"}
     ]
   end
 
