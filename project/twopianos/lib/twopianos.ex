@@ -11,6 +11,7 @@ defmodule Twopianos do
       # Start the endpoint when the application starts
       supervisor(Twopianos.Endpoint, []),
       # Start your own worker by calling: Twopianos.Worker.start_link(arg1, arg2, arg3)
+      supervisor(Twopianos.Presence, [])
       # worker(Twopianos.Worker, [arg1, arg2, arg3]),
     ]
 
