@@ -1,0 +1,23 @@
+<h2>List of users</h2>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Email</th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <%= for user <- @users do %>
+            <tr>
+                <td><%=  %>
+            </tr>
+        <% end %>
+
+    </tbody>
+
+</table>
