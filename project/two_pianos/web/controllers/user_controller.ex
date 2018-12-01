@@ -59,4 +59,15 @@ defmodule TwoPianos.UserController do
 
   end
 
+  def delete(conn, %{"id" => id}) do
+
+    user = Repo.get!(User, id)
+    Repo.delete!(user)
+
+    conn
+    |> put_flash(:info, "User deleted successfully.")
+    |> redirect(to: user_path(conn, :index))
+
+  end
+
 end
