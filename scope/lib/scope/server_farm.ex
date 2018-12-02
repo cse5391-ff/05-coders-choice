@@ -7,12 +7,28 @@ defmodule ServerFarm do
     DynamicSupervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
 
-  def save_state(payload) do
-
+  def save_state(:all) do
+    {:ok, :all}
   end
 
-  def load_state() do
+  def save_state(:server, topic) do
+    {:ok, topic}
+  end
 
+  def load_state(:all) do
+    {:noreply, :all}
+  end
+
+  def load_state(:server, topic) do
+    {:noreply, topic}
+  end
+
+  def terminate(:server, topic) do
+    {:error, :not_implemented}
+  end
+
+  def terminate(:all) do
+    {:error, :not_implemented}
   end
 
   def start_child(foo, bar, baz) do
