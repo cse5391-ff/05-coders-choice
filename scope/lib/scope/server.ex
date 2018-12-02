@@ -1,17 +1,18 @@
-defmodule Server do
+defmodule Scope.Server do
   use GenServer
+
+  @messages []
 
   @impl true
   def init(scope) do
-    messages =
     {:ok, scope}
   end
 
-  def start_link do
-    GenServer.start_link(__MODULE__, %{})
+  def list_messages(:unread) do
+
   end
 
-  def list_messages(:unread) do
+  def list_messages(:all) do
 
   end
 
@@ -29,10 +30,6 @@ defmodule Server do
       {:noreply, payload}
   end
 
-  def handle_in("ping", payload, socket) do
-    {:reply, {:ok, payload}, socket}
-  end
-
   def handle_cast({ :set, key, value }, state) do
     { :noreply, Map.put(state, key, value) }
   end
@@ -40,6 +37,8 @@ defmodule Server do
   def handle_call({ :get, key }, _from, state) do
     { :reply, state[key], state }
   end
+
+  def handle_call()
 
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (chat_room:lobby).
