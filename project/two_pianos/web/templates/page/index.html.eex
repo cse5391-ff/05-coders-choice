@@ -4,7 +4,7 @@
   <!-- Greeting -->
   <div class="col-md-12">
 
-    Hello there, <span id="user"><%= @conn.params["user"] %> </span>
+    Hello there, <span id="user"><%= "#{current_user(@conn).email}" %> </span>
 
   </div>
   

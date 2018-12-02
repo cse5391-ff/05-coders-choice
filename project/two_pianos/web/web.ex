@@ -53,6 +53,7 @@ defmodule TwoPianos.Web do
       import TwoPianos.Router.Helpers
       import TwoPianos.ErrorHelpers
       import TwoPianos.Gettext
+      import TwoPianos.ViewHelper
     end
   end
 
