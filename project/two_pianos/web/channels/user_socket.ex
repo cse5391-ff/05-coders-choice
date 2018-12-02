@@ -3,6 +3,7 @@ defmodule TwoPianos.UserSocket do
 
   ## Channels - like web rooms
   channel "room:*", TwoPianos.RoomChannel
+  channel ""
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
