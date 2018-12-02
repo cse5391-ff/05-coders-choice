@@ -1,6 +1,8 @@
 defmodule TwoPianos.Router do
   use TwoPianos.Web, :router
 
+  ### PIPELINES ###
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -21,16 +23,21 @@ defmodule TwoPianos.Router do
     plug :accepts, ["json"]
   end
 
+  ### SCOPES / ROUTES ###
+
+  # Unauthenticated / "Unprotected". Login, Logout, User Creation
   scope "/", TwoPianos do
     pipe_through :browser # Use the default browser stack
-
-    resources "/users", UserController
-
-    get "/", PageController, :index
+    resources "/users", UserController, [:new, :create]
+    resources "/sessions", SessionController, only: [:create, :delete]
+    get "/", SessionController, :new
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", TwoPianos do
-  #   pipe_through :api
-  # end
+  # Protected. User info, Users page, Update User, View Chat
+  scope "/", TwoPianos do
+    pipe_through [:browser, :browser_auth]
+    resources "/users", UserController, only: [:show, :index, :update]
+    get "/chat", PageController, :index
+  end
+
 end
