@@ -15,6 +15,6 @@ defmodule Manager do
   end
 
   def send_message(_case, content) do
-    GenServer.call(@server, :send_message)
+    GenServer.call(@server, :send_message, content)
   end
 end

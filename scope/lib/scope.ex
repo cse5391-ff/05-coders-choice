@@ -13,12 +13,8 @@ defmodule Scope do
 
   """
 
-  def hello do
-    :world
-  end
-
   def create_world(_type, _args) do
-
+    :hello_world
   end
 
 end

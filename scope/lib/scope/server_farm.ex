@@ -20,10 +20,6 @@ defmodule ServerFarm do
     DynamicSupervisor.start_child(__MODULE__, foo)
   end
 
-  def list_channels do
-    {@servers}
-  end
-
   @impl true
   def init(initial_arg) do
     DynamicSupervisor.init(

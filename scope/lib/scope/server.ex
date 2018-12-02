@@ -3,6 +3,15 @@ defmodule Scope.Server do
 
   @messages []
 
+  defmodule Message do
+    defstruct(
+      content: "",
+      from: "",
+      urgency: [:urgent, :peripheral, :normal],
+      timestamps: :calendar.universal_time()
+    )
+  end
+
   @impl true
   def init(scope) do
     {:ok, scope}
@@ -17,7 +26,7 @@ defmodule Scope.Server do
   end
 
   def send_message(:urgent, payload) do
-    %Message.State{
+    %Scope.Server.Message{
       content: payload.content,
       from: payload.from,
       timestamps: payload.timestamps,
@@ -30,32 +39,12 @@ defmodule Scope.Server do
       {:noreply, payload}
   end
 
-  def handle_cast({ :set, key, value }, state) do
-    { :noreply, Map.put(state, key, value) }
-  end
-
-  def handle_call({ :get, key }, _from, state) do
-    { :reply, state[key], state }
-  end
-
-  def handle_call(:send_message, pid, payload) do
-    {:noreply, payload}
-  end
-
-  # It is also common to receive messages from the client and
-  # broadcast to everyone in the current topic (chat_room:lobby).
-  def handle_in("shout", payload, socket) do
-    spawn(fn -> save_msg(payload) end)
-    {:noreply, socket}
+  def handle_call(:send_message, topic, payload) do
+    {:noreply, topic, payload}
   end
 
   def save_msg(payload) do
     {:noreply, payload}
-  end
-
-  @impl true
-  def handle_info(:after_join, socket) do
-    {:noreply, socket}
   end
 
 end
