@@ -1,4 +1,4 @@
-defmodule RandomUserMatcher.Impl do
+defmodule RandomUserMatcher.Interface do
 
   # Spins off a process on launch with a simple single-value state (connection_id = nil).
   #
@@ -6,8 +6,19 @@ defmodule RandomUserMatcher.Impl do
   # |> sends process message with new id. If process's state is nil, add new id (this user is waiting)
   #
 
-  def hello do
-    :world
+
+  @doc """
+  Launches the matcher process.
+  """
+  def start() do
+
+  end
+
+  @doc """
+  Sends the matcher process a user ID
+  """
+  def place_into_queue(user_id) do
+
   end
 
 end

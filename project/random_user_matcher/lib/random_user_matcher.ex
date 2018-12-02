@@ -4,6 +4,9 @@ defmodule RandomUserMatcher do
   Matches random users together.
   """
 
-  defdelegate start(), to: Impl
+  alias RandomUserMatcher.Interface
+
+  defdelegate start(),          to: Interface
+  defdelegate place_into_queue, to: Interface
 
 end
