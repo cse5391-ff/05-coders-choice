@@ -25,10 +25,12 @@ defmodule ScopeTest do
   test "lists all servers" do
     assert ServerFarm.list_channels == {:ok, []}
   end
+
   test "creates multiple servers" do
     ServerFarm.create_server(:new, "Test Channel 1") == {:ok, :pid}
     ServerFarm.create_server(:new, "Test Channel 2") == {:ok, :pid}
-
     assert ServerFarm.list_channels.tuple_size == 2
   end
+
+
 end

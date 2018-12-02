@@ -38,7 +38,9 @@ defmodule Scope.Server do
     { :reply, state[key], state }
   end
 
-  def handle_call()
+  def handle_call(:send_message, pid, payload) do
+    {:noreply, payload}
+  end
 
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (chat_room:lobby).

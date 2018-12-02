@@ -3,7 +3,7 @@ defmodule Manager do
   @server Scope.Server
 
   def start_link(topic) do
-    GenServer.start_link(@server, topic, options \\ [])
+    GenServer.start_link(@server, topic, name: @server)
   end
 
   def list_channels do
@@ -15,6 +15,6 @@ defmodule Manager do
   end
 
   def send_message(_case, content) do
-    GenServer.call(@server, :send_message, timeout \\ 5000)
+    GenServer.call(@server, :send_message)
   end
 end
