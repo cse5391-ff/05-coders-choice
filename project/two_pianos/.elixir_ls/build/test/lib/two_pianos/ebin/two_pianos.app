@@ -12,6 +12,7 @@
                         'Elixir.TwoPianos.Gettext',
                         'Elixir.TwoPianos.GuardianSerializer',
                         'Elixir.TwoPianos.LayoutView',
+                        'Elixir.TwoPianos.LobbyChannel',
                         'Elixir.TwoPianos.ModelCase',
                         'Elixir.TwoPianos.PageController',
                         'Elixir.TwoPianos.PageView',
