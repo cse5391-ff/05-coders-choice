@@ -3,6 +3,7 @@ defmodule Scope.Server do
 
   @messages []
 
+
   defmodule Message do
     defstruct(
       content: "",
@@ -13,8 +14,9 @@ defmodule Scope.Server do
   end
 
   @impl true
-  def init(scope) do
-    {:ok, scope}
+  def init(topic) do
+    Phoenix.PubSub.subscribe(:servers, topic)
+    {:ok, %{}}
   end
 
   def list_messages(:unread) do

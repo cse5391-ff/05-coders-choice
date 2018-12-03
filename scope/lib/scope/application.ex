@@ -12,7 +12,9 @@ defmodule Scope.Application do
     children = [
       # Starts a worker by calling: Scope.Worker.start_link(arg)
       # {Scope.Worker, arg},
-      supervisor(Phoenix.PubSub.PG2, [Scope.PubSub, []])
+      id: Phoenix.PubSub.PG2,
+      start: {Phoenix.PubSub.PG2, :start_link, [:servers, []]}
+
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
