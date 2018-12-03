@@ -14,7 +14,6 @@ defmodule Scope.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      applications: [:phoenix_pubsub],
       extra_applications: [:logger],
       mod: {Scope.Application, []}
     ]
@@ -23,7 +22,7 @@ defmodule Scope.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix_pubsub, "~> 1.0"}
+      {:pubsub, "~> 1.0"}
     ]
   end
 end

@@ -12,8 +12,11 @@ defmodule Scope.Application do
     children = [
       # Starts a worker by calling: Scope.Worker.start_link(arg)
       # {Scope.Worker, arg},
-      id: Phoenix.PubSub.PG2,
-      start: {Phoenix.PubSub.PG2, :start_link, [:servers, []]}
+      # %{
+      #   id: Phoenix.PubSub.PG2,
+      #   start: {Phoenix.PubSub.PG2, :start_link, [:servers, []]}
+      # },
+    #  supervisor(Phoenix.PubSub.PG2, [Scope.PubSub, []])
 
     ]
 

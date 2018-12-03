@@ -1,15 +1,18 @@
-defmodule Phoenix.PubSub.Manager do
+defmodule Manager do
 
   @server Scope.Server
   @pubsub_name ""
 
   def start_link(name, topic) do
-    {:ok, name}
+    PubSub.start_link()
   end
 
   def init({name, options}) do
-    PubSub.subscribe(name, options)
     {:ok, %{}}
+  end
+
+  def start(topic) do
+    spawn(fn -> GenServer.start_link(Scope.Server, topic) end)
   end
 
   def broadcast!(server, topic, message) do
@@ -20,11 +23,11 @@ defmodule Phoenix.PubSub.Manager do
     GenServer.call(@server, :list_channels)
   end
 
-  def join_channel(topic) do
-    GenServer.call(@server, topic, :join)
+  def join_channel(pid, topic) do
+    PubSub.subscribe(pid, topic)
   end
 
-  def send_message(topic, message) do
-    Phoenix.PubSub.broadcast(@server, topic, {:send_message, message.from, message.content})
+  def send_message(urgency, topic, message) do
+    PubSub.publish(topic, message)
   end
 end

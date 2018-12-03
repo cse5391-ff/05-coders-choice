@@ -1,4 +1,4 @@
-defmodule Scope.Server do
+defmodule Server do
   use GenServer
 
   @messages []
@@ -15,8 +15,12 @@ defmodule Scope.Server do
 
   @impl true
   def init(topic) do
-    Phoenix.PubSub.subscribe(:servers, topic)
+    spawn(fn -> receive_message(topic) end)
     {:ok, %{}}
+  end
+
+  def start(topic) do
+    spawn(fn -> receive_message(topic) end)
   end
 
   def list_messages(:unread) do
@@ -27,8 +31,31 @@ defmodule Scope.Server do
 
   end
 
+  def receive_message(name) do
+    receive do
+      {:urgent, value} ->
+        IO.puts "! #{name} received '#{value}'"
+        receive_message(name)
+    end
+    receive do
+      {:peripheral, value} ->
+        IO.puts "* #{name} received '#{value}''"
+        receive_message(name)
+    end
+    receive do
+      {:normal, value} ->
+        IO.puts "o #{name} received '#{value}'"
+        receive_message(name)
+    end
+    receive do
+      value ->
+        IO.puts "o #{name} received '#{value}'"
+        receive_message(name)
+    end
+  end
+
   def send_message(:urgent, payload) do
-    %Scope.Server.Message{
+    %Server.Message{
       content: payload.content,
       from: payload.from,
       timestamps: payload.timestamps,
