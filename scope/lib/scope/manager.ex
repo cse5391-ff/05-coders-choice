@@ -12,7 +12,7 @@ defmodule Manager do
   end
 
   def start(topic) do
-    spawn(fn -> GenServer.start_link(Scope.Server, topic) end)
+    spawn(fn -> GenServer.start_link(Server, topic) end)
   end
 
   def broadcast!(server, topic, message) do
