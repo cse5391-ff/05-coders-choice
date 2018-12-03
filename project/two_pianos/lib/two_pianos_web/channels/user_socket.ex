@@ -2,7 +2,8 @@ defmodule TwoPianosWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "room:*", TwoPianosWeb.RoomChannel
+  channel "lobby",   TwoPianosWeb.LobbyChannel
+  channel "room:*",  TwoPianosWeb.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
