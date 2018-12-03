@@ -2,6 +2,8 @@ defmodule TwoPianos.RoomChannel do
 
   use TwoPianosWeb, :channel
 
+  # As of now, only functionality is to broadcast pressed and released keys to other user in room
+
   def join("room:" <> room_id, _, socket) do
     {:ok, socket}
   end
