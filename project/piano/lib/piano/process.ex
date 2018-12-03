@@ -12,6 +12,8 @@ defmodule Piano.Process do
 
       { :end_recording } ->
 
+      { : }
+
     end
 
     run(new_state)
