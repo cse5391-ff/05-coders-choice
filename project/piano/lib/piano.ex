@@ -5,11 +5,10 @@ defmodule Piano do
   to generate MIDI sequences.
   """
 
-
-  defdelegate start(),           to: Impl
-  defdelegate press(),           to: Impl
-  defdelegate release(),         to: Impl
-  defdelegate start_recording(), to: Impl
-  defdelegate stop_recording(),  to: Impl
+  defdelegate start(),           to: Interface
+  defdelegate press(),           to: Interface
+  defdelegate release(),         to: Interface
+  defdelegate start_recording(), to: Interface
+  defdelegate stop_recording(),  to: Interface
 
 end
