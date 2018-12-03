@@ -1,15 +1,19 @@
 defmodule MapSetStore.Interface do
 
-  def start() do
-
+  def start(args) do
+    GenServer.start(MapSetStore.Server, default)
   end
 
-  def add() do
-
+  def add(server, args) do
+    GenServer.cast(server, {:add, args})
   end
 
-  def remove() do
+  def remove(server, args) do
+    GenServer.cast(server, {:remove, args})
+  end
 
+  def get(server) do
+    GenServer.call(server, :get)
   end
 
 end
