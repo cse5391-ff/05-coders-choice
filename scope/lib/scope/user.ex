@@ -1,7 +1,7 @@
 defmodule User do
   @servers
   defmodule Read do
-    defstruct servers: [], messages: []
+    %{}
   end
 
   def request(:all, topic) do

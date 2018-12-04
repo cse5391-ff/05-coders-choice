@@ -17,7 +17,7 @@ defmodule Scope.Application do
       #   start: {Phoenix.PubSub.PG2, :start_link, [:servers, []]}
       # },
     #  supervisor(Phoenix.PubSub.PG2, [Scope.PubSub, []])
-
+        Messages.Repo
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -2,6 +2,14 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
+config :scope, Messages.Repo,
+  database: "scope_repo",
+  username: "postgres",
+  password: "",
+  hostname: "localhost"
+
+config :scope, ecto_repos: [Messages.Repo]
+
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
 # file won't be loaded nor affect the parent project. For this reason,

@@ -3,7 +3,6 @@ defmodule Server do
 
   @messages []
 
-
   defmodule Message do
     defstruct(
       content: "",
