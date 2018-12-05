@@ -18,7 +18,7 @@ defmodule SkydockWeb.Router do
 
     get "/", PageController, :index
 
-    post "/sms", PageController, :handle_sms
+    post "/sms", PageController, :handle_sms # Twilio Webhook
   end
 
   # Other scopes may use custom stacks.

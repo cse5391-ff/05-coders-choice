@@ -6,9 +6,7 @@ defmodule SkydockWeb.PageController do
   end
 
   def handle_sms(conn, params) do
-    # IO.puts(inspect(conn))
-    # IO.puts(inspect(params))
-    IO.puts(params["Body"])
+    Skydock.CommandHandler.get_containers(CommandHandler, params) #change to commandparser
     send_resp(conn, 200, "Ok")
   end
 
