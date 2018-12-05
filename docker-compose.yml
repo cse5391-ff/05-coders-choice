@@ -4,15 +4,22 @@ services:
   ngrok:
     image: wernight/ngrok
     container_name: ngrok
-    ports: ["80:80"]
+    # ports: ["80:80"]
     env_file:
       - secrets.env
+    networks:
+      app:
 
   skydock:
     build: ./skydock
     command: mix phx.server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    ports: ["80:80"]
+    # ports: ["80:80"]
     env_file:
       - secrets.env
+    networks:
+      app:
+
+networks:
+  app:
