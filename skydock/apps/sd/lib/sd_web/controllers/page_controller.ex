@@ -5,8 +5,9 @@ defmodule SdWeb.PageController do
     render conn, "index.html"
   end
 
-  def handle_sms(conn, params) do
-    DockerClient.CommandHandler.get_containers(params) #change to commandparser
+  def handle_sms(conn, sms_params) do
+    {command, args} = DockerClient.CommandParser.parse_message(sms_params["Body"])
+    command.(sms_params, args)
     send_resp(conn, 200, "Ok")
   end
 

@@ -7,29 +7,25 @@ defmodule DockerClient.CommandHandler do
     GenServer.start_link(__MODULE__, [], params)
   end
 
-  def get_containers(params) do
-    GenServer.cast(DockerClient.CommandHandler, {:get_containers, params})
-  end
+  def get_containers(params, {}), do: GenServer.cast(DockerClient.CommandHandler, {:get_containers, params})
 
-  def get_containers(params), do: GenServer.cast(DockerClient.CommandHandler, {:get_containers, params})
+  def start_container(params, { name_id }), do: GenServer.cast(DockerClient.CommandHandler, {:start_container, params, name_id})
 
-  def start_container(params, name_id), do: GenServer.cast(DockerClient.CommandHandler, {:start_container, params, name_id})
+  def stop_container(params, { name_id }), do: GenServer.cast(DockerClient.CommandHandler, {:stop_container, params, name_id})
 
-  def stop_container(params, name_id), do: GenServer.cast(DockerClient.CommandHandler, {:stop_container, params, name_id})
+  def kill_container(params, { name_id }), do: GenServer.cast(DockerClient.CommandHandler, {:kill_container, params, name_id})
 
-  def kill_container(params, name_id), do: GenServer.cast(DockerClient.CommandHandler, {:kill_container, params, name_id})
+  def pause_container(params, { name_id }), do: GenServer.cast(DockerClient.CommandHandler, {:pause_container, params, name_id})
 
-  def pause_container(params, name_id), do: GenServer.cast(DockerClient.CommandHandler, {:pause_container, params, name_id})
+  def unpause_container(params, { name_id }), do: GenServer.cast(DockerClient.CommandHandler, {:unpause_container, params, name_id})
 
-  def unpause_container(params, name_id), do: GenServer.cast(DockerClient.CommandHandler, {:unpause_container, params, name_id})
+  def get_volumes(params, {}), do: GenServer.cast(DockerClient.CommandHandler, {:get_volumes, params})
 
-  def get_volumes(params), do: GenServer.cast(DockerClient.CommandHandler, {:get_volumes, params})
+  def get_images(params, {}), do: GenServer.cast(DockerClient.CommandHandler, {:get_images, params})
 
-  def get_images(params), do: GenServer.cast(DockerClient.CommandHandler, {:get_images, params})
+  def create_image(params, { image, tag }), do: GenServer.cast(DockerClient.CommandHandler, {:create_image, params, image, tag})
 
-  def create_image(params, image, tag), do: GenServer.cast(DockerClient.CommandHandler, {:create_image, params, image, tag})
-
-  def get_sys_info(params), do: GenServer.cast(DockerClient.CommandHandler, {:get_sys_info, params})
+  def get_sys_info(params, {}), do: GenServer.cast(DockerClient.CommandHandler, {:get_sys_info, params})
 
   # Server (callbacks)
   @impl true
