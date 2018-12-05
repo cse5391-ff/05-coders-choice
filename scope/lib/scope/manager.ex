@@ -12,7 +12,7 @@ defmodule Manager do
   end
 
   def start(topic) do
-    spawn(fn -> GenServer.start_link(Server, topic) end)
+    Server.start(topic)
   end
 
   def broadcast!(server, topic, message) do
@@ -28,6 +28,6 @@ defmodule Manager do
   end
 
   def send_message(urgency, topic, message) do
-    PubSub.publish(topic, message)
+    PubSub.publish(topic, {message, urgency})
   end
 end

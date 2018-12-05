@@ -1,5 +1,6 @@
 defmodule User do
   @servers
+
   defmodule Read do
     %{}
   end
@@ -23,6 +24,6 @@ defmodule User do
 
   # Request to join a server, optional key to grant access
   def join(server, _key) do
-    {:error, :not_implemented}
+    @servers = @servers ++ Server.start_link(server, _key)
   end
 end

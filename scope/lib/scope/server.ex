@@ -1,5 +1,5 @@
 defmodule Server do
-  use GenServer
+  use Agent
 
   @messages []
 
