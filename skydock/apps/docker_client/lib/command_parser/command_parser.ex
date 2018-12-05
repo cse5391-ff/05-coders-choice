@@ -24,10 +24,6 @@ defmodule DockerClient.CommandParser do
     { &DockerClient.CommandHandler.unpause_container/2, {name_id} }
   end
 
-  def parse_message([ "get", "volumes" ]) do
-    { &DockerClient.CommandHandler.get_volumes/2, {} }
-  end
-
   def parse_message([ "get", "images" ]) do
     { &DockerClient.CommandHandler.get_images/2, {} }
   end
