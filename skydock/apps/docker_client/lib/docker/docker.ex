@@ -18,8 +18,6 @@ defmodule DockerClient.Docker do
 
   def unpause_container(name_id), do: socket_message("POST", "containers/#{name_id}/unpause")
 
-  def get_volumes(), do: socket_message("GET", "volumes")#TODO: don't need this
-
   def get_images(), do: socket_message("GET", "images/json")
 
   def create_image(image, tag), do: socket_message("POST", "images/create", %{"fromImage"=>image, "tag"=>tag})
