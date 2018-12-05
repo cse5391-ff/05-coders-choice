@@ -27,21 +27,18 @@ defmodule Server do
         IO.puts "! #{topic} received '#{value}'"
         save_msg("#{:urgent}", [topic: "#{topic}", content: "#{value}"])
         receive_msg(topic)
-    end
-    receive do
+
       {:peripheral, value} ->
-        IO.puts "* #{topic} received '#{value}''"
+        IO.puts "! #{topic} received '#{value}'"
         save_msg("#{:peripheral}", [topic: "#{topic}", content: "#{value}"])
         receive_msg(topic)
-    end
-    receive do
+
       {:normal, value} ->
         IO.puts "o #{topic} received '#{value}'"
         save_msg("#{:peripheral}", [topic: "#{topic}", content: "#{value}"])
         receive_msg(topic)
-    end
-    receive do
-      value ->
+
+        value ->
         IO.puts "o #{topic} received '#{value}'"
         receive_msg(topic)
     end
