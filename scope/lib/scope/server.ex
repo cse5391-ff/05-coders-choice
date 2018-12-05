@@ -24,32 +24,29 @@ defmodule Server do
   def receive_msg(topic) do
     receive do
       {:urgent, value} ->
-        IO.puts "! #{topic} received '#{value}'"
-        save_msg("#{:urgent}", [topic: "#{topic}", content: "#{value}"])
+        save_msg([urgency: "#{:urgent}", topic: "#{topic}", from: "#{value[:from]}", content: "#{value[:msg]}"])
         receive_msg(topic)
 
       {:peripheral, value} ->
-        IO.puts "! #{topic} received '#{value}'"
-        save_msg("#{:peripheral}", [topic: "#{topic}", content: "#{value}"])
+        save_msg([urgency: "#{:peripheral}", topic: "#{topic}", from: "#{value[:from]}", content: "#{value[:msg]}"])
         receive_msg(topic)
 
       {:normal, value} ->
-        IO.puts "o #{topic} received '#{value}'"
-        save_msg("#{:peripheral}", [topic: "#{topic}", content: "#{value}"])
+        save_msg([urgency: "#{:peripheral}", topic: "#{topic}", from: "#{value[:from]}", content: "#{value[:msg]}"])
         receive_msg(topic)
 
-        value ->
+      value ->
         IO.puts "o #{topic} received '#{value}'"
         receive_msg(topic)
     end
   end
 
-  def save_msg(urgency, payload) do
+  def save_msg(payload) do
     msg = %Messages.Message{
       content: payload[:content],
       # timestamps: :calendar.universal_time(),
       # from: payload[:from],
-      urgency: urgency,
+      urgency: payload[:urgency],
       server: payload[:topic]
     }
     Messages.Repo.insert(msg)
