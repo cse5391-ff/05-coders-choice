@@ -1,5 +1,5 @@
 defmodule Server do
-  use Agent
+  use GenServer
 
   @messages []
 
@@ -18,7 +18,7 @@ defmodule Server do
     {:ok, %{}}
   end
 
-  def start(topic) do
+  def start(topic, key \\ "") do
     spawn(fn -> receive_message(topic) end)
   end
 
@@ -30,26 +30,32 @@ defmodule Server do
 
   end
 
-  def receive_message(name) do
+  def receive_message(topic) do
     receive do
       {:urgent, value} ->
-        IO.puts "! #{name} received '#{value}'"
-        receive_message(name)
+        IO.puts "! #{topic} received '#{value}'"
+        msg = %Messages.Message{
+          content: "#{value}",
+          server: "#{topic}",
+          urgency: "#{:urgent}"
+        }
+        Messages.Repo.insert(msg)
+        receive_message(topic)
     end
     receive do
       {:peripheral, value} ->
-        IO.puts "* #{name} received '#{value}''"
-        receive_message(name)
+        IO.puts "* #{topic} received '#{value}''"
+        receive_message(topic)
     end
     receive do
       {:normal, value} ->
-        IO.puts "o #{name} received '#{value}'"
-        receive_message(name)
+        IO.puts "o #{topic} received '#{value}'"
+        receive_message(topic)
     end
     receive do
       value ->
-        IO.puts "o #{name} received '#{value}'"
-        receive_message(name)
+        IO.puts "o #{topic} received '#{value}'"
+        receive_message(topic)
     end
   end
 

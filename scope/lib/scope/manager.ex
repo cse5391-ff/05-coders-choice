@@ -3,7 +3,7 @@ defmodule Manager do
   @server Scope.Server
   @pubsub_name ""
 
-  def start_link(name, topic) do
+  def start() do
     PubSub.start_link()
   end
 
@@ -11,23 +11,29 @@ defmodule Manager do
     {:ok, %{}}
   end
 
-  def start(topic) do
-    Server.start(topic)
-  end
-
-  def broadcast!(server, topic, message) do
-
+  def create_channel(topic, key \\ "") do
+    if !(list_channels()
+    |> Enum.member?(topic)) do
+      pid = Server.start(topic, key)
+      {pid, PubSub.subscribe(pid, topic)}
+    else
+      {:already_created, topic}
+    end
   end
 
   def list_channels do
-    GenServer.call(@server, :list_channels)
+    PubSub.topics()
   end
 
   def join_channel(pid, topic) do
-    PubSub.subscribe(pid, topic)
+    if Enum.member?(PubSub.topics(), topic) do
+      PubSub.subscribe(pid, topic)
+    else
+      PubSub.subscribe(pid, topic)
+    end
   end
 
-  def send_message(urgency, topic, message) do
-    PubSub.publish(topic, {message, urgency})
+  def send_msg(topic, urgency, message) do
+    PubSub.publish(topic, {urgency, message})
   end
 end
