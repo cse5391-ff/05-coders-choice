@@ -3,23 +3,14 @@ defmodule Server do
 
   @messages []
 
-  defmodule Message do
-    defstruct(
-      content: "",
-      from: "",
-      urgency: [:urgent, :peripheral, :normal],
-      timestamps: :calendar.universal_time()
-    )
-  end
-
   @impl true
   def init(topic) do
-    spawn(fn -> receive_message(topic) end)
+    spawn(fn -> receive_msg(topic) end)
     {:ok, %{}}
   end
 
   def start(topic, key \\ "") do
-    spawn(fn -> receive_message(topic) end)
+    spawn(fn -> receive_msg(topic) end)
   end
 
   def list_messages(:unread) do
@@ -30,43 +21,41 @@ defmodule Server do
 
   end
 
-  def receive_message(topic) do
+  def receive_msg(topic) do
     receive do
       {:urgent, value} ->
         IO.puts "! #{topic} received '#{value}'"
-        msg = %Messages.Message{
-          content: "#{value}",
-          server: "#{topic}",
-          urgency: "#{:urgent}"
-        }
-        Messages.Repo.insert(msg)
-        receive_message(topic)
+        save_msg("#{:urgent}", [topic: "#{topic}", content: "#{value}"])
+        receive_msg(topic)
     end
     receive do
       {:peripheral, value} ->
         IO.puts "* #{topic} received '#{value}''"
-        receive_message(topic)
+        save_msg("#{:peripheral}", [topic: "#{topic}", content: "#{value}"])
+        receive_msg(topic)
     end
     receive do
       {:normal, value} ->
         IO.puts "o #{topic} received '#{value}'"
-        receive_message(topic)
+        save_msg("#{:peripheral}", [topic: "#{topic}", content: "#{value}"])
+        receive_msg(topic)
     end
     receive do
       value ->
         IO.puts "o #{topic} received '#{value}'"
-        receive_message(topic)
+        receive_msg(topic)
     end
   end
 
-  def send_message(:urgent, payload) do
-    %Server.Message{
-      content: payload.content,
-      from: payload.from,
-      timestamps: payload.timestamps,
-      urgency: payload.urgency
+  def save_msg(urgency, payload) do
+    msg = %Messages.Message{
+      content: payload[:content],
+      # timestamps: :calendar.universal_time(),
+      # from: payload[:from],
+      urgency: urgency,
+      server: payload[:topic]
     }
-    payload
+    Messages.Repo.insert(msg)
   end
 
   def send_message(:peripheral, payload) do
