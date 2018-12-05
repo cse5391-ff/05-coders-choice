@@ -37,23 +37,65 @@ defmodule DockerClient.CommandHandler do
   def handle_cast({:get_containers, params}, state) do
     IO.puts(inspect(params))
     docker_response = DockerClient.Docker.get_containers()
-    DockerClient.TwilioSender.send_message(params["From"], "here's your containers")
+    DockerClient.TwilioSender.send_response(params, "here's your containers")
     {:noreply, [state | "get_containers"]}
   end
 
-  def handle_cast({:start_container, params}, state) do
+  def handle_cast({:start_container, params, name_id}, state) do
     IO.puts(inspect(params))
-    docker_response = DockerClient.Docker.start_container("redis")
-    DockerClient.TwilioSender.send_message(params["From"], "started container")
-    {:noreply, [state | "get_containers"]}
+    docker_response = DockerClient.Docker.start_container(name_id)
+    DockerClient.TwilioSender.send_response(params, name_id)
+    {:noreply, [state | "start_container"]}
   end
 
-  def handle_cast({:start_container, params}, state) do
+  def handle_cast({:stop_container, params, name_id}, state) do
     IO.puts(inspect(params))
-    docker_response = DockerClient.Docker.start_container("redis")
-    DockerClient.TwilioSender.send_message(params["From"], "stopped container")
-    {:noreply, [state | "get_containers"]}
+    docker_response = DockerClient.Docker.stop_container(name_id)
+    DockerClient.TwilioSender.send_response(params, name_id)
+    {:noreply, [state | "stop_container"]}
+  end
+
+  def handle_cast({:kill_container, params, name_id}, state) do
+    IO.puts(inspect(params))
+    docker_response = DockerClient.Docker.kill_container(name_id)
+    DockerClient.TwilioSender.send_response(params, name_id)
+    {:noreply, [state | "kill_container"]}
+  end
+
+  def handle_cast({:pause_container, params, name_id}, state) do
+    docker_response = DockerClient.Docker.pause_container(name_id)
+    DockerClient.TwilioSender.send_response(params, name_id)
+    {:noreply, [state | "pause_container"]}
+  end
+
+  def handle_cast({:unpause_container, params, name_id}, state) do
+    docker_response = DockerClient.Docker.unpause_container(name_id)
+    DockerClient.TwilioSender.send_response(params, name_id)
+    {:noreply, [state | "unpause_container"]}
+  end
+
+  def handle_cast({:get_volumes, params}, state) do
+    docker_response = DockerClient.Docker.get_volumes()
+    DockerClient.TwilioSender.send_response(params, "get_volumes")
+    {:noreply, [state | "get_volumes"]}
+  end
+
+  def handle_cast({:get_images, params}, state) do
+    docker_response = DockerClient.Docker.get_images()
+    DockerClient.TwilioSender.send_response(params, "get_images")
+    {:noreply, [state | "get_images"]}
+  end
+
+  def handle_cast({:create_image, params, image, tag}, state) do
+    docker_response = DockerClient.Docker.create_image(image, tag)
+    DockerClient.TwilioSender.send_response(params, "create_image")
+    {:noreply, [state | "create_image"]}
+  end
+
+  def handle_cast({:get_sys_info, params}, state) do
+    docker_response = DockerClient.Docker.get_sys_info()
+    DockerClient.TwilioSender.send_response(params, "sys_info")
+    {:noreply, [state | "get_sys_info"]}
   end
 
 end
-# DockerClient.CommandHandler.get_containers(CommandHandler, "3098240321")

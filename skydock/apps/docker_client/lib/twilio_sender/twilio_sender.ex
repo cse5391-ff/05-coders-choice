@@ -5,8 +5,8 @@ defmodule DockerClient.TwilioSender do
     GenServer.start_link(__MODULE__, nil, params)
   end
 
-  def send_message(recipient, message) do
-    GenServer.cast(DockerClient.TwilioSender, {:send_message, recipient, message})
+  def send_response(sms_params, message) do
+    GenServer.cast(DockerClient.TwilioSender, {:send_response, sms_params, message})
   end
 
   # Server (callbacks)
@@ -16,8 +16,8 @@ defmodule DockerClient.TwilioSender do
   end
 
   @impl true
-  def handle_cast({:send_message, recipient, message}, _state) do
-    response = ExTwilio.Message.create(to: recipient, from: "+13093798162", body: message)
+  def handle_cast({:send_response, sms_params, message}, _state) do
+    response = ExTwilio.Message.create(to: sms_params["From"], from: sms_params["To"], body: message)
     IO.inspect(response)
     {:noreply, nil}
   end

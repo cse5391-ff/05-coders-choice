@@ -2,7 +2,9 @@ defmodule DockerClient.Docker do
   defp socket_message(verb, path, params \\ %{}) do
     uri = "http/#{path}?#{URI.encode_query(params)}"
     {data, _exit_code} = System.cmd("curl", ["--silent", "-X", verb, "--unix-socket", "/var/run/docker.sock", uri])
-    Poison.decode(data)
+    result = Poison.decode(data)
+    IO.inspect(result)
+    result
   end
 
   def get_containers(), do: socket_message("GET", "containers/json")
