@@ -33,8 +33,7 @@ defmodule Manager do
     end
   end
 
-  def send_msg(from, topic, urgency, msg) do
-
+  def send_msg(topic, from, urgency, msg) do
     # if user |> hasAccess do
     PubSub.publish(topic, {urgency, [from: from, msg: msg]})
     # end

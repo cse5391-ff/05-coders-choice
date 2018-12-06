@@ -1,8 +1,6 @@
 defmodule Server do
   use GenServer
 
-  @messages []
-
   @impl true
   def init(topic) do
     spawn(fn -> receive_msg(topic) end)

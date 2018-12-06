@@ -16,8 +16,8 @@ defmodule Scope.Application do
       #   id: Phoenix.PubSub.PG2,
       #   start: {Phoenix.PubSub.PG2, :start_link, [:servers, []]}
       # },
-    #  supervisor(Phoenix.PubSub.PG2, [Scope.PubSub, []])
-        Messages.Repo
+      #  supervisor(Phoenix.PubSub.PG2, [Scope.PubSub, []])
+      { Messages.Repo, name: Messages.Repo },
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
