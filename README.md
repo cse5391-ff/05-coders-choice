@@ -38,13 +38,13 @@ Make sure Twilio SMS is set to forward messages to the ngrok URL
 ## Using the Program
 As long as your mobile phone is confirmed to reveive SMS messages from the Twilio service, you may send the following commands:
 - get containers
-- start <container friendly>
-- stop <container friendly>
-- kill <container friendly>
-- pause <container friendly>
-- unpause <container friendly>
+- start \<container friendly\>
+- stop \<container friendly\>
+- kill \<container friendly\>
+- pause \<container friendly\>
+- unpause \<container friendly\>
 - get images
-- create image <name> <tag>
+- create image \<name\> \<tag\>
 - system
 
 Responses are generally very quick, except for certain Docker operations that hang.
