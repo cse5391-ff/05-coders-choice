@@ -6,18 +6,18 @@ In order to receive texts from Twilio, we must establish a webhook for Twilio to
 
 tl;dr; ngrok lets us act like we have a public ip
 
-## Running Skydock
+# User Docs
 
-### System Requirements
+## System Requirements
 - Internet Connection
 - Docker
 - Docker Compose (bundled with Docker for Mac)
 
-### Accounts Needed
+## Accounts Needed
 - Twilio Programmable SMS
 - Ngrok
 
-### Environment Variables
+## Environment Variables
 In the project root, create a secrets.env file for docker-compose with the following keys:
 - TWILIO_ACCOUNT_SID
 - TWILIO_AUTH_TOKEN
@@ -27,15 +27,15 @@ In the project root, create a secrets.env file for docker-compose with the follo
 
 [Note to @pragdave] This secrets.env file and the phone number to text commands can be found [here](https://github.com/lchansen/skydock_secrets)
 
-### Twilio Config
+## Twilio Config
 Make sure Twilio SMS is set to forward messages to the ngrok URL
 
-### Runnning the Progam
+## Runnning the Progam
 `docker-compose up`
 
 [Note to @pragdave] If you have some running containers you wish to experiment on, feel free. Else, you can spool up some containers by running an app I found (Github: dockersamples/example-voting-app) by typing `docker-compose up` in the sample_containers directory.
 
-### Using the Program
+## Using the Program
 As long as your mobile phone is confirmed to reveive SMS messages from the Twilio service, you may send the following commands:
 - get containers
 - start <container friendly>
@@ -51,5 +51,5 @@ Responses are generally very quick, except for certain Docker operations that ha
 
 Note: skydock gives you access to your own machine's docker server, unless you run it remotely. You can technically even send an SMS call to shutdown itself by sending the SMS `kill skydock_service`. This is because the skydock_service container has a pointer to the real docker socket.
 
-### Example
+## Example
 After running the sample_containers app, text `get containers` to the phone number provided. If the container has the frindly name "samplecontainers_worker_1", you could text `stop samplecontainers_worker_1` and then `start samplecontainers_worker_1`. Experiment with any way you would like. 
