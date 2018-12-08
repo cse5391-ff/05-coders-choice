@@ -20,28 +20,33 @@ import "phoenix_html"
 
 // import socket from "./socket"
 
-build_piano = function(octaves) {
+function build_piano(octaves) {
 
-    piano_html = ''
+    let piano_html = ''
 
-    notes = {
+    let notes = {
         white: ['c', 'd', 'e', 'f', 'g', 'a', 'b'],
         black: ['cs', 'ds', 'fs', 'gs', 'as']
     }
 
-    for(octave = 1; octave < octaves; octave++){
+    for(let octave = 1; octave <= octaves; octave++){
 
         // White keys
-        for(k in notes.white) {
-            piano_html += `<div class="white-key ${k}-${octave}"></div>`
+        for(let k in notes.white) {
+            piano_html += `<div id="note-${notes.white[k]}-${octave}" class="white-key"></div>`
         }
 
         // Black keys
-        for(k in notes.black) {
-            piano_html += `<div class="black-key ${k}-${octave}"></div>`
+        for(let k in notes.black) {
+            piano_html += `<div id="note-${notes.black[k]}-${octave}" class="black-key"></div>`
         }
 
     }
 
+    // Add final note
+    piano_html += '<div id="note-c-3" class="white-key"></div>'
+
     document.getElementById('piano-container').innerHTML = piano_html
 }
+
+build_piano(2)

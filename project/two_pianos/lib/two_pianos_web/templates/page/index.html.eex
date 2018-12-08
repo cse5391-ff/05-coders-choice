@@ -21,27 +21,7 @@
 
   <div id="piano-container" class="col-md-8">
 
-    <!--
-      
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-    <div class="white-key"></div>
-
-    -->
-
-    PIANO PIANO PIANO
+    <!-- Piano divs inserted here -->
 
   </div>
 
