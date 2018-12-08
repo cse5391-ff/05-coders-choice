@@ -1,36 +1,74 @@
-<div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
+
+<!-- Header -->
+<div class="row">
+
+  <div class="col-md-3"></div>
+
+  <div class="col-md-6 center-text">
+
+    <h1 id="title-text">Welcome to TwoPianos!</h1>
+
+  </div>
+
+  <div class="col-md-3"></div>
+
 </div>
 
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="https://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
+<!-- Piano -->
+<div class="row">
+
+  <div class="col-md-2"></div>
+
+  <div id="piano-container" class="col-md-8">
+
+    <!--
+      
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+    <div class="white-key"></div>
+
+    -->
+
+    PIANO PIANO PIANO
+
   </div>
 
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
+  <div class="col-md-2"></div>
+
+</div>
+
+<!-- Options -->
+<div id="options" class="row">
+
+  <div class="col-md-3"></div>
+
+  <div class="col-md-2 center-text">
+    <button type="button" class="btn-block btn-primary">Create New Room</button>
+    <div class="button-text">Create</div>
   </div>
+
+  <div class="col-md-2 center-text">
+    <input type="text" class="join-room-input" placeholder="room code">
+    <button type="button" class="btn-block btn-primary">Join</button>
+  </div>
+
+  <div class="col-md-2 center-text">
+    <button type="button" class="btn-block btn-primary">Join Random Stranger</button>
+    <div class="button-text">Join Random Stranger</div>
+  </div>
+
+  <div class="col-md-3"></div>
+
 </div>

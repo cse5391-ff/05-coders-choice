@@ -1,1 +1,9 @@
 /* This file is for your main application css. */
+
+.center-text {
+    text-align: center;
+}
+
+#piano-container {
+    height: 60vh;
+}
