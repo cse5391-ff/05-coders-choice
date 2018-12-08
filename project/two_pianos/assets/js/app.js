@@ -20,7 +20,7 @@ import "phoenix_html"
 
 // import socket from "./socket"
 
-function build_piano(octaves) {
+function build_piano() {
 
     let piano_html = ''
 
@@ -29,7 +29,9 @@ function build_piano(octaves) {
         black: ['cs', 'ds', 'fs', 'gs', 'as']
     }
 
-    for(let octave = 1; octave <= octaves; octave++){
+    let octaves = 2
+
+    for(let octave = 1; octave <= octaves; octave++) {
 
         // White keys
         for(let k in notes.white) {
@@ -49,4 +51,35 @@ function build_piano(octaves) {
     document.getElementById('piano-container').innerHTML = piano_html
 }
 
-build_piano(2)
+function init_audio() {
+
+    let path = 'piano_notes/'
+    let notes = ['c', 'cs', 'd', 'ds', 'e', 'f', 'fs', 'g', 'gs', 'a', 'as', 'b']
+
+    let notes_audio = {}
+    for(let octave = 1; octave <= 2; octave++) {
+
+        for(let i in notes) {
+
+            let n = `${notes[i]}-${octave}`
+
+            notes_audio[n]     = new Audio()
+            notes_audio[n].src = `${path}${n}.mp3`
+
+        }
+
+    }
+
+    notes_audio['c-3']     = new Audio()
+    notes_audio['c-3'].src = `${path}c-3.mp3`
+
+    return notes_audio
+
+}
+
+build_piano()
+let notes_audio = init_audio()
+
+let play_random = function(notes_audio) {
+    notes_audio['c-3'].play()
+}

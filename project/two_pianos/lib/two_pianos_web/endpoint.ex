@@ -5,7 +5,7 @@ defmodule TwoPianosWeb.Endpoint do
 
   plug Plug.Static,
     at: "/", from: :two_pianos, gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    only: ~w(css fonts images js piano_notes favicon.ico robots.txt)
 
   if code_reloading? do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
