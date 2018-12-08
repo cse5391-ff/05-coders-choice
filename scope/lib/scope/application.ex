@@ -10,12 +10,6 @@ defmodule Scope.Application do
 
     # List all child processes to be supervised
     children = [
-      # Starts a worker by calling: Scope.Worker.start_link(arg)
-      # {Scope.Worker, arg},
-      # %{
-      #   id: Phoenix.PubSub.PG2,
-      #   start: {Phoenix.PubSub.PG2, :start_link, [:servers, []]}
-      # },
       supervisor(Phoenix.PubSub.PG2, [Scope.PubSub, []])
       { Messages.Repo, name: Messages.Repo },
     ]
