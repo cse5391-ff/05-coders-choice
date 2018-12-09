@@ -14,7 +14,7 @@ defmodule DockerClient.Docker do
     data
   end
 
-  def get_containers(), do: Poison.decode(socket_message("GET", "containers/json"))
+  def get_containers(), do: Poison.decode(socket_message("GET", "containers/json", %{"all"=>"1"}))
 
   def start_container(name_id), do: Poison.decode(socket_message("POST", "containers/#{name_id}/start"))
 

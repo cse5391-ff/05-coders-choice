@@ -22,5 +22,8 @@ COPY . .
 
 RUN mix do deps.get, deps.compile
 
+WORKDIR /skydock/apps/sd/assets
+RUN npm install
+
 WORKDIR /skydock
 # CMD ["mix", "phx.server"] 
