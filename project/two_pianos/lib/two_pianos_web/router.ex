@@ -16,7 +16,8 @@ defmodule TwoPianosWeb.Router do
   scope "/", TwoPianosWeb do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/", LobbyController, :index
+    get "/room", RoomController, :index
   end
 
   # Other scopes may use custom stacks.

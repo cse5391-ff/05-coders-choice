@@ -1,0 +1,30 @@
+<div class="row">
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-7">
+
+        <div id="piano-container-2"></div>
+
+        <div id="piano-container-1"></div>
+
+    </div>
+
+    <div class="col-md-4">
+    
+        <div id="chat-box-container">
+
+            <div id="chat-box"></div>
+
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Message...">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">Send!</button>
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
