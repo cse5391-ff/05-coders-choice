@@ -8,6 +8,12 @@ tl;dr; ngrok lets us act like we have a public ip
 
 # User Docs
 
+## Important!
+API Keys are included in a private embedded submodule. Please accept the invite link to my private skydock_secrets repo, sent to @pragdave. Then clone this repo with the following command:
+```
+git clone --recurse-submodules git@github.com:lchansen/05-coders-choice.git
+```
+
 ## System Requirements
 - Internet Connection
 - Docker
@@ -16,7 +22,6 @@ tl;dr; ngrok lets us act like we have a public ip
 ## Accounts Needed
 - Twilio Programmable SMS
 - Ngrok
-[Note to @pragdave] See Note Below
 
 ## Environment Variables
 In the project root, create a secrets.env file for docker-compose with the following keys:
