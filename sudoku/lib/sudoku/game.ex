@@ -35,10 +35,8 @@ defmodule Sudoku.Game do
   end
 
   def check_valid_move(board, coord, move) do
-  end
-
-  def check_column(board, coord, move) do
-
+    [r, c] = coord |> coord_split
+    board |> check_column(c) == board |> check_row(r) == board |> check_group(r, c)
   end
 
   # board = Sudoku.Game.new_game()
@@ -55,6 +53,15 @@ defmodule Sudoku.Game do
   # board = Sudoku.Game.put_val(board, "A7", 3)
 
   # Sudoku.Game.check_row(board, "A3")
+
+  def check_column(board, col) do
+    col_vals = []
+
+
+
+
+  end
+
   def check_row(board, row) do
     reduced = board
     |> Enum.at(row)
@@ -109,7 +116,7 @@ defmodule Sudoku.Game do
 
   # Create board structure
   def instantiate_board() do
-    for _ <- 0..9, do: (for _ <- 0..8, do: 0)
+    for _ <- 0..8, do: (for _ <- 0..8, do: 0)
   end
 
   # Get value at coordinate
@@ -148,6 +155,7 @@ defmodule Sudoku.Game do
     # end
 
     # This is the ugly way of doing it woops
+
     IO.puts(
       "
            1 2 3   4 5 6   7 8 9
