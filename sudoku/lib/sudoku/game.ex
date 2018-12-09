@@ -46,22 +46,23 @@ defmodule Sudoku.Game do
   # board = Sudoku.Game.put_val(board, "A4", 6)
   # board = Sudoku.Game.put_val(board, "A5", 5)
   # board = Sudoku.Game.put_val(board, "A6", 4)
+  # board = Sudoku.Game.put_val(board, "A7", 3)
   # board = Sudoku.Game.put_val(board, "A8", 2)
   # board = Sudoku.Game.put_val(board, "A9", 1)
 
-
-  # board = Sudoku.Game.put_val(board, "A7", 3)
-
-  # Sudoku.Game.check_row(board, "A3")
-
+  # Sudoku.Game.check_row(board, 8)
   def check_column(board, col) do
-    col_vals = []
+    col_vals = for r <- 0..8 do
+      board |> Enum.at(r) |> Enum.at(col)
+    end
 
+    reduced = col_vals |> Enum.filter(fn x -> x != 0 end)
+    uniques = reduced |> Enum.uniq()
 
-
-
+    reduced == uniques
   end
 
+  # Sudoku.Game.check_row(board, 0)
   def check_row(board, row) do
     reduced = board
     |> Enum.at(row)
