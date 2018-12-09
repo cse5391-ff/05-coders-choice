@@ -27,9 +27,6 @@ In the project root, create a secrets.env file for docker-compose with the follo
 
 [Note to @pragdave] This secrets.env file and the phone number to text commands can be found [here](https://github.com/lchansen/skydock_secrets)
 
-## Twilio Config
-Make sure Twilio SMS is set to forward messages to the ngrok URL
-
 ## Runnning the Progam
 `docker-compose up`
 
@@ -44,7 +41,6 @@ As long as your mobile phone is confirmed to reveive SMS messages from the Twili
 - pause \<container friendly\>
 - unpause \<container friendly\>
 - get images
-- create image \<name\> \<tag\>
 - system
 
 Responses are generally very quick, except for certain Docker operations that hang.
