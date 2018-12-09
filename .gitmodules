@@ -1,0 +1,3 @@
+[submodule "skydock_secrets"]
+	path = skydock_secrets
+	url = git@github.com:lchansen/skydock_secrets.git
