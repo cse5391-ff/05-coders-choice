@@ -10,7 +10,6 @@ defmodule DockerClient.CommandHandler do
   As the project impoves over time, this will be useful for sending back a history, as well as making sure two commands aren't ececuted at the same time.
   """
   use GenServer
-  import Ecto
 
   # Client
   def start_link(params) do
@@ -36,6 +35,14 @@ defmodule DockerClient.CommandHandler do
   def get_logs(params, { name_id }), do: GenServer.cast(DockerClient.CommandHandler, {:get_logs, params, name_id})
 
   # Server (callbacks)
+  def convert_success_or_error({:error, :invalid, 0}, name_id, verb) do
+    "Successfully #{verb} Container #{name_id}"
+  end
+
+  def convert_str_or_array(%{"message"=>message}, _name_id) do
+    "Error: #{message}"
+  end
+
   @impl true
   def init(state) do
     {:ok, state}
@@ -52,12 +59,24 @@ defmodule DockerClient.CommandHandler do
     {:noreply, [state | "get_containers"]}
   end
 
-  def convert_success_or_error({:error, :invalid, 0}, name_id, verb) do
-    "Successfully #{verb} Container #{name_id}"
+  @impl true
+  def handle_cast({:get_images, params}, state) do
+    {_, docker_response } = DockerClient.Docker.get_images()
+
+    msg = Enum.map(docker_response, fn x -> "#{x["RepoTags"]}" end)
+    |> Enum.join(", ")
+
+    DockerClient.TwilioSender.send_sms_response(params, msg)
+    {:noreply, [state | "get_images"]}
   end
 
-  def convert_str_or_array(%{"message"=>message}, _name_id) do
-    "Error: #{message}"
+  @impl true
+  def handle_cast({:get_sys_info, params}, state) do
+    {_, res } = DockerClient.Docker.get_sys_info()
+
+    msg = "Containers:#{res["Containers"]}\nRunning:#{res["ContainersRunning"]}\nMem:#{res["MemTotal"]}"
+    DockerClient.TwilioSender.send_sms_response(params, msg)
+    {:noreply, [state | "get_sys_info"]}
   end
 
   @impl true
@@ -108,26 +127,6 @@ defmodule DockerClient.CommandHandler do
 
     DockerClient.TwilioSender.send_sms_response(params, msg)
     {:noreply, [state | "unpause_container"]}
-  end
-
-  @impl true
-  def handle_cast({:get_images, params}, state) do
-    {_, docker_response } = DockerClient.Docker.get_images()
-
-    msg = Enum.map(docker_response, fn x -> "#{x["RepoTags"]}" end)
-    |> Enum.join(", ")
-
-    DockerClient.TwilioSender.send_sms_response(params, msg)
-    {:noreply, [state | "get_images"]}
-  end
-
-  @impl true
-  def handle_cast({:get_sys_info, params}, state) do
-    {_, res } = DockerClient.Docker.get_sys_info()
-
-    msg = "Containers:#{res["Containers"]}\nRunning:#{res["ContainersRunning"]}\nMem:#{res["MemTotal"]}"
-    DockerClient.TwilioSender.send_sms_response(params, msg)
-    {:noreply, [state | "get_sys_info"]}
   end
 
   @impl true

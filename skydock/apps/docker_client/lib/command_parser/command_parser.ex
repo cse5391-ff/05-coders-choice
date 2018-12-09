@@ -42,7 +42,7 @@ defmodule DockerClient.CommandParser do
   end
 
   def parse_message([ _ | _ ]) do
-    { &DockerClient.TwilioSender.send_response/2, "Invalid Request" }  #TODO: hangle malformed message
+    { &DockerClient.TwilioSender.send_sms_response/2, "Invalid Request" }  #TODO: hangle malformed message
   end
 
   def parse_message(message) do
