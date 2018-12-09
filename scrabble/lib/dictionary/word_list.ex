@@ -9,6 +9,7 @@ defmodule Dictionary.WordList do
     "../../assets/words.txt"
     |> Path.expand(__DIR__)
     |> File.read!()
+    |> String.downcase()
     |> String.split(~r/\r\n/)
   end
 end
