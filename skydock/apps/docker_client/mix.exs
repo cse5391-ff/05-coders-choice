@@ -30,7 +30,8 @@ defmodule DockerClient.MixProject do
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       # {:sibling_app_in_umbrella, in_umbrella: true},
       {:poison, "~> 3.1"},
-      {:ex_twilio, github: "danielberkompas/ex_twilio"}
+      {:ex_twilio, github: "danielberkompas/ex_twilio"},
+      {:ecto, "~> 3.0.5"}
     ]
   end
 end

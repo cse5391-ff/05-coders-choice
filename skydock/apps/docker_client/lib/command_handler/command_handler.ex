@@ -1,5 +1,6 @@
 defmodule DockerClient.CommandHandler do
   use GenServer
+  import Ecto
 
   # Client
 
@@ -21,9 +22,9 @@ defmodule DockerClient.CommandHandler do
 
   def get_images(params, {}), do: GenServer.cast(DockerClient.CommandHandler, {:get_images, params})
 
-  def create_image(params, { image, tag }), do: GenServer.cast(DockerClient.CommandHandler, {:create_image, params, image, tag})
-
   def get_sys_info(params, {}), do: GenServer.cast(DockerClient.CommandHandler, {:get_sys_info, params})
+
+  def get_logs(params, { name_id }), do: GenServer.cast(DockerClient.CommandHandler, {:get_logs, params, name_id})
 
   # Server (callbacks)
   @impl true
@@ -38,7 +39,7 @@ defmodule DockerClient.CommandHandler do
     msg = Enum.map(docker_response, fn x -> "#{x["Names"]}:#{x["State"]}" end)
     |> Enum.join(", ")
 
-    DockerClient.TwilioSender.send_response(params, msg)
+    DockerClient.TwilioSender.send_sms_response(params, msg)
     {:noreply, [state | "get_containers"]}
   end
 
@@ -55,7 +56,7 @@ defmodule DockerClient.CommandHandler do
 
     msg = convert_success_or_error(docker_response, name_id, "Started")
 
-    DockerClient.TwilioSender.send_response(params, msg)
+    DockerClient.TwilioSender.send_sms_response(params, msg)
     {:noreply, [state | "start_container"]}
   end
 
@@ -64,7 +65,7 @@ defmodule DockerClient.CommandHandler do
 
     msg = convert_success_or_error(docker_response, name_id, "Stopped")
 
-    DockerClient.TwilioSender.send_response(params, msg)
+    DockerClient.TwilioSender.send_sms_response(params, msg)
     {:noreply, [state | "stop_container"]}
   end
 
@@ -73,7 +74,7 @@ defmodule DockerClient.CommandHandler do
 
     msg = convert_success_or_error(docker_response, name_id, "Killed")
 
-    DockerClient.TwilioSender.send_response(params, msg)
+    DockerClient.TwilioSender.send_sms_response(params, msg)
     {:noreply, [state | "kill_container"]}
   end
 
@@ -82,7 +83,7 @@ defmodule DockerClient.CommandHandler do
 
     msg = convert_success_or_error(docker_response, name_id, "Paused")
 
-    DockerClient.TwilioSender.send_response(params, msg)
+    DockerClient.TwilioSender.send_sms_response(params, msg)
     {:noreply, [state | "pause_container"]}
   end
 
@@ -91,7 +92,7 @@ defmodule DockerClient.CommandHandler do
 
     msg = convert_success_or_error(docker_response, name_id, "Unpaused")
 
-    DockerClient.TwilioSender.send_response(params, msg)
+    DockerClient.TwilioSender.send_sms_response(params, msg)
     {:noreply, [state | "unpause_container"]}
   end
 
@@ -101,22 +102,26 @@ defmodule DockerClient.CommandHandler do
     msg = Enum.map(docker_response, fn x -> "#{x["RepoTags"]}" end)
     |> Enum.join(", ")
 
-    DockerClient.TwilioSender.send_response(params, msg)
+    DockerClient.TwilioSender.send_sms_response(params, msg)
     {:noreply, [state | "get_images"]}
-  end
-
-  def handle_cast({:create_image, params, image, tag}, state) do
-    docker_response = DockerClient.Docker.create_image(image, tag)
-    DockerClient.TwilioSender.send_response(params, "create_image")
-    {:noreply, [state | "create_image"]}
   end
 
   def handle_cast({:get_sys_info, params}, state) do
     {_, res } = DockerClient.Docker.get_sys_info()
 
     msg = "Containers:#{res["Containers"]}\nRunning:#{res["ContainersRunning"]}\nMem:#{res["MemTotal"]}"
-    DockerClient.TwilioSender.send_response(params, msg)
+    DockerClient.TwilioSender.send_sms_response(params, msg)
     {:noreply, [state | "get_sys_info"]}
+  end
+
+  def handle_cast({:get_logs, params, name_id}, state) do
+    docker_response = DockerClient.Docker.get_logs(name_id)
+    filename = "#{Ecto.UUID.generate}.jpg"
+    DockerClient.TextToImage.store_txt_as_img(docker_response, "/tmp/#{filename}")
+
+    DockerClient.TwilioSender.send_mms_response(params, "See Image", "http://skydock.ngrok.io/media/#{filename}")
+
+    {:noreply, [state | "start_container"]}
   end
 
 end
