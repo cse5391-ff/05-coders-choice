@@ -14,6 +14,7 @@ defmodule Scope.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      applications: [:phoenix_pubsub, :postgrex],
       extra_applications: [:logger],
       mod: {Scope.Application, []}
     ]

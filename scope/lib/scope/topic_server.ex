@@ -1,8 +1,6 @@
 defmodule TopicServer do
   use GenServer
 
-  @topic
-
   @impl true
   def init(topic) do
     Phoenix.PubSub.subscribe(Scope.PubSub, topic)
@@ -14,11 +12,10 @@ defmodule TopicServer do
   end
 
   def handle_call(:add_usr, user, key) do
-    GenServer.start_link(UserServer, user, key)
+    {:ok, pid} = GenServer.start_link(UserServer, user, key)
   end
 
   def process(:urgent, value) do
-    GenServer.multi_call(nodes \\ [node() | Node.list()], name, request, timeout \\ :infinity)
     save_msg([urgency: "#{:urgent}", topic: "#{value[:topic]}", from: "#{value[:from]}", content: "#{value[:msg]}"])
   end
 
