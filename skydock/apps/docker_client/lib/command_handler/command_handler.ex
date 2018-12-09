@@ -1,9 +1,18 @@
 defmodule DockerClient.CommandHandler do
+  @moduledoc """
+  CommandHandler is a GenServer that is responsible for overseeing the incoming text command:
+  - being executed
+  - formatting the response (each may be different)
+  - sending the response to TwilioSender
+
+  Client functions use Genserver.Cast because the caller (Phoenix webhook) does not need to be aware of the command's status.
+  State keeps track of the order in which commands have been executed.
+  As the project impoves over time, this will be useful for sending back a history, as well as making sure two commands aren't ececuted at the same time.
+  """
   use GenServer
   import Ecto
 
   # Client
-
   def start_link(params) do
     GenServer.start_link(__MODULE__, [], params)
   end
@@ -51,6 +60,7 @@ defmodule DockerClient.CommandHandler do
     "Error: #{message}"
   end
 
+  @impl true
   def handle_cast({:start_container, params, name_id}, state) do
     docker_response = DockerClient.Docker.start_container(name_id)
 
@@ -60,6 +70,7 @@ defmodule DockerClient.CommandHandler do
     {:noreply, [state | "start_container"]}
   end
 
+  @impl true
   def handle_cast({:stop_container, params, name_id}, state) do
     docker_response = DockerClient.Docker.stop_container(name_id)
 
@@ -69,6 +80,7 @@ defmodule DockerClient.CommandHandler do
     {:noreply, [state | "stop_container"]}
   end
 
+  @impl true
   def handle_cast({:kill_container, params, name_id}, state) do
     docker_response = DockerClient.Docker.kill_container(name_id)
 
@@ -78,6 +90,7 @@ defmodule DockerClient.CommandHandler do
     {:noreply, [state | "kill_container"]}
   end
 
+  @impl true
   def handle_cast({:pause_container, params, name_id}, state) do
     docker_response = DockerClient.Docker.pause_container(name_id)
 
@@ -87,6 +100,7 @@ defmodule DockerClient.CommandHandler do
     {:noreply, [state | "pause_container"]}
   end
 
+  @impl true
   def handle_cast({:unpause_container, params, name_id}, state) do
     docker_response = DockerClient.Docker.unpause_container(name_id)
 
@@ -96,6 +110,7 @@ defmodule DockerClient.CommandHandler do
     {:noreply, [state | "unpause_container"]}
   end
 
+  @impl true
   def handle_cast({:get_images, params}, state) do
     {_, docker_response } = DockerClient.Docker.get_images()
 
@@ -106,6 +121,7 @@ defmodule DockerClient.CommandHandler do
     {:noreply, [state | "get_images"]}
   end
 
+  @impl true
   def handle_cast({:get_sys_info, params}, state) do
     {_, res } = DockerClient.Docker.get_sys_info()
 
@@ -114,10 +130,11 @@ defmodule DockerClient.CommandHandler do
     {:noreply, [state | "get_sys_info"]}
   end
 
+  @impl true
   def handle_cast({:get_logs, params, name_id}, state) do
     docker_response = DockerClient.Docker.get_logs(name_id)
     filename = "#{Ecto.UUID.generate}.jpg"
-    DockerClient.TextToImage.store_txt_as_img(docker_response, "/tmp/#{filename}")
+    DockerClient.TextToImage.store_txt_as_img(docker_response, "/tmp/#{filename}") #fetcched by Phoenix
 
     DockerClient.TwilioSender.send_mms_response(params, "See Image", "http://skydock.ngrok.io/media/#{filename}")
 

@@ -8,8 +8,6 @@ defmodule DockerClient.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Starts a worker by calling: DockerClient.Worker.start_link(arg)
-      # {DockerClient.Worker, arg},
       { DockerClient.CommandHandler, name: DockerClient.CommandHandler},
       { DockerClient.TwilioSender, name: DockerClient.TwilioSender}
     ]

@@ -1,4 +1,9 @@
 defmodule DockerClient.CommandParser do
+  @moduledoc """
+  CommandParser is a module that uses function pattern matching to interpret the received command.
+  If the command has valid syntax, it returns a tuple containing the matching function and its parameters back to the caller.
+  if the command has invalid syntax, it reutrns a tuple containing the TwilioSender.send_response function and a message telling the user that the command is invalid.
+  """
 
   def parse_message([ "get", "containers"]) do
     { &DockerClient.CommandHandler.get_containers/2, {} }

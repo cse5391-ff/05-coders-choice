@@ -1,5 +1,11 @@
 defmodule DockerClient.TwilioSender do
+  @moduledoc """
+  TwilioSender is a GenServer that is responsible for sending SMS and MMS messages to Twilio
+
+  *ExTwilio api keys must be set in the config file*
+  """
   use GenServer
+
   # Client
   def start_link(params) do
     GenServer.start_link(__MODULE__, nil, params)

@@ -1,4 +1,13 @@
 defmodule DockerClient.Docker do
+  @moduledoc """
+  DockerClient.Docker contains the core logic for interactine with the Docker daemon.
+
+  Most commands use cURL to communicate with the docker socket, since the socket exposes a JSON API.
+  get_logs uses the docker CLI because it is simpler to read the raw text output
+
+  *ExTwilio api keys must be set in the config file*
+  """
+
   defp socket_message(verb, path, params \\ %{}) do
     uri = "http/#{path}?#{URI.encode_query(params)}"
     {data, _exit_code} = System.cmd("curl", ["--silent", "-X", verb, "--unix-socket", "/var/run/docker.sock", uri])
