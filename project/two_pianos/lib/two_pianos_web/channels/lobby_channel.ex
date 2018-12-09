@@ -22,12 +22,12 @@ defmodule TwoPianos.LobbyChannel do
     {:noreply, socket}
   end
 
-  def handle_in("join_room", _message, socket) do
+  def handle_in("join_existing_room", _message, socket) do
     # Use
     {:noreply, socket}
   end
 
-  def handle_in("random_room", _message, socket) do
+  def handle_in("match_with_stranger", _message, socket) do
     # Generate unique room ID,
     # Spawn RandomRoom, passing ID
     # Store ID and

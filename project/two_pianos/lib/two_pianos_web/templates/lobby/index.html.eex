@@ -1,3 +1,5 @@
+<!-- Set user_id (use to join user channel) -->
+<script> window.user_id = '<%= @user_id %>' </script>
 
 <!-- Header -->
 <div class="row">
@@ -35,20 +37,20 @@
   <div class="col-md-3"></div>
 
   <div class="col-md-2 center-text">
-    <button type="button" class="btn-lg btn-block btn-primary">Create New Room</button>
+    <button id="create-btn" type="button" class="btn-lg btn-block btn-primary">Create New Room</button>
   </div>
 
   <div class="col-md-2 center-text">
     <div class="input-group">
       <input type="text" class="form-control" placeholder="Room Code...">
       <span class="input-group-btn">
-        <button class="btn btn-primary" type="button">Join!</button>
+        <button id="join-existing-btn" class="btn btn-primary" type="button">Join!</button>
       </span>
     </div>
   </div>
 
   <div class="col-md-2 center-text">
-    <button type="button" class="btn-lg btn-block btn-primary">Join Stranger</button>
+    <button id="match-stranger-btn" type="button" class="btn-lg btn-block btn-primary">Join Stranger</button>
   </div>
 
   <div class="col-md-3"></div>

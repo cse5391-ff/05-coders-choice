@@ -3,6 +3,7 @@ defmodule TwoPianosWeb.UserSocket do
 
   ## Channels
   channel "lobby",   TwoPianosWeb.LobbyChannel
+  channel "user:*",  TwoPianosWeb.UserChannel
   channel "room:*",  TwoPianosWeb.RoomChannel
 
   ## Transports
