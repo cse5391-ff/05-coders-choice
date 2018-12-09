@@ -10,8 +10,8 @@ defmodule Scope.Application do
 
     # List all child processes to be supervised
     children = [
-      supervisor(Phoenix.PubSub.PG2, [Scope.PubSub, []])
       { Messages.Repo, name: Messages.Repo },
+      { Phoenix.PubSub.PG2, name: Scope.PubSub },
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

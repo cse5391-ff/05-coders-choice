@@ -1,24 +1,28 @@
 defmodule TopicServer do
+  use GenServer
+
+  @topic
 
   @impl true
   def init(topic) do
     Phoenix.PubSub.subscribe(Scope.PubSub, topic)
   end
+
   @impl true
-  def handle_call(:new_msg, payload) do
+  def handle_call(:new_msg, _from, payload) do
     process(payload.urgency, payload.value)
   end
 
   def process(:urgent, value) do
-    save_msg([urgency: "#{:urgent}", topic: "#{topic}", from: "#{value[:from]}", content: "#{value[:msg]}"])
+    save_msg([urgency: "#{:urgent}", topic: "#{value[:topic]}", from: "#{value[:from]}", content: "#{value[:msg]}"])
   end
 
   def process(:peripheral, value) do
-    save_msg([urgency: "#{:peripheral}", topic: "#{topic}", from: "#{value[:from]}", content: "#{value[:msg]}"])
+    save_msg([urgency: "#{:peripheral}", topic: "#{value[:topic]}", from: "#{value[:from]}", content: "#{value[:msg]}"])
   end
 
   def process(:normal, value) do
-    save_msg([urgency: "#{:peripheral}", topic: "#{topic}", from: "#{value[:from]}", content: "#{value[:msg]}"])
+    save_msg([urgency: "#{:peripheral}", topic: "#{value[:topic]}", from: "#{value[:from]}", content: "#{value[:msg]}"])
   end
 
   def save_msg(payload) do

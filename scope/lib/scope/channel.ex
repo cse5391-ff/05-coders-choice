@@ -6,8 +6,8 @@ defmodule Channel do
   end
 
   @impl true
-  def init(topic) do
-    GenServer.start_link(TopicServer, topic, opts)
+  def init(topic, _from, opts) do
+    GenServer.start_link(TopicServer, topic)
     Agent.start_link(Users, _from, opts)
     {:ok, topic}
   end
