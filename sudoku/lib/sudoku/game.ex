@@ -41,13 +41,28 @@ defmodule Sudoku.Game do
 
   end
 
-  def check_row(board, coord, move) do
-    [r, c] = coord |> coord_split
-    r = @row_mapping[r]
+  # board = Sudoku.Game.new_game()
+  # board = Sudoku.Game.put_val(board, "A1", 9)
+  # board = Sudoku.Game.put_val(board, "A2", 8)
+  # board = Sudoku.Game.put_val(board, "A3", 7)
+  # board = Sudoku.Game.put_val(board, "A4", 6)
+  # board = Sudoku.Game.put_val(board, "A5", 5)
+  # board = Sudoku.Game.put_val(board, "A6", 4)
+  # board = Sudoku.Game.put_val(board, "A8", 2)
+  # board = Sudoku.Game.put_val(board, "A9", 1)
 
-    IO.inspect(board |> Enum.at(r))
 
-    #IO.puts("#{row}: #{board[row]["1"]} #{board[row]["2"]} #{board[row]["3"]} #{board[row]["4"]} #{board[row]["5"]} #{board[row]["6"]} #{board[row]["7"]} #{board[row]["8"]} #{board[row]["9"]}")
+  # board = Sudoku.Game.put_val(board, "A7", 3)
+
+  # Sudoku.Game.check_row(board, "A3")
+  def check_row(board, row) do
+    reduced = board
+    |> Enum.at(row)
+    |> Enum.filter(fn x -> x != 0 end)
+
+    uniques = reduced |> Enum.uniq()
+
+    reduced == uniques
   end
 
   def check_group(board, coord, move) do
@@ -98,29 +113,27 @@ defmodule Sudoku.Game do
   end
 
   # Get value at coordinate
-  defp get_val(board, coord) do
+  def get_val(board, coord) do
     [r, c] = coord |> coord_split
-    r = @row_mapping[r]
 
     board
     |> Enum.at(r)
     |> Enum.at(c)
   end
 
-  defp put_val(board, coord, val) do
+  def put_val(board, coord, val) do
     [r, c] = coord |> coord_split
-    r = @row_mapping[r]
 
     board |> List.replace_at(r, board |> Enum.at(r) |> List.replace_at(c, val))
   end
 
   # Split coordinate into corresponding atom and integer
-  defp coord_split(coord) do
+  def coord_split(coord) do
     [r, c] = coord
     |> String.capitalize()
     |> String.codepoints()
-    #row = r |> String.to_atom
-    [r |> String.to_atom, (c |> String.to_integer) - 1]
+
+    [@row_mapping[r |> String.to_atom], (c |> String.to_integer) - 1]
   end
 
   # Display the board to the user
