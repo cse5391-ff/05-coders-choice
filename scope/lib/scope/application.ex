@@ -12,6 +12,7 @@ defmodule Scope.Application do
     children = [
       { Messages.Repo, name: Messages.Repo },
       { Phoenix.PubSub.PG2, name: Scope.PubSub },
+      { Scope.ChatServer, name: Scope.ChatServer },
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

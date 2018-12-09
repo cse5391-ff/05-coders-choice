@@ -1,4 +1,4 @@
-defmodule ChatServer do
+defmodule Scope.ChatServer do
   use GenServer
 
   def start_link(opts \\ []) do
@@ -6,7 +6,7 @@ defmodule ChatServer do
   end
 
   def init(init_state \\ []) do
-
+    {:ok, init_state}
   end
 
   def start(:new, topic) do
