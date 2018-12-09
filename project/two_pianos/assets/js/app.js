@@ -2,40 +2,80 @@ import "phoenix_html"
 
 class Notes {
 
+    /*
+        Attributes
+
+        notes         = {'c': {'audio': <Audio>, 'pressed': <bool>} ...}
+        min_ring_time = 500 ms (minimum time for full note to be heard)
+    */
+
     constructor(path='piano_notes/') {
 
-        let notes = ['c', 'cs', 'd', 'ds', 'e', 'f', 'fs', 'g', 'gs', 'a', 'as', 'b']
+        // Initialize class attributes
+        this.min_ring_time = 300;
+        this.notes = {}
 
-        this.audio = {}
+        // Build out notes
+        let note_letters = ['c', 'cs', 'd', 'ds', 'e', 'f', 'fs', 'g', 'gs', 'a', 'as', 'b']
         for(let octave = 1; octave <= 2; octave++) {
 
-            for(let i in notes) {
+            for(let i in note_letters) {
 
-                let n = `${notes[i]}-${octave}`
+                let n = `${note_letters[i]}-${octave}`
+                
+                this.notes[n] = {}
 
-                this.audio[n]     = new Audio()
-                this.audio[n].src = `${path}${n}.mp3`
+                this.notes[n].audio      = new Audio()
+                this.notes[n].audio.src  = `${path}${n}.mp3`
+                this.notes[n].pressed    = false
+                this.notes[n].last_press = null
 
             }
 
         }
 
-        this.audio['c-3']     = new Audio()
-        this.audio['c-3'].src = `${path}c-3.mp3`
+        this.notes['c-3'] = {}
 
-        console.log('sup chris')
+        this.notes['c-3'].audio      = new Audio()
+        this.notes['c-3'].audio.src  = `${path}c-3.mp3`
+        this.notes['c-3'].pressed    = false
+        this.notes['c-3'].last_press = null
+
     }
 
-    play(note){
-        this.audio[note].play()
+    press(note){
+        this.notes[note].pressed    = true
+        this.notes[note].last_press = new Date().getTime()
+
+        this.notes[note].audio.pause()
+        this.notes[note].audio.currentTime = 0
+        this.notes[note].audio.play()
     }
 
-}
+    release(note){
 
-var notes = new Notes()
+        this.notes[note].pressed = false
+        let time_to_wait = this.min_ring_time - this.notes[note].audio.currentTime * 1000
+    
+        // I am ashamed of this... (or do I mean that??)
+        let that = this
+        setTimeout(function(){
+            that.stop(note)
+        }, time_to_wait)
 
-function play_note(note){
-    notes.play(note)
+    }
+
+    stop(note){
+
+        let time_since_last = new Date().getTime() - this.notes[note].last_press
+
+        if(!this.notes[note].pressed && (time_since_last >= this.min_ring_time)) {
+            this.notes[note].audio.pause()
+            this.notes[note].audio.currentTime = 0
+        }
+
+    }
+
 }
 
 function build_piano() {
@@ -52,47 +92,58 @@ function build_piano() {
     for(let octave = 1; octave <= octaves; octave++) {
 
         for(let k in notes.white) {
-            piano_html += `<div id="note-${notes.white[k]}-${octave}" class="white-key"></div>`
+            piano_html += `<div id="${notes.white[k]}-${octave}" class="white-key"></div>`
         }
 
         for(let k in notes.black) {
-            piano_html += `<div id="note-${notes.black[k]}-${octave}" class="black-key"></div>`
+            piano_html += `<div id="${notes.black[k]}-${octave}" class="black-key"></div>`
         }
 
     }
 
     // Add final note
-    piano_html += `<div id="note-c-3" class="white-key"></div>`
+    piano_html += `<div id="c-3" class="white-key"></div>`
 
     document.getElementById('piano-container').innerHTML = piano_html
 }
 
-build_piano()
+// BEGIN EXECUTION
+build_piano(notes)
 
-document.getElementById('note-c-1').addEventListener("click", function(){notes.play('c-1')}, false)
-document.getElementById('note-cs-1').addEventListener("click", function(){notes.play('cs-1')}, false)
-document.getElementById('note-d-1').addEventListener("click", function(){notes.play('d-1')}, false)
-document.getElementById('note-ds-1').addEventListener("click", function(){notes.play('ds-1')}, false)
-document.getElementById('note-e-1').addEventListener("click", function(){notes.play('e-1')}, false)
-document.getElementById('note-f-1').addEventListener("click", function(){notes.play('f-1')}, false)
-document.getElementById('note-fs-1').addEventListener("click", function(){notes.play('fs-1')}, false)
-document.getElementById('note-g-1').addEventListener("click", function(){notes.play('g-1')}, false)
-document.getElementById('note-gs-1').addEventListener("click", function(){notes.play('gs-1')}, false)
-document.getElementById('note-a-1').addEventListener("click", function(){notes.play('a-1')}, false)
-document.getElementById('note-as-1').addEventListener("click", function(){notes.play('as-1')}, false)
-document.getElementById('note-b-1').addEventListener("click", function(){notes.play('b-1')}, false)
+var notes = new Notes()
 
-document.getElementById('note-c-2').addEventListener("click", function(){notes.play('c-2')}, false)
-document.getElementById('note-cs-2').addEventListener("click", function(){notes.play('cs-2')}, false)
-document.getElementById('note-d-2').addEventListener("click", function(){notes.play('d-2')}, false)
-document.getElementById('note-ds-2').addEventListener("click", function(){notes.play('ds-2')}, false)
-document.getElementById('note-e-2').addEventListener("click", function(){notes.play('e-2')}, false)
-document.getElementById('note-f-2').addEventListener("click", function(){notes.play('f-2')}, false)
-document.getElementById('note-fs-2').addEventListener("click", function(){notes.play('fs-2')}, false)
-document.getElementById('note-g-2').addEventListener("click", function(){notes.play('g-2')}, false)
-document.getElementById('note-gs-2').addEventListener("click", function(){notes.play('gs-2')}, false)
-document.getElementById('note-a-2').addEventListener("click", function(){notes.play('a-2')}, false)
-document.getElementById('note-as-2').addEventListener("click", function(){notes.play('as-2')}, false)
-document.getElementById('note-b-2').addEventListener("click", function(){notes.play('b-2')}, false)
+function press_note(note){
+    notes.press(note)
+}
 
-document.getElementById('note-c-3').addEventListener("click", function(){notes.play('c-3')}, false)
+function release_note(note){
+    notes.release(note)
+}
+
+function attach_event_listeners(){
+
+    let key_divs = document.getElementById('piano-container').children
+    for(let i in key_divs){
+
+        key_divs[i].addEventListener(
+            "mousedown", 
+            function(){
+                press_note(key_divs[i].id)
+                key_divs[i].style.background = "grey"
+            }, 
+            false
+        )
+
+        key_divs[i].addEventListener(
+            "mouseup", 
+            function(){
+                release_note(key_divs[i].id)
+                key_divs[i].style.background = "white"
+            }, 
+            false
+        )
+
+    }
+}
+
+attach_event_listeners()

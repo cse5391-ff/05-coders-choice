@@ -23,21 +23,21 @@
 }
 
 /* Each key starts where previous ends. Start at 0, keep adding white key width */
-#note-c-1 {left: 0%;    }
-#note-d-1 {left: 6.66%; }
-#note-e-1 {left: 13.33%;}
-#note-f-1 {left: 20%;   }
-#note-g-1 {left: 26.66%;}
-#note-a-1 {left: 33.33%;}
-#note-b-1 {left: 40%;   }
-#note-c-2 {left: 46.66%;}
-#note-d-2 {left: 53.33%;}
-#note-e-2 {left: 60%;   }
-#note-f-2 {left: 66.66%;}
-#note-g-2 {left: 73.33%;}
-#note-a-2 {left: 80%;   }
-#note-b-2 {left: 86.66%;}
-#note-c-3 {left: 93.33%;}
+#c-1 {left: 0%;    }
+#d-1 {left: 6.66%; }
+#e-1 {left: 13.33%;}
+#f-1 {left: 20%;   }
+#g-1 {left: 26.66%;}
+#a-1 {left: 33.33%;}
+#b-1 {left: 40%;   }
+#c-2 {left: 46.66%;}
+#d-2 {left: 53.33%;}
+#e-2 {left: 60%;   }
+#f-2 {left: 66.66%;}
+#g-2 {left: 73.33%;}
+#a-2 {left: 80%;   }
+#b-2 {left: 86.66%;}
+#c-3 {left: 93.33%;}
 
 .black-key {
     height: 33%;
@@ -50,13 +50,13 @@
 }
 
 /* Subtract 25% from the starting point of next white key (50% of black on both whites) */
-#note-cs-1 {left: 5%;    }
-#note-ds-1 {left: 11.66%;}
-#note-fs-1 {left: 25%;   }
-#note-gs-1 {left: 31.66%;}
-#note-as-1 {left: 38.33%;}
-#note-cs-2 {left: 51.66%;}
-#note-ds-2 {left: 58.33%;}
-#note-fs-2 {left: 71.66%;}
-#note-gs-2 {left: 78.33%;}
-#note-as-2 {left: 85%;   }
+#cs-1 {left: 5%;    }
+#ds-1 {left: 11.66%;}
+#fs-1 {left: 25%;   }
+#gs-1 {left: 31.66%;}
+#as-1 {left: 38.33%;}
+#cs-2 {left: 51.66%;}
+#ds-2 {left: 58.33%;}
+#fs-2 {left: 71.66%;}
+#gs-2 {left: 78.33%;}
+#as-2 {left: 85%;   }
