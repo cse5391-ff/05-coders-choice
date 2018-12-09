@@ -18,6 +18,8 @@ defmodule SdWeb.Router do
     get "/", PageController, :index
 
     post "/sms", PageController, :handle_sms # Twilio Webhook
+
+    get "/media/:name", PageController, :handle_media # Twilio Requesting image
   end
 
   # Other scopes may use custom stacks.

@@ -11,4 +11,8 @@ defmodule SdWeb.PageController do
     send_resp(conn, 200, "Webhook SMS Received")
   end
 
+  def handle_media(conn, %{"name"=>name}) do
+    send_file(conn, 200, "/tmp/#{name}")
+  end
+
 end
