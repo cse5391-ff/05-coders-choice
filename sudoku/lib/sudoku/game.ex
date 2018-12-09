@@ -74,9 +74,7 @@ defmodule Sudoku.Game do
 
   # Regex: // ~r/[A-I][1-9]/
   defp try_move(board, coord, move, true, true) do
-    [r, c] = coord |> coord_split
-
-    Kernel.put_in(board[r][c], move)
+    put_val(board, coord, move)
   end
 
   defp try_move(_board, _string, _move, false, true) do
