@@ -12,6 +12,7 @@ export class Piano{
 
     }
 
+    // HELPERS
     populate_html(){
 
         let whites = ['c', 'd', 'e', 'f', 'g', 'a', 'b']
@@ -34,47 +35,44 @@ export class Piano{
 
     fill_notes(path){
 
-        // Build out note objects
-        let note_letters = ['c', 'cs', 'd', 'ds', 'e', 'f', 'fs', 'g', 'gs', 'a', 'as', 'b']
         let that = this
+
+        // Build note objects
+        let note_letters = ['c', 'cs', 'd', 'ds', 'e', 'f', 'fs', 'g', 'gs', 'a', 'as', 'b']
 
         for(let octave = 1; octave <= 2; octave++) {
 
             for(let i in note_letters) {
 
-                let n = `${note_letters[i]}-${octave}-${this.piano_num}`
-                
-                this.notes[n] = {}
+                let full_note_name = `${note_letters[i]}-${octave}-${this.piano_num}`
+                this.notes[full_note_name] = this.build_note(path, note_letters[i], octave, full_note_name)
 
-                this.notes[n].audio      = new Audio()
-                this.notes[n].audio.src  = `${path}${note_letters[i]}-${octave}.mp3`
-                this.notes[n].pressed    = false
-                this.notes[n].last_press = null
-                this.notes[n].div        = document.getElementById(n)
-
-                if(this.piano_num == 1){
-                    this.notes[n].div.addEventListener("mousedown", function(){that.press(n)}, false)
-                    this.notes[n].div.addEventListener("mouseup", function(){that.release(n)}, false)
-                }
             }
 
         }
 
-        let c3 = `c-3-${this.piano_num}` 
+        let full_note_name = `c-3-${this.piano_num}` 
+        this.notes[full_note_name] = this.build_note(path, 'c', 3, full_note_name)
 
-        this.notes[c3] = {}
+    }
 
-        this.notes[c3].audio      = new Audio()
-        this.notes[c3].audio.src  = `${path}c-3.mp3`
-        this.notes[c3].pressed    = false
-        this.notes[c3].last_press = null
-        this.notes[c3].div        = document.getElementById(c3)
+    build_note(path, note_letter, octave, full_note_name) {
 
+        let note = {}
+        
+        note.audio      = new Audio()
+        note.audio.src  = `${path}${note_letter}-${octave}.mp3`
+        note.pressed    = false
+        note.last_press = null
+        note.div        = document.getElementById(full_note_name)
+
+        let that = this
         if(this.piano_num == 1){
-            this.notes[c3].div.addEventListener("mousedown", function(){that.press(c3)}, false)
-            this.notes[c3].div.addEventListener("mouseup", function(){that.release(c3)}, false)
+            note.div.addEventListener("mousedown", function(){that.press(full_note_name)}, false)
+            note.div.addEventListener("mouseup", function(){that.release(full_note_name)}, false)
         }
 
+        return note
     }
 
     init_keys() {
@@ -138,6 +136,7 @@ export class Piano{
     
     }
 
+    // API
     press(note){
         this.notes[note].pressed    = true
         this.notes[note].last_press = new Date().getTime()
