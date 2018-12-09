@@ -1,6 +1,12 @@
 defmodule SdWeb.PageController do
+  @moduledoc """
+  PageController handles two endpoints used by Twilio.
+  """
   use SdWeb, :controller
 
+  @doc """
+  Renders index.html which includes an intro page, and relevant skydock information and links.
+  """
   def index(conn, _params) do
     render conn, "index.html"
   end

@@ -43,6 +43,7 @@ defmodule Sd.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:plug_cowboy, "~> 1.0"},
+      {:phoenix_markdown, "~> 1.0.3"},
       {:docker_client, in_umbrella: true}
     ]
   end
