@@ -1,6 +1,8 @@
 import "phoenix_html"
 
-import { Piano } from "./piano"
+import { TwoPianos } from "./two_pianos"
 
-let my_piano    = new Piano(1)
-let their_piano = new Piano(2) 
+let two_pianos
+window.onload = function() {
+    two_pianos = new TwoPianos()
+}
