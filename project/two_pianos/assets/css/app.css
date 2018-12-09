@@ -1,1 +1,62 @@
 /* This file is for your main application css. */
+
+.center-text {
+    text-align: center;
+}
+
+#piano-container {
+    height: 60vh;
+
+    position: relative;
+}
+
+.white-key {
+    height: 50%;
+    width:  6.66%; /* 100% / 15 white keys */ 
+
+    background-color: white;
+    border-style:     solid;
+    border-width:     2px;
+
+    position: absolute;
+    top:      25%;
+}
+
+/* Each key starts where previous ends. Start at 0, keep adding white key width */
+#c-1 {left: 0%;    }
+#d-1 {left: 6.66%; }
+#e-1 {left: 13.33%;}
+#f-1 {left: 20%;   }
+#g-1 {left: 26.66%;}
+#a-1 {left: 33.33%;}
+#b-1 {left: 40%;   }
+#c-2 {left: 46.66%;}
+#d-2 {left: 53.33%;}
+#e-2 {left: 60%;   }
+#f-2 {left: 66.66%;}
+#g-2 {left: 73.33%;}
+#a-2 {left: 80%;   }
+#b-2 {left: 86.66%;}
+#c-3 {left: 93.33%;}
+
+.black-key {
+    height: 33%;
+    width:  3.33%; /* Black key width ~50% white key width */
+
+    background-color: black;
+
+    position: absolute;
+    top:      25%;
+}
+
+/* Subtract 25% from the starting point of next white key (50% of black on both whites) */
+#cs-1 {left: 5%;    }
+#ds-1 {left: 11.66%;}
+#fs-1 {left: 25%;   }
+#gs-1 {left: 31.66%;}
+#as-1 {left: 38.33%;}
+#cs-2 {left: 51.66%;}
+#ds-2 {left: 58.33%;}
+#fs-2 {left: 71.66%;}
+#gs-2 {left: 78.33%;}
+#as-2 {left: 85%;   }
