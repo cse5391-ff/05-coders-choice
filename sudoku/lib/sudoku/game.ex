@@ -38,7 +38,7 @@ defmodule Sudoku.Game do
 
   def check_valid_move(board, coord, move) do
     [r, c] = coord |> coord_split
-    board |> check_column(c) == board |> check_row(r) == board |> check_group(r, c)
+    (board |> check_column(c)) == (board |> check_row(r)) == (board |> check_group(r, c))
   end
 
   # board = Sudoku.Game.new_game()
