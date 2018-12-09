@@ -52,29 +52,26 @@ defmodule Sudoku.Game do
 
   # Sudoku.Game.check_row(board, 8)
   def check_column(board, col) do
-    col_vals = for r <- 0..8 do
-      board |> Enum.at(r) |> Enum.at(col)
-    end
-
-    reduced = col_vals |> Enum.filter(fn x -> x != 0 end)
-    uniques = reduced |> Enum.uniq()
-
-    reduced == uniques
+    col_vals = for r <- 0..8, do: board |> Enum.at(r) |> Enum.at(col)
+    col_vals |> check_valid()
   end
 
   # Sudoku.Game.check_row(board, 0)
   def check_row(board, row) do
     reduced = board
     |> Enum.at(row)
-    |> Enum.filter(fn x -> x != 0 end)
-
-    uniques = reduced |> Enum.uniq()
-
-    reduced == uniques
+    |> check_valid()
   end
 
   def check_group(board, coord, move) do
 
+  end
+
+  defp check_valid(list) do
+    reduced = list |> Enum.filter(fn x -> x != 0 end)
+    uniques = reduced |> Enum.uniq()
+
+    reduced == uniques
   end
 
   # If every value is non-zero, then check for a win.
