@@ -39,7 +39,7 @@ defmodule DockerClient.CommandHandler do
     "Successfully #{verb} Container #{name_id}"
   end
 
-  def convert_str_or_array(%{"message"=>message}, _name_id) do
+  def convert_success_or_error({:ok, %{"message"=>message}}, _name_id, _verb) do
     "Error: #{message}"
   end
 
