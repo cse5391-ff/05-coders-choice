@@ -2,8 +2,6 @@ defmodule MapSetStore.Server do
 
   use GenServer
 
-  # All of these will take mapsets as args
-
   def init(args) do
     {:ok,      args |> MapSet.new()}
   end
@@ -18,6 +16,10 @@ defmodule MapSetStore.Server do
 
   def handle_call(:get, _from, state) do
     {:reply, state, state}
+  end
+
+  def handle_call({:contains?, value}, _from, state) do
+    {:reply, state |> MapSet.member?(value), state}
   end
 
   #defp to_mapset(args), do: args |> MapSet.new()
