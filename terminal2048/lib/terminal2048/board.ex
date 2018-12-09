@@ -38,4 +38,19 @@ defmodule Terminal2048.Board do
 
   defp set_or_reselect({pos, true}, _), do: pos
   defp set_or_reselect({_, false}, board), do: select_free_space(board)
+
+  def can_move(game, direction) do
+    game != make_move(game, direction)
+  end
+
+  def game_over(game) do
+    [:left, :right, :up, :down]
+    |> Enum.all?(fn direction -> !can_move(game, direction) end)
+  end
+
+  defp make_move(game, :left),  do: game |> Move.move_left
+  defp make_move(game, :right), do: game |> Move.move_right
+  defp make_move(game, :up),    do: game |> Move.move_up
+  defp make_move(game, :down),  do: game |> Move.move_down
+
 end

@@ -12,6 +12,14 @@ defmodule Terminal2048.Game do
     GenServer.call(@me, :new_game)
   end
 
+  def state(game) do
+    GenServer.call(game, :state)
+  end
+
+  def move(game, direction) do
+    GenServer.call(game, {:move, direction})
+  end
+
   # Implementation
   def init(_) do
     {:ok, Terminal2048.Board.new_game()}
