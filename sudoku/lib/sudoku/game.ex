@@ -18,6 +18,8 @@ defmodule Sudoku.Game do
     |> generate_puzzle()
   end
 
+
+
   # The gist of the general algorithm:
   #   1. Assumption: Given the rules of sudoku, given a 9x9 board that can be broken up
   #      into 3x3 segments, the first 3 diagonal 3x3 segments can be randomly generated with numbers 1-9
@@ -63,8 +65,23 @@ defmodule Sudoku.Game do
     |> check_valid()
   end
 
-  def check_group(board, coord, move) do
+  def check_group(board, row, col) do
+    row_it = div(row, 3) * 3
+    col_it = div(col, 3) * 3
+    row_lim = row_it + 2
+    col_lim = col_it + 2
 
+    group_vals = for r <- row_it..row_lim do
+      for c <- col_it..col_lim do
+        board
+        |> Enum.at(r)
+        |> Enum.at(c)
+      end
+    end
+
+    group_vals
+    |> List.flatten()
+    |> check_valid()
   end
 
   defp check_valid(list) do
