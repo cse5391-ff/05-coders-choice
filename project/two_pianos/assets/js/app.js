@@ -123,57 +123,64 @@ function build_pianos(num_pianos) {
 }
 
 // BEGIN EXECUTION
-build_pianos(1)
+build_pianos(2)
 
 var notes1 = new Notes(1)
+var notes2 = new Notes(2)
 
-var keycodes = {
+function init_keys() {
 
-    // Octave 1
-    '90': 'c-1-1',  // z
-    '83': 'cs-1-1', // s
-    '88': 'd-1-1',  // x
-    '68': 'ds-1-1', // d
-    '67': 'e-1-1',  // c
-    '86': 'f-1-1',  // v
-    '71': 'fs-1-1', // g
-    '66': 'g-1-1',  // b
-    '72': 'gs-1-1', // h
-    '78': 'a-1-1',  // n
-    '74': 'as-1-1', // j
-    '77': 'b-1-1',  // m
+    var keycodes = {
 
-    // Octave 2
-    '87': 'c-2-1',  // w 
-    '51': 'cs-2-1', // 3
-    '69': 'd-2-1',  // e 
-    '52': 'ds-2-1', // 4
-    '82': 'e-2-1',  // r
-    '84': 'f-2-1',  // t
-    '54': 'fs-2-1', // 6
-    '89': 'g-2-1',  // y
-    '55': 'gs-2-1', // 7
-    '85': 'a-2-1',  // u
-    '56': 'as-2-1', // 8
-    '73': 'b-2-1',  // i
+        // Octave 1
+        '90': 'c-1-1',  // z
+        '83': 'cs-1-1', // s
+        '88': 'd-1-1',  // x
+        '68': 'ds-1-1', // d
+        '67': 'e-1-1',  // c
+        '86': 'f-1-1',  // v
+        '71': 'fs-1-1', // g
+        '66': 'g-1-1',  // b
+        '72': 'gs-1-1', // h
+        '78': 'a-1-1',  // n
+        '74': 'as-1-1', // j
+        '77': 'b-1-1',  // m
 
-    // High C
-    '79': 'c-3-1'   // o
+        // Octave 2
+        '87': 'c-2-1',  // w 
+        '51': 'cs-2-1', // 3
+        '69': 'd-2-1',  // e 
+        '52': 'ds-2-1', // 4
+        '82': 'e-2-1',  // r
+        '84': 'f-2-1',  // t
+        '54': 'fs-2-1', // 6
+        '89': 'g-2-1',  // y
+        '55': 'gs-2-1', // 7
+        '85': 'a-2-1',  // u
+        '56': 'as-2-1', // 8
+        '73': 'b-2-1',  // i
 
-}
+        // High C
+        '79': 'c-3-1'   // o
 
-document.onkeydown = function(e) {
-    e = e || window.event
-
-    if (!e.repeat && e.keyCode in keycodes){
-        notes1.press(keycodes[e.keyCode])
     }
-}
 
-document.onkeyup = function(e) {
-    e = e || window.event
+    document.onkeydown = function(e) {
+        e = e || window.event
 
-    if (e.keyCode in keycodes){
-        notes1.release(keycodes[e.keyCode])
+        if (!e.repeat && e.keyCode in keycodes){
+            notes1.press(keycodes[e.keyCode])
+        }
     }
+
+    document.onkeyup = function(e) {
+        e = e || window.event
+
+        if (e.keyCode in keycodes){
+            notes1.release(keycodes[e.keyCode])
+        }
+    }
+
 }
+
+init_keys()

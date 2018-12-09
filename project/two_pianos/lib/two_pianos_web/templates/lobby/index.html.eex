@@ -35,18 +35,20 @@
   <div class="col-md-3"></div>
 
   <div class="col-md-2 center-text">
-    <button type="button" class="btn-block btn-primary">Create New Room</button>
-    <div class="button-text">Create</div>
+    <button type="button" class="btn-lg btn-block btn-primary">Create New Room</button>
   </div>
 
   <div class="col-md-2 center-text">
-    <input type="text" class="join-room-input" placeholder="room code">
-    <button type="button" class="btn-block btn-primary">Join</button>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Room Code...">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button">Join!</button>
+      </span>
+    </div>
   </div>
 
   <div class="col-md-2 center-text">
-    <button type="button" class="btn-block btn-primary">Join Random Stranger</button>
-    <div class="button-text">Join Random Stranger</div>
+    <button type="button" class="btn-lg btn-block btn-primary">Join Stranger</button>
   </div>
 
   <div class="col-md-3"></div>

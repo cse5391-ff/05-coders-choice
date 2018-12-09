@@ -5,19 +5,19 @@
 }
 
 #piano-container-1 {
-    height: 60vh;
+    height: 50vh;
 
     position: relative;
 }
 
 #piano-container-2 {
-    height: 60vh;
+    height: 50vh;
 
     position: relative;
 }
 
 .white-key {
-    height: 50%;
+    height: 60%;
     width:  6.66%; /* 100% / 15 white keys */ 
 
     background-color: white;
@@ -25,7 +25,7 @@
     border-width:     2px;
 
     position: absolute;
-    top:      25%;
+    top:      20%;
 }
 
 /* Each key starts where previous ends. Start at 0, keep adding white key width */
@@ -62,7 +62,7 @@
 #c-3-2 {left: 93.33%;}
 
 .black-key {
-    height: 33%;
+    height: 40%;
     width:  3.33%; /* Black key width ~50% white key width */
 
     background-color: black;
@@ -70,7 +70,7 @@
     border-width:     2px;
 
     position: absolute;
-    top:      25%;
+    top:      20%;
 }
 
 /* Subtract 25% from the starting point of next white key (50% of black on both whites) */
@@ -95,3 +95,13 @@
 #fs-2-2 {left: 71.66%;}
 #gs-2-2 {left: 78.33%;}
 #as-2-2 {left: 85%;   }
+
+#chat-box{
+    height: 70vh;
+    width: 100%;
+
+    border-style: solid;
+    border-width: 2px;
+
+    margin: 5vh 2vh 5vh 2vh;
+}
