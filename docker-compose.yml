@@ -5,7 +5,7 @@ services:
     image: wernight/ngrok
     container_name: ngrok
     env_file:
-      - secrets.env
+      - skydock_secrets/secrets.env
     networks:
       app:
 
@@ -16,7 +16,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     env_file:
-      - secrets.env
+      - skydock_secrets/secrets.env
     networks:
       app:
 
