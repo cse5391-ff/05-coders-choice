@@ -10,7 +10,14 @@ defmodule Scope.ChatServer do
   end
 
   def start(:new, topic) do
-    Supervisor.start_link(Channel, topic)
+    children = [
+      %{id: Channel,
+      start: {Channel, :start_link, [[topic]]}
+    }
+    ]
+    opts = [strategy: :one_for_one]
+    Supervisor.start_link(children, opts)
+
   end
 
 end

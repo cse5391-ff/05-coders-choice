@@ -9,7 +9,7 @@ defmodule Channel do
   def init(topic, _from, opts) do
     GenServer.start_link(TopicServer, topic)
     Agent.start_link(Users, _from, opts)
-    {:ok, topic}
+    {:noreply, topic}
   end
 
   def handle_call(:add_user, _from, opts) do
