@@ -15,7 +15,6 @@ defmodule Terminal2048.Player do
 
   def get_next_move({game, _game_state}) do
     draw_current_board(game)
-    #report_move_status(game_state)
     move = "\nMake your move: "
       |> IO.gets
       |> String.downcase

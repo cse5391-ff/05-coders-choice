@@ -16,6 +16,23 @@ defmodule Terminal2048.Board do
     |> update_board(board)
   end
 
+  def make_move(game = %Terminal2048.State{}, direction) do
+    updated_game = Terminal2048.Move.handle_move(game, direction)
+    {updated_game, updated_game.game_state}
+  end
+
+  def draw_current_board(game) do
+    size = 4
+    max_digits = 5
+
+    game.board
+    |> Enum.chunk_every(4)
+    |> inspect_rows(max_digits)
+    |> get_line(delimiter(size, max_digits), "\r\nScore: #{game.score}\r\n")
+  end
+
+
+
   defp select_free_tiles(board) do
     :rand.uniform(16) - 1
     |> is_free(board)
@@ -39,21 +56,6 @@ defmodule Terminal2048.Board do
 
   defp set_or_reselect({pos, true}, _), do: pos
   defp set_or_reselect({_, false}, board), do: select_free_tiles(board)
-
-  def make_move(game = %Terminal2048.State{}, direction) do
-    updated_game = Terminal2048.Move.handle_move(game, direction)
-    {updated_game, updated_game.game_state}
-  end
-
-  def draw_current_board(game) do
-    size = 4
-    max_digits = 5
-
-    game.board
-    |> Enum.chunk_every(4)
-    |> inspect_rows(max_digits)
-    |> get_line(delimiter(size, max_digits), "\r\nScore: #{game.score}\r\n")
-  end
 
   defp inspect_rows(rows, max_digits) do
     rows

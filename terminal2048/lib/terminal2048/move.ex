@@ -1,16 +1,34 @@
 defmodule Terminal2048.Move do
 
   def handle_move(game, direction) do
-    game
-    |> move(direction)
-    |> update_game_state
+    {game.board, game.score}
+    |> can_move(direction)
     |> return_game(game, direction)
   end
 
-  defp move(game, :left),  do: move_left({game.board, game.score})
-  defp move(game, :right), do: move_right({game.board, game.score})
-  defp move(game, :up),    do: move_up({game.board, game.score})
-  defp move(game, :down),  do: move_down({game.board, game.score})
+  defp can_move({board, score}, :left),  do: {board, score} != move_left({board, score})
+  defp can_move({board, score}, :right), do: {board, score} != move_right({board, score})
+  defp can_move({board, score}, :up),    do: {board, score} != move_up({board, score})
+  defp can_move({board, score}, :down),  do: {board, score} != move_down({board, score})
+
+  defp return_game(false, game, _direction) do
+    %Terminal2048.State{ game |
+      game_state: :no_move
+    }
+  end
+
+  defp return_game(true, game, direction) do
+    {new_board, new_score} = move(game, direction)
+
+    new_board = new_board
+      |> Terminal2048.Board.place_number
+
+    %Terminal2048.State{ game |
+      game_state: update_game_state({new_board, new_score}),
+      board: new_board,
+      score: new_score
+    }
+  end
 
   defp update_game_state({board, score}) do
     [:left, :right, :up, :down]
@@ -18,15 +36,13 @@ defmodule Terminal2048.Move do
     |> handle_game_state
   end
 
-  defp return_game(game_state, game, direction) do
-    {new_board, new_score} = move(game, direction)
+  defp handle_game_state(true),  do: :lost
+  defp handle_game_state(false), do: :continue
 
-    %Terminal2048.State{ game |
-      game_state: game_state,
-      board: new_board,
-      score: new_score
-    }
-  end
+  defp move(game, :left),  do: move_left({game.board, game.score})
+  defp move(game, :right), do: move_right({game.board, game.score})
+  defp move(game, :up),    do: move_up({game.board, game.score})
+  defp move(game, :down),  do: move_down({game.board, game.score})
 
   defp move_left({board, score}) do
     row_with_score = board
@@ -36,7 +52,6 @@ defmodule Terminal2048.Move do
     new_board = row_with_score
       |> Enum.map(&List.first/1)
       |> List.flatten
-      |> Terminal2048.Board.place_number
 
     new_score = row_with_score
       |> Enum.map(&List.last/1)
@@ -56,7 +71,6 @@ defmodule Terminal2048.Move do
       |> Enum.map(&List.first/1)
       |> Enum.map(&Enum.reverse/1)
       |> List.flatten
-      |> Terminal2048.Board.place_number
 
     new_score = row_with_score
       |> Enum.map(&List.last/1)
@@ -76,7 +90,6 @@ defmodule Terminal2048.Move do
       |> Enum.map(&List.first/1)
       |> rotate_right([])
       |> List.flatten
-      |> Terminal2048.Board.place_number
 
     new_score = row_with_score
       |> Enum.map(&List.last/1)
@@ -96,7 +109,6 @@ defmodule Terminal2048.Move do
       |> Enum.map(&List.first/1)
       |> rotate_left([])
       |> List.flatten
-      |> Terminal2048.Board.place_number
 
     new_score = row_with_score
       |> Enum.map(&List.last/1)
@@ -139,13 +151,5 @@ defmodule Terminal2048.Move do
     |> Enum.map(&Enum.reverse/1)
     |> Enum.reverse
   end
-
-  defp can_move({board, score}, :left),  do: {board, score} != move_left({board, score})
-  defp can_move({board, score}, :right), do: {board, score} != move_right({board, score})
-  defp can_move({board, score}, :up),    do: {board, score} != move_up({board, score})
-  defp can_move({board, score}, :down),  do: {board, score} != move_down({board, score})
-
-  defp handle_game_state(true),  do: :lost
-  defp handle_game_state(false), do: :continue
 
 end
