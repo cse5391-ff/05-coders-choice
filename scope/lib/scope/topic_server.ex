@@ -26,27 +26,27 @@ defmodule TopicServer do
     select: u.message
 
     query = Repo.all(query)
-    |>handle_query
+    |>process_query
     GenServer.call(from, :res, query)
   end
 
-  def handle_query(result) do
+  def process_query(result) do
     result
     |> grab_urgent
-    |> grag_peripheral
-    |> grap_normal
+    |> grab_peripheral
+    |> grab_normal
   end
 
-  def grab_urgent(load, ) do
-
+  def grab_urgent(load) do
+    :return
   end
 
   def grab_peripheral(load) do
-
+    :return
   end
 
   def grab_normal(load) do
-
+    :return
   end
 
   def process(:urgent, value) do
