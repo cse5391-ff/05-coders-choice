@@ -8,13 +8,17 @@ Scope.ChatServer(:new, topic)
 ```
 This subscribes a new server to the given topic.
 ## Joining a channel
-In joining a channel, list the available topics and
+In joining a channel, list the available topics with
+```Elixir
+Channels.list_channels()
+```
+and
 select the channel which you would like to join using:
 ```Elixir
 User.request(:req, topic, key)
 ```
 ## Sending a message
-In sending a message to a server, a user selects the topic with which they wish to send to (which they must be joined to):
+In sending a message to a server, a user selects the topic with which they wish to send to (which they must have joined):
 ### With urgent status
 ```Elixir
 User.send_msg(topic, message, :urgent)
