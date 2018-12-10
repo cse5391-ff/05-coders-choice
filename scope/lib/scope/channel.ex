@@ -15,7 +15,7 @@ defmodule Channel do
     {:noreply, topic}
   end
 
-  def handle_call(:add_user, _from, opts) do
+  def handle_call(:add_usr, _from, opts) do
     {:ok, pid} = GenServer.start_link(UserServer, _from, opts)
     {:noreply, pid}
   end

@@ -11,6 +11,6 @@ defmodule Scope.ChatServer do
 
   def start_child(:new, topic) do
     children = {Agent, fn -> %{} end}
-    DynamicSupervisor.start_child(__MODULE__, children)
+    {:ok, channel} = DynamicSupervisor.start_child(__MODULE__, children)
   end
 end

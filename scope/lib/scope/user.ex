@@ -14,6 +14,6 @@ defmodule User do
   end
 
   def request(req, action, result) do
-    {:ok, :notimplemented}
+    GenServer.call(UserServer, action)
   end
 end
