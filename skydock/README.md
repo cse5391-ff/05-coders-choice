@@ -1,4 +1,4 @@
 # Skydock
 
-**TODO: Add description**
+See documentation in the root directory
 

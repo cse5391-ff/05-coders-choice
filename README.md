@@ -35,7 +35,7 @@ git clone --recurse-submodules git@github.com:lchansen/05-coders-choice.git
 ## Runnning the Progam
 `docker-compose up`
 
-[Note to @pragdave] If you have some running containers you wish to experiment on, feel free. Else, you can spool up some containers by running this app I found (Github: dockersamples/example-voting-app) by typing `docker-compose up` in the "example_voting_app" directory.
+[Note to @pragdave] If you have some running containers you wish to experiment on, feel free. Else, you can spool up some containers by running this app I found (Github: dockersamples/example-voting-app) by typing `docker-compose up` in the "example_voting_app" submodule directory. **Make sure you run Skydock first, so that the example_voting_app does not claim port 80**
 
 ## Using the Program
 As long as your mobile phone is confirmed to reveive SMS messages from the Twilio service, you may send the following commands:

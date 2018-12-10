@@ -24,28 +24,27 @@ git clone --recurse-submodules git@github.com:lchansen/05-coders-choice.git
 - Ngrok
 
 ## Environment Variables
-In the project root, create a secrets.env file for docker-compose with the following keys:
 - TWILIO_ACCOUNT_SID
 - TWILIO_AUTH_TOKEN
 - NGROK_AUTH
 - NGROK_SUBDOMAIN
 - NGROK_PORT=skydock:80
 
-[Note to @pragdave] This secrets.env file and the phone number to text commands can be found [here](https://github.com/lchansen/skydock_secrets)
+[Note to @pragdave] This secrets.env file and the phone number to text commands can be found in [in the skydock_secrets repo](https://github.com/lchansen/skydock_secrets). If you recursively clone submodules, it will appear in this repo's root automatically with no further action required.
 
 ## Runnning the Progam
 `docker-compose up`
 
-[Note to @pragdave] If you have some running containers you wish to experiment on, feel free. Else, you can spool up some containers by running an app I found (Github: dockersamples/example-voting-app) by typing `docker-compose up` in the sample_containers directory.
+[Note to @pragdave] If you have some running containers you wish to experiment on, feel free. Else, you can spool up some containers by running this app I found (Github: dockersamples/example-voting-app) by typing `docker-compose up` in the "example_voting_app" submodule directory. **Make sure you run Skydock first, so that the example_voting_app does not claim port 80**
 
 ## Using the Program
 As long as your mobile phone is confirmed to reveive SMS messages from the Twilio service, you may send the following commands:
 ```
 get containers
 
-logs <container friendly name> # Replies with a MMS image of log tail
+logs <container name> # Replies with a MMS image of log's tail
 
-system
+system # Display system status
 
 start <container name>
 
@@ -64,4 +63,4 @@ Responses are generally very quick, except for certain Docker operations that ha
 Note: skydock gives you access to your own machine's docker server, unless you run it remotely. You can technically even send an SMS call to shutdown itself by sending the SMS `kill skydock_service`. This is because the skydock_service container has a pointer to the real docker socket.
 
 ## Example
-After running the sample_containers app, text `get containers` to the phone number provided. If a container exists with the frindly name "samplecontainers_worker_1", you could check its logs by typing `logs samplecontainers_worker_1`. If you wanted to resrart it, you could send `stop samplecontainers_worker_1` and then `start samplecontainers_worker_1`. Experiment with any way you would like. 
+After running the example_voting_app app, text `get containers` to the phone number provided. If a container exists with the frindly name "redis", you could check its logs by typing `logs redis`. If you wanted to resrart it, you could send `stop redis` and then `start redis`. Experiment with any way you would like. 
