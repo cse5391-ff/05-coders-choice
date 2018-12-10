@@ -18,24 +18,6 @@ defmodule Sudoku.Game do
     (tester |> check_column(c)) && (tester |> check_row(r)) && (tester |> check_group(r, c))
   end
 
-  # def check_full(game) do
-  #   all_vals = for r <- 0..8 do
-  #     for c <- 0..8 do
-  #       game.board
-  #       |> Enum.at(r)
-  #       |> Enum.at(c)
-  #     end
-  #   end
-
-  #   all_vals
-  #   |> List.flatten()
-  #   |> Enum.member?(0)
-  # end
-
-  # board = Sudoku.Game.new_game()
-  # board = Sudoku.Game.make_move(board, "A1", 9)
-
-
   # Sudoku.Game.check_row(board, 8)
   def check_column(game, col) do
     col_vals = for r <- 0..8, do: game.board |> Enum.at(r) |> Enum.at(col)
@@ -178,7 +160,7 @@ defmodule Sudoku.Game do
 
   # Display the board to the user
   def print_board(game) do
-    # This is the ugly way of doing it but it works for now
+    # This is the ugly way of doing it but it works
     IO.puts(
       "
            1 2 3   4 5 6   7 8 9

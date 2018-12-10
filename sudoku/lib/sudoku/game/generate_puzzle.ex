@@ -17,10 +17,4 @@ defmodule Sudoku.Game.GeneratePuzzle do
     { :reply, game, game}
   end
 
-  # def handle_call(:generate_puzzle, _from, game) do
-  #   { :reply, game, game + 1}
-  # end
-
-
-
 end

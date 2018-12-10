@@ -14,12 +14,6 @@ defmodule Sudoku.Game.Generator do
     Supervisor.start_link(children, opts)
   end
 
-  # def new_game() do
-  #   blank_board = for _ <- 0..8, do: (for _ <- 0..8, do: 0)
-  #   # %GameState{board: (for _ <- 0..8, do: (for _ <- 0..8, do: 0))}
-  #   # |> generate_puzzle()
-  # end
-
   def new_game() do
     start(nil, nil)
     Sudoku.Game.GeneratePuzzle.generate_puzzle
