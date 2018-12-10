@@ -16,6 +16,7 @@ defmodule Channel do
   end
 
   def handle_call(:add_user, _from, opts) do
-    Agent.get_and_update(Users, _from, opts)
+    {:ok, pid} = GenServer.start_link(UserServer, _from, opts)
+    {:noreply, pid}
   end
 end

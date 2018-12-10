@@ -6,7 +6,7 @@ defmodule UserServer do
   end
 
   def init(topic, opts) do
-    GenServer.start_link(TopicServer, topic, opts)
+    {:noreply, topic}
   end
 
   def handle_call(request, from, state) do
