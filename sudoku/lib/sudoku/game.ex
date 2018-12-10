@@ -1,56 +1,84 @@
+defmodule GameState do
+  defstruct game_state: :initializing,
+            board: [],
+            originals: []
+end
+
 defmodule Sudoku.Game do
-  # To-Do:
-  # Generate board function
-  # Check board function
-  #   contains: check column, check row, check group
-
-  # put move
-  # print board
-
-  # Useful lower-level commands so far:
-  # board = Sudoku.Game.new_game()
-  # board = Sudoku.Game.add_move(board, "A9", 2)
-  # Sudoku.Game.print_board(board)
-
-  def new_game() do
-    # To-do:
-    instantiate_board()
-    |> generate_puzzle()
+  def new_game(difficulty) do
+    blank_board = for _ <- 0..8, do: (for _ <- 0..8, do: 0)
+    %GameState{board: blank_board |> generate_puzzle(difficulty)}
   end
-
-
-
-  # The gist of the general algorithm:
-  #   1. Assumption: Given the rules of sudoku, given a 9x9 board that can be broken up
-  #      into 3x3 segments, the first 3 diagonal 3x3 segments can be randomly generated with numbers 1-9
-  #      with no collisions.
-  #   2. After the first 3 3x3 diagonal segments are generated, randomly populate each other 3x3 segment
-  #      in the board. At each individual square, check to see if there are column collisions or row collisions.
-  #   3. Remove elements to complete the "puzzle". There are smart ways to do this and dumb ways to do this.
 
   @row_mapping %{:A=>0, :B=>1, :C=>2, :D=>3, :E=>4, :F=>5, :G=>6, :H=>7, :I=>8}
   @rows         ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
   @columns      ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  @difficulty  %{:easy=>40, :medium=>30, :hard=>25}
 
-  def generate_puzzle(board) do
-    instantiate_board()
+  #game=%GameState{game_state: :initializing}
+  def generate_puzzle(board, diff \\ "easy") do
+      generate_values(board, [], @difficulty[diff |> String.to_atom])
   end
+
+  def generate_values(board, originals, 0) do
+    board
+  end
+
+  def generate_values(board, originals, num_left) do
+    rand_row = @rows    |> Enum.at(Enum.random(0..8))
+    rand_col = @columns |> Enum.at(Enum.random(0..8))
+    rand_num = Enum.random(1..9)
+    coord_str = Enum.join([rand_row, rand_col])
+
+    Enum.member?(originals, coord_str)
+    |> valid_coord(board, coord_str, rand_num, originals, num_left)
+  end
+
+  def valid_coord(true, board, coord, move, originals, num_left) do
+    generate_values(board, originals, num_left)
+  end
+
+  def valid_coord(false, board, coord, move, originals, num_left) do
+    check_valid_move(board, coord, move)
+    |> valid_value(board, coord, move, originals, num_left)
+  end
+
+  # NOT A VALID VALUE
+  def valid_value(false, board, coord, move, originals, num_left) do
+    generate_values(board, originals, num_left)
+  end
+
+  def valid_value(true, board, coord, move, originals, num_left) do
+    board = put_val(board, coord, move)
+    generate_values(board, [coord | originals], num_left-1)
+  end
+
 
   def check_valid_move(board, coord, move) do
     [r, c] = coord |> coord_split
-    (board |> check_column(c)) == (board |> check_row(r)) == (board |> check_group(r, c))
+    # Used "tester" here to make the last line of this function easier to read
+    tester = board
+    |> put_val(coord, move)
+    (tester |> check_column(c)) && (tester |> check_row(r)) && (tester |> check_group(r, c))
+  end
+
+  def check_full(board) do
+    all_vals = for r <- 0..8 do
+      for c <- 0..8 do
+        board
+        |> Enum.at(r)
+        |> Enum.at(c)
+      end
+    end
+
+    all_vals
+    |> List.flatten()
+    |> Enum.member?(0)
   end
 
   # board = Sudoku.Game.new_game()
-  # board = Sudoku.Game.put_val(board, "A1", 9)
-  # board = Sudoku.Game.put_val(board, "A2", 8)
-  # board = Sudoku.Game.put_val(board, "A3", 7)
-  # board = Sudoku.Game.put_val(board, "A4", 6)
-  # board = Sudoku.Game.put_val(board, "A5", 5)
-  # board = Sudoku.Game.put_val(board, "A6", 4)
-  # board = Sudoku.Game.put_val(board, "A7", 3)
-  # board = Sudoku.Game.put_val(board, "A8", 2)
-  # board = Sudoku.Game.put_val(board, "A9", 1)
+  # board = Sudoku.Game.make_move(board, "A1", 9)
+
 
   # Sudoku.Game.check_row(board, 8)
   def check_column(board, col) do
@@ -97,7 +125,7 @@ defmodule Sudoku.Game do
   end
 
   # Add a move to the board
-  def add_move(board, coord, move) do
+  def make_move(board, coord, move) do
     valid_coord = coord
     |> String.match?(~r/[a-iA-I][1-9]$/)
 
@@ -111,7 +139,8 @@ defmodule Sudoku.Game do
 
   # Regex: // ~r/[A-I][1-9]/
   defp try_move(board, coord, move, true, true) do
-    put_val(board, coord, move)
+    #check_valid_move(board, coord, move)
+    #|> put_val(board, coord, move)
   end
 
   defp try_move(_board, _string, _move, false, true) do
@@ -131,7 +160,7 @@ defmodule Sudoku.Game do
 
   # Create board structure
   def instantiate_board() do
-    for _ <- 0..8, do: (for _ <- 0..8, do: 0)
+
   end
 
   # Get value at coordinate
@@ -142,6 +171,10 @@ defmodule Sudoku.Game do
     |> Enum.at(r)
     |> Enum.at(c)
   end
+
+  # def put_val(false, board, _, _) do
+  #   {:bad_move, board}
+  # end
 
   def put_val(board, coord, val) do
     [r, c] = coord |> coord_split
