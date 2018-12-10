@@ -8,12 +8,12 @@ defmodule Terminal2048.Player do
     get_next_move({game, game.game_state})
   end
 
-  defp get_next_mmove({game, :lost}) do
+  defp get_next_move({game, :lost}) do
     draw_current_board(game)
     IO.puts("\nSorry, you lose.")
   end
 
-  def get_next_move({game, _game_state}) do
+  defp get_next_move({game, _game_state}) do
     draw_current_board(game)
     move = "\nMake your move: "
       |> IO.gets
