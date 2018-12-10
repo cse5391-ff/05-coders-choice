@@ -18,7 +18,7 @@ defmodule Scrabble do
     wordlength(word, letterlength)
     help = %{help | finished_list: Enum.uniq(help.finished_list)}
     help = %{help | finished_list: Enum.join(help.finished_list, ", ")}
-    help
+    help.finished_list
     
   end
 
@@ -65,16 +65,6 @@ defmodule Scrabble do
 
   def wordlength(help, word, 6) do
     scrabbleHelp = spawn(Scrabble, :sixLetterProcess, [])
-    send scrabbleHelp, {help, word, self()}
-    receive do
-      { help, toAdd } ->
-        help = %{help | finished_list: Enum.sort(help.finished_list ++ toAdd)}
-        help
-    end
-  end
-
-  def wordlength(help, word, 7) do
-    scrabbleHelp = spawn(Scrabble, :sevenLetterProcess, [])
     send scrabbleHelp, {help, word, self()}
     receive do
       { help, toAdd } ->
@@ -218,45 +208,6 @@ defmodule Scrabble do
         help = wordlength(help, tempword, 5)
         val1 = Enum.at(word, 1)
         tempword = String.graphemes("#{val1}#{val2}#{val3}#{val4}#{val5}") #2, 3, 4, 5, 6
-        help = wordlength(help, tempword, 5)
-        #run through all permutations of the four letter word.
-        permuteList = permute(word)
-        templist = []
-        templist = Enum.map(permuteList, fn(word) -> if(checkDict(word)) do templist ++ word else end end) |>
-        Enum.filter(& !is_nil(&1))
-        send from, {help, templist}
-    end
-  end
-
-  def sevenLetterProcess() do
-    receive do
-      {help, word, from} ->
-        #run through the six letter process and add permutations of the 2, 3, 4, 5, and 6 letter combinations to the list.
-        val1 = Enum.at(word, 0)
-        val2 = Enum.at(word, 1)
-        val3 = Enum.at(word, 2)
-        val4 = Enum.at(word, 3)
-        val5 = Enum.at(word, 4)
-        val6 = Enum.at(word, 5)
-        tempword = String.graphemes("#{val1}#{val2}#{val3}#{val4}#{val5}#{val6}") #1, 2, 3, 4, 5, 6
-        help = wordlength(help, tempword, 5)
-        val6 = Enum.at(word, 6)
-        tempword = String.graphemes("#{val1}#{val2}#{val3}#{val4}#{val5}#{val6}") #1, 2, 3, 4, 5, 7
-        help = wordlength(help, tempword, 5)
-        val5 = Enum.at(word, 5)
-        tempword = String.graphemes("#{val1}#{val2}#{val3}#{val4}#{val5}#{val6}") #1, 2, 3, 4, 6, 7
-        help = wordlength(help, tempword, 5)
-        val4 = Enum.at(word, 4)
-        tempword = String.graphemes("#{val1}#{val2}#{val3}#{val4}#{val5}#{val6}") #1, 2, 3, 5, 6, 7
-        help = wordlength(help, tempword, 5)
-        val3 = Enum.at(word, 3)
-        tempword = String.graphemes("#{val1}#{val2}#{val3}#{val4}#{val5}#{val6}") #1, 2, 4, 5, 6, 7
-        help = wordlength(help, tempword, 5)
-        val2 = Enum.at(word, 2)
-        tempword = String.graphemes("#{val1}#{val2}#{val3}#{val4}#{val5}#{val6}") #1, 3, 4, 5, 6, 7
-        help = wordlength(help, tempword, 5)
-        val1 = Enum.at(word, 1)
-        tempword = String.graphemes("#{val1}#{val2}#{val3}#{val4}#{val5}#{val6}") #2, 3, 4, 5, 6, 7
         help = wordlength(help, tempword, 5)
         #run through all permutations of the four letter word.
         permuteList = permute(word)

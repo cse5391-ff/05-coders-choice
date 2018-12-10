@@ -1,6 +1,117 @@
 <div class="jumbotron">
   <h2><%= gettext "Welcome to %{name}!", name: "Scrabble SOS" %></h2>
+  <p> <%= gettext "Having issues with making words with the letters you have in Scrabble?\nWell, here's the place to fix that!\nJust put some letters in the text box below and get started now!"%></p>
+  <h6>*Cannot handle more than 7 letters. Current runtimes: *</h6>
+  <h6>2 letters: ~5 seconds</h6>
+  <h6>3 letters: ~20 seconds</h6>
+  <h6>4 letters: ~5 minutes</h6>
+  <h6>5 letters: ~20 minutes</h6>
+  <h6>6 letters: ~60 minutes</h6>
+  <h6>*Proceed button does not currently work (sorry!)*</h6>
+  <h5>Please route to desired word by typing 127.0.0.1:4000/word into the search bar.</h5>
 </div>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title></title>
+    <script>
+        function validate() {
+            debugger;
+
+            var word = document.myForm.word.value;
+            if (word == "" || word == null) {
+                document.getElementById("span1").innerHTML = "Please enter the word to be processed";
+                document.myForm.word.focus();
+                document.getElementById("word").style.border = "3px solid red";
+                return false;
+            }
+            if (document.myForm.word.length > 6) {
+                alert("Error: Word cannot contain more than 6 characters!");
+                document.myForm.word.focus();
+                document.getElementById("word").style.border = "3px solid red";
+                return false;
+            }
+            regexSpecial = /[$&+,:;=?@#|'<>.^*()%!-]/g;
+            regexNumber = /[0-9]/g
+            if (regexSpecial.test(word)) {
+                alert("Error: word cannot contain special characters!");
+                document.myForm.word.focus();
+                document.getElementById("word").style.border = "3px solid red";
+                return false;
+            }
+            if (regexNumber.test(word)) {
+                alert("Error: word cannot contain numbers!");
+                document.myForm.word.focus();
+                document.getElementById("word").style.border = "3px solid red";
+                return false;
+            }
+            else {
+                document.getElementById("span1").innerHTML = "";
+                document.getElementById("word").style.border = "3px solid green";
+
+                createList(word)
+            }
+        }
+
+        function createList(word) {
+            debugger;
+            var myData = $("#myTableData");
+            location.replace("127.0.0.1:4000/" + word);
+            document.getElementById("span4").innerHTML = scrabbleList;
+            console.log(jsonData);
+        }
+
+        function restrictCharacters(evt) {
+
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (((charCode >= '65') && (charCode <= '90')) || ((charCode >= '97') && (charCode <= '122')) || (charCode == '32')) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function clearForm() {
+            document.getElementById("word").innerHTML = "";
+        }
+    </script>
+</head>
+
+<body>
+    <div id="myForm">
+        <h2>Put word here:</h2>
+        <form id="myTableData" name="myForm" onsubmit="return(validate());">
+
+            <table>
+
+                <tr>
+                    <th>Word</th>
+                    <td><input type="text" name="word" placeholder="Name" id="word" class="information" onkeypress="return restrictCharacters(event);" /></td>
+                    <td><span id="span1"></span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="button" name="button" value="Proceed" onclick="validate();" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span id="span4"></span>
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    </div>
+
+
+</body>
+</html>
 
 <div class="row marketing">
   <div class="col-lg-6">
