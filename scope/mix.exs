@@ -20,7 +20,6 @@ defmodule Scope.MixProject do
     ]
   end
 
-  defp applications(:test), do: [:logger, :postgrex]
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do

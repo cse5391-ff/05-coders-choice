@@ -15,7 +15,7 @@ defmodule UserServer do
 
   def handle_call(:res, from, result) do
     IO.puts(result)
-    {:noreply, state}
+    {:noreply, result}
   end
 
 end

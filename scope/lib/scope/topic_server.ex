@@ -1,7 +1,9 @@
 defmodule TopicServer do
   use GenServer
 
-  import Ecto.Query, only: [from: 2]
+  @topic
+
+  import Ecto.Query
 
   @impl true
   def init(topic) do
@@ -20,11 +22,31 @@ defmodule TopicServer do
   def handle_call(:return_msgs, from, state) do
     # Create a query
     query = from u in "messages",
-    where: topic = topic,
+    where: u.topic == @topic,
     select: u.message
 
     query = Repo.all(query)
+    |>handle_query
     GenServer.call(from, :res, query)
+  end
+
+  def handle_query(result) do
+    result
+    |> grab_urgent
+    |> grag_peripheral
+    |> grap_normal
+  end
+
+  def grab_urgent(load, ) do
+
+  end
+
+  def grab_peripheral(load) do
+
+  end
+
+  def grab_normal(load) do
+
   end
 
   def process(:urgent, value) do

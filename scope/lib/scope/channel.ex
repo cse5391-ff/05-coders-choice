@@ -9,9 +9,9 @@ defmodule Channel do
   end
 
   @impl true
-  def init(topic, _from, opts) do
+  def init(topic, opts \\ []) do
+    GenServer.start_link(__MODULE__, topic)
     GenServer.start_link(TopicServer, topic, name: @topicserver)
-    Agent.start_link(Users, _from, opts)
     {:noreply, topic}
   end
 
