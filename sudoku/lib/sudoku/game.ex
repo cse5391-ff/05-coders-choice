@@ -9,7 +9,6 @@ defmodule Sudoku.Game do
   @row_mapping %{:A=>0, :B=>1, :C=>2, :D=>3, :E=>4, :F=>5, :G=>6, :H=>7, :I=>8}
   @rows         ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
   @columns      ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-  @difficulty  %{:easy=>40, :medium=>30, :hard=>25}
 
   def check_valid_move(game, coord, move) do
     [r, c] = coord |> coord_split
@@ -139,7 +138,7 @@ defmodule Sudoku.Game do
 
   def valid_user_move(false, game, coord, move) do
     %GameState{game |
-      game_state: :bad_stuff
+      game_state: :bad_move
     }
   end
 

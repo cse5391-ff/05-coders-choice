@@ -9,7 +9,6 @@ defmodule Sudoku do
 
   defdelegate new_game(), to: Sudoku.Game.Generator
   defdelegate print_board(game), to: Sudoku.Game
-  # defdelegate tally(game), to: Sudoku.Game
   defdelegate make_move(game, guess, move), to: Sudoku.Game
 
 end
