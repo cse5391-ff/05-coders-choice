@@ -1,66 +1,15 @@
 defmodule GameState do
   defstruct game_state: :initializing,
-            board: [],
+            board: (for _ <- 0..8, do: (for _ <- 0..8, do: 0)),
             originals: []
 end
 
 defmodule Sudoku.Game do
-  def new_game(difficulty \\ "easy") do
-    #blank_board = for _ <- 0..8, do: (for _ <- 0..8, do: 0)
-    %GameState{board: (for _ <- 0..8, do: (for _ <- 0..8, do: 0))}
-    |> generate_puzzle()
-  end
 
   @row_mapping %{:A=>0, :B=>1, :C=>2, :D=>3, :E=>4, :F=>5, :G=>6, :H=>7, :I=>8}
   @rows         ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
   @columns      ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
   @difficulty  %{:easy=>40, :medium=>30, :hard=>25}
-
-  #game=%GameState{game_state: :initializing}
-  def generate_puzzle(game, diff \\ "easy") do
-      generate_values(game, @difficulty[diff |> String.to_atom])
-  end
-
-  def generate_values(game, 0) do
-    game
-  end
-
-  def generate_values(game, num_left) do
-    rand_row = @rows    |> Enum.at(Enum.random(0..8))
-    rand_col = @columns |> Enum.at(Enum.random(0..8))
-    rand_num = Enum.random(1..9)
-    coord_str = Enum.join([rand_row, rand_col])
-
-    Enum.member?(game.originals, coord_str)
-    |> valid_coord(game, coord_str, rand_num, num_left)
-  end
-
-  def valid_coord(true, game, coord, move, num_left) do
-    generate_values(game, num_left)
-  end
-
-  # VALID COORDINATE, CONTINUE ON
-  def valid_coord(false, game, coord, move, num_left) do
-    check_valid_move(game, coord, move)
-    |> valid_generated_value(game, coord, move, num_left)
-  end
-
-  # NOT A VALID VALUE
-  def valid_generated_value(false, game, coord, move, num_left) do
-    generate_values(game, num_left)
-  end
-
-  def valid_generated_value(true, game, coord, move, num_left) do
-    # board = put_val(board, coord, move)
-    # generate_values(board, [coord | originals], num_left-1)
-    %GameState{game |
-      originals: [coord | game.originals]
-    }
-    |> put_val(coord, move)
-    |> generate_values(num_left-1)
-
-  end
-
 
   def check_valid_move(game, coord, move) do
     [r, c] = coord |> coord_split
@@ -70,21 +19,19 @@ defmodule Sudoku.Game do
     (tester |> check_column(c)) && (tester |> check_row(r)) && (tester |> check_group(r, c))
   end
 
+  # def check_full(game) do
+  #   all_vals = for r <- 0..8 do
+  #     for c <- 0..8 do
+  #       game.board
+  #       |> Enum.at(r)
+  #       |> Enum.at(c)
+  #     end
+  #   end
 
-
-  def check_full(game) do
-    all_vals = for r <- 0..8 do
-      for c <- 0..8 do
-        game.board
-        |> Enum.at(r)
-        |> Enum.at(c)
-      end
-    end
-
-    all_vals
-    |> List.flatten()
-    |> Enum.member?(0)
-  end
+  #   all_vals
+  #   |> List.flatten()
+  #   |> Enum.member?(0)
+  # end
 
   # board = Sudoku.Game.new_game()
   # board = Sudoku.Game.make_move(board, "A1", 9)
@@ -130,8 +77,21 @@ defmodule Sudoku.Game do
   end
 
   # If every value is non-zero, then check for a win.
-  def check_win(board) do
+  def check_win(game) do
+    game.board
+    |> List.flatten()
+    |> Enum.member?(0)
+    |> game_won(game)
+  end
 
+  def game_won(true, game) do
+    game
+  end
+
+  def game_won(false, game) do
+    %GameState{ game |
+      game_state: :victory
+    }
   end
 
   # Add a move to the board
@@ -139,12 +99,17 @@ defmodule Sudoku.Game do
     valid_coord = coord
     |> String.match?(~r/[a-iA-I][1-9]$/)
 
+    not_original = game.originals |> Enum.member?(coord) |> Kernel.not
+
     valid_move = move
     |> Integer.to_string
-    |> String.match?(~r/[1-9]$/)
+
+    valid_move = @columns
+    |> Enum.member?(valid_move)
 
     game
-    |> try_move(coord, move, valid_coord, valid_move)
+    |> try_move(coord, move, (valid_coord && not_original), valid_move)
+    |> check_win()
   end
 
   # Regex: // ~r/[A-I][1-9]/
@@ -153,37 +118,35 @@ defmodule Sudoku.Game do
     |> valid_user_move(game, coord, move)
   end
 
-  def valid_user_move(false, game, coord, move) do
+  defp try_move(game, _string, _move, false, true) do
+    %GameState{game |
+      game_state: :bad_coordinate
+    }
+  end
+
+
+  defp try_move(game, _string, _move, true, false) do
     %GameState{game |
       game_state: :bad_move
     }
   end
 
-  def valid_user_move(true, game, coord, move) do
+  defp try_move(game, _string, _move, _valid_coord, _valid_move) do
     %GameState{game |
-      board: put_val(game, coord, move)
+      game_state: :invalid_both
     }
   end
 
-  defp try_move(_board, _string, _move, false, true) do
-    IO.puts("Invalid coordinate placement!")
-    :invalid_coord
+  def valid_user_move(false, game, coord, move) do
+    %GameState{game |
+      game_state: :bad_stuff
+    }
   end
 
-  defp try_move(_board, _string, _move, true, false) do
-    IO.puts("Invalid value!")
-    :invalid_value
+  def valid_user_move(true, game, coord, move) do
+    put_val(game, coord, move)
   end
 
-  defp try_move(_board, _string, _move, _valid_coord, _valid_move) do
-    IO.puts("Invalid coordinate placement and value!")
-    :invalid_both
-  end
-
-  # Create board structure
-  def instantiate_board() do
-
-  end
 
   # Get value at coordinate
   def get_val(game, coord) do
@@ -194,17 +157,13 @@ defmodule Sudoku.Game do
     |> Enum.at(c)
   end
 
-  # def put_val(false, board, _, _) do
-  #   {:bad_move, board}
-  # end
-
   def put_val(game=%GameState{}, coord, val) do
     [r, c] = coord |> coord_split
-    #IO.inspect(game.board)
 
     temp = game.board |> List.replace_at(r, game.board |> Enum.at(r) |> List.replace_at(c, val))
 
     %GameState{ game |
+      game_state: :good_move,
       board: temp
     }
   end
@@ -219,33 +178,23 @@ defmodule Sudoku.Game do
   end
 
   # Display the board to the user
-  def print_board(board) do
-    # IO.puts("     1 2 3   4 5 6   7 8 9  ")
-    # IO.puts("   -------------------------")
-    # for row <- @rows do
-    #   for col <- @columns do
-    #     IO.write( board |> get_val( Enum.join([row, col]) ) )
-    #   end
-    #   IO.puts("")
-    # end
-
-    # This is the ugly way of doing it woops
-
+  def print_board(game) do
+    # This is the ugly way of doing it but it works for now
     IO.puts(
       "
            1 2 3   4 5 6   7 8 9
          -------------------------
-       A | #{get_val(board, "A1")} #{get_val(board, "A2")} #{get_val(board, "A3")} | #{get_val(board, "A4")} #{get_val(board, "A5")} #{get_val(board, "A6")} | #{get_val(board, "A7")} #{get_val(board, "A8")} #{get_val(board, "A9")} |
-       B | #{get_val(board, "B1")} #{get_val(board, "B2")} #{get_val(board, "B3")} | #{get_val(board, "B4")} #{get_val(board, "B5")} #{get_val(board, "B6")} | #{get_val(board, "B7")} #{get_val(board, "B8")} #{get_val(board, "B9")} |
-       C | #{get_val(board, "C1")} #{get_val(board, "C2")} #{get_val(board, "C3")} | #{get_val(board, "C4")} #{get_val(board, "C5")} #{get_val(board, "C6")} | #{get_val(board, "C7")} #{get_val(board, "C8")} #{get_val(board, "C9")} |
+       A | #{get_val(game, "A1")} #{get_val(game, "A2")} #{get_val(game, "A3")} | #{get_val(game, "A4")} #{get_val(game, "A5")} #{get_val(game, "A6")} | #{get_val(game, "A7")} #{get_val(game, "A8")} #{get_val(game, "A9")} |
+       B | #{get_val(game, "B1")} #{get_val(game, "B2")} #{get_val(game, "B3")} | #{get_val(game, "B4")} #{get_val(game, "B5")} #{get_val(game, "B6")} | #{get_val(game, "B7")} #{get_val(game, "B8")} #{get_val(game, "B9")} |
+       C | #{get_val(game, "C1")} #{get_val(game, "C2")} #{get_val(game, "C3")} | #{get_val(game, "C4")} #{get_val(game, "C5")} #{get_val(game, "C6")} | #{get_val(game, "C7")} #{get_val(game, "C8")} #{get_val(game, "C9")} |
          --------+-------+--------
-       D | #{get_val(board, "D1")} #{get_val(board, "D2")} #{get_val(board, "D3")} | #{get_val(board, "D4")} #{get_val(board, "D5")} #{get_val(board, "D6")} | #{get_val(board, "D7")} #{get_val(board, "D8")} #{get_val(board, "D9")} |
-       E | #{get_val(board, "E1")} #{get_val(board, "E2")} #{get_val(board, "E3")} | #{get_val(board, "E4")} #{get_val(board, "E5")} #{get_val(board, "E6")} | #{get_val(board, "E7")} #{get_val(board, "E8")} #{get_val(board, "E9")} |
-       F | #{get_val(board, "F1")} #{get_val(board, "F2")} #{get_val(board, "F3")} | #{get_val(board, "F4")} #{get_val(board, "F5")} #{get_val(board, "F6")} | #{get_val(board, "F7")} #{get_val(board, "F8")} #{get_val(board, "F9")} |
+       D | #{get_val(game, "D1")} #{get_val(game, "D2")} #{get_val(game, "D3")} | #{get_val(game, "D4")} #{get_val(game, "D5")} #{get_val(game, "D6")} | #{get_val(game, "D7")} #{get_val(game, "D8")} #{get_val(game, "D9")} |
+       E | #{get_val(game, "E1")} #{get_val(game, "E2")} #{get_val(game, "E3")} | #{get_val(game, "E4")} #{get_val(game, "E5")} #{get_val(game, "E6")} | #{get_val(game, "E7")} #{get_val(game, "E8")} #{get_val(game, "E9")} |
+       F | #{get_val(game, "F1")} #{get_val(game, "F2")} #{get_val(game, "F3")} | #{get_val(game, "F4")} #{get_val(game, "F5")} #{get_val(game, "F6")} | #{get_val(game, "F7")} #{get_val(game, "F8")} #{get_val(game, "F9")} |
          --------+-------+--------
-       G | #{get_val(board, "G1")} #{get_val(board, "G2")} #{get_val(board, "G3")} | #{get_val(board, "G4")} #{get_val(board, "G5")} #{get_val(board, "G6")} | #{get_val(board, "G7")} #{get_val(board, "G8")} #{get_val(board, "G9")} |
-       H | #{get_val(board, "H1")} #{get_val(board, "H2")} #{get_val(board, "H3")} | #{get_val(board, "H4")} #{get_val(board, "H5")} #{get_val(board, "H6")} | #{get_val(board, "H7")} #{get_val(board, "H8")} #{get_val(board, "H9")} |
-       I | #{get_val(board, "I1")} #{get_val(board, "I2")} #{get_val(board, "I3")} | #{get_val(board, "I4")} #{get_val(board, "I5")} #{get_val(board, "I6")} | #{get_val(board, "I7")} #{get_val(board, "I8")} #{get_val(board, "I9")} |
+       G | #{get_val(game, "G1")} #{get_val(game, "G2")} #{get_val(game, "G3")} | #{get_val(game, "G4")} #{get_val(game, "G5")} #{get_val(game, "G6")} | #{get_val(game, "G7")} #{get_val(game, "G8")} #{get_val(game, "G9")} |
+       H | #{get_val(game, "H1")} #{get_val(game, "H2")} #{get_val(game, "H3")} | #{get_val(game, "H4")} #{get_val(game, "H5")} #{get_val(game, "H6")} | #{get_val(game, "H7")} #{get_val(game, "H8")} #{get_val(game, "H9")} |
+       I | #{get_val(game, "I1")} #{get_val(game, "I2")} #{get_val(game, "I3")} | #{get_val(game, "I4")} #{get_val(game, "I5")} #{get_val(game, "I6")} | #{get_val(game, "I7")} #{get_val(game, "I8")} #{get_val(game, "I9")} |
          -------------------------
       "
     )

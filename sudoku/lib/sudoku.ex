@@ -7,8 +7,9 @@ defmodule Sudoku do
   if it comes from the database, an external API or others.
   """
 
-  defdelegate new_game, to: Sudoku.Game
+  defdelegate new_game(), to: Sudoku.Game.Generator
+  defdelegate print_board(game), to: Sudoku.Game
   # defdelegate tally(game), to: Sudoku.Game
-  # defdelegate make_move(game, guess), to: Sudoku.Game
+  defdelegate make_move(game, guess, move), to: Sudoku.Game
 
 end
