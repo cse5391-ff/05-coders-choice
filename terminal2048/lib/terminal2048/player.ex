@@ -41,6 +41,12 @@ defmodule Terminal2048.Player do
   defp get_move("s"), do: :down
   defp get_move("a"), do: :left
   defp get_move("d"), do: :right
-  defp get_move(_),   do: nil
+  defp get_move(_) do
+    "\nInvalid move. Try another move: "
+    |> IO.gets
+    |> String.downcase
+    |> String.trim
+    |> get_move
+  end
 
 end
