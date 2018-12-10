@@ -31,13 +31,18 @@ defmodule Terminal2048.Move do
   end
 
   defp update_game_state({board, score}) do
-    [:left, :right, :up, :down]
-    |> Enum.all?(fn direction -> !can_move({board, score}, direction) end)
-    |> handle_game_state
+    lost_checker = [:left, :right, :up, :down]
+      |> Enum.all?(fn direction -> !can_move({board, score}, direction) end)
+
+    won_checker = board
+      |> Enum.any?(fn x -> x == 2048 end)
+
+    handle_game_state(lost_checker, won_checker)
   end
 
-  defp handle_game_state(true),  do: :lost
-  defp handle_game_state(false), do: :continue
+  defp handle_game_state(true, _),      do: :lost
+  defp handle_game_state(_, true),      do: :won
+  defp handle_game_state(false, false), do: :continue
 
   defp move(game, :left),  do: move_left({game.board, game.score})
   defp move(game, :right), do: move_right({game.board, game.score})

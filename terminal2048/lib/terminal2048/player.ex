@@ -13,6 +13,11 @@ defmodule Terminal2048.Player do
     IO.puts("\nSorry, you lose.")
   end
 
+  defp get_next_move({game, :won}) do
+    draw_current_board(game)
+    IO.puts("\nYou win!")
+  end
+
   defp get_next_move({game, _game_state}) do
     draw_current_board(game)
     move = "\nMake your move: "

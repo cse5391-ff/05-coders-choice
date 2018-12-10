@@ -20,15 +20,15 @@ defmodule Terminal2048Test do
       board = [ nil,  2,  nil,  2,
                 nil,  4,  nil,  2,
                  2,  nil,  4,  nil,
-                 2,  nil,  4,  nil ]
+                 2,  nil,  4,  nil  ]
       game = Terminal2048.Board.new_game |> set_board(board)
       { updated_game, updated_game_state } = Terminal2048.Board.make_move(game, :left)
       [ game: updated_game ]
     end
 
     test "returns the correct status", c do
-      assert c.game.game_state  == :continue
-      assert c.game.score       == 4
+      assert c.game.game_state == :continue
+      assert c.game.score      == 4
     end
   end
 
@@ -37,15 +37,15 @@ defmodule Terminal2048Test do
       board = [ nil,  2,  nil,  2,
                 nil,  4,  nil,  2,
                  2,  nil,  4,  nil,
-                 2,  nil,  4,  nil ]
+                 2,  nil,  4,  nil  ]
       game = Terminal2048.Board.new_game |> set_board(board)
       { updated_game, updated_game_state } = Terminal2048.Board.make_move(game, :right)
       [ game: updated_game ]
     end
 
     test "returns the correct status", c do
-      assert c.game.game_state  == :continue
-      assert c.game.score       == 4
+      assert c.game.game_state == :continue
+      assert c.game.score      == 4
     end
   end
 
@@ -54,15 +54,15 @@ defmodule Terminal2048Test do
       board = [ nil,  2,  nil,  2,
                 nil,  4,  nil,  2,
                  2,  nil,  4,  nil,
-                 2,  nil,  4,  nil ]
+                 2,  nil,  4,  nil  ]
       game = Terminal2048.Board.new_game |> set_board(board)
       { updated_game, updated_game_state } = Terminal2048.Board.make_move(game, :up)
       [ game: updated_game ]
     end
 
     test "returns the correct status", c do
-      assert c.game.game_state  == :continue
-      assert c.game.score       == 16
+      assert c.game.game_state == :continue
+      assert c.game.score      == 16
     end
   end
 
@@ -71,15 +71,70 @@ defmodule Terminal2048Test do
       board = [ nil,  2,  nil,  2,
                 nil,  4,  nil,  2,
                  2,  nil,  4,  nil,
-                 2,  nil,  4,  nil ]
+                 2,  nil,  4,  nil  ]
       game = Terminal2048.Board.new_game |> set_board(board)
       { updated_game, updated_game_state } = Terminal2048.Board.make_move(game, :down)
       [ game: updated_game ]
     end
 
     test "returns the correct status", c do
-      assert c.game.game_state  == :continue
-      assert c.game.score       == 16
+      assert c.game.game_state == :continue
+      assert c.game.score      == 16
+    end
+  end
+
+  describe "no move" do
+    setup do
+      board = [ 2,  nil, nil, nil,
+                4,   2,  nil, nil,
+                8,   4,   2,  nil,
+                16,  8,   4,   2   ]
+      game = Terminal2048.Board.new_game |> set_board(board)
+      { updated_game, updated_game_state } = Terminal2048.Board.make_move(game, :left)
+      [ game: updated_game ]
+    end
+
+    test "returns the correct status", c do
+      assert c.game.game_state == :no_move
+      assert c.game.board      == [ 2,  nil, nil, nil,
+                                    4,   2,  nil, nil,
+                                    8,   4,   2,  nil,
+                                    16,  8,   4,   2   ]
+      assert c.game.score      == 0
+    end
+  end
+
+  describe "lost game" do
+    setup do
+      board = [ 2,  4,  8,  16,
+                16, 32, 64, 128,
+                2,  4,  8,  16,
+                16, 32, 64, nil  ]
+      game = Terminal2048.Board.new_game |> set_board(board)
+      { updated_game, updated_game_state } = Terminal2048.Board.make_move(game, :down)
+      [ game: updated_game ]
+    end
+
+    test "returns the correct status", c do
+      assert c.game.game_state == :lost
+      assert c.game.score      == 0
+    end
+  end
+
+  describe "won game" do
+    setup do
+      board = [  32,  nil, nil, nil,
+                 64,  nil, nil, nil,
+                1024, 16,  nil, nil,
+                1024, 32,   4,   2   ]
+      game = Terminal2048.Board.new_game |> set_board(board)
+      { updated_game, updated_game_state } = Terminal2048.Board.make_move(game, :down)
+      [ game: updated_game ]
+    end
+
+    test "returns the correct status", c do
+      assert c.game.game_state == :won
+      assert c.game.score      == 2048
     end
   end
 
