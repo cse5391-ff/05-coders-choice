@@ -15,7 +15,10 @@ defmodule RandomUserMatcher.Process do
   def match_with(new_user, _waiting_user = nil), do: new_user
 
   def match_with(new_user, waiting_user), do
-    # send message to whoever needs it: new_user and waiting_user matched
+    new_room_id = IdManager.generate_id(:room)
+    # Create room
+    TwoPianos.Endpoint.broadcast!("user:" <> new_user,     "match", %{room_id: new_room_id})
+    TwoPianos.Endpoint.broadcast!("user:" <> waiting_user, "match", %{room_id: new_room_id})
     nil
   end
 

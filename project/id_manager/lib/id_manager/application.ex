@@ -12,4 +12,5 @@ defmodule IdManager.Application do
     MapSetStore.DynamicSupervisor.start_child(__MODULE__, %{id: :mss1, start: {MapSetStore, :start, [:room_ids]}})
     MapSetStore.DynamicSupervisor.start_child(__MODULE__, %{id: :mss2, start: {MapSetStore, :start, [:user_ids]}})
   end
+
 end
