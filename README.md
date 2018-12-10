@@ -63,4 +63,4 @@ Responses are generally very quick, except for certain Docker operations that ha
 Note: skydock gives you access to your own machine's docker server, unless you run it remotely. You can technically even send an SMS call to shutdown itself by sending the SMS `kill skydock_service`. This is because the skydock_service container has a pointer to the real docker socket.
 
 ## Example
-After running the sample_containers app, text `get containers` to the phone number provided. If a container exists with the frindly name "samplecontainers_worker_1", you could check its logs by typing `logs samplecontainers_worker_1`. If you wanted to resrart it, you could send `stop samplecontainers_worker_1` and then `start samplecontainers_worker_1`. Experiment with any way you would like. 
+After running the sample_containers app, text `get containers` to the phone number provided. If a container exists with the frindly name "redis", you could check its logs by typing `logs redis`. If you wanted to resrart it, you could send `stop redis` and then `start redis`. Experiment with any way you would like. 
