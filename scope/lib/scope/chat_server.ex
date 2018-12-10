@@ -14,9 +14,4 @@ defmodule Scope.ChatServer do
     spec = worker(Channel, [name: topic], [topic: topic, restart: :transient])
     {:ok, channel} = DynamicSupervisor.start_child(__MODULE__, spec)
   end
-
-  # def shoot(unique_name) do
-  #   spec = worker(Stackgen, [], [id: unique_name, restart: :transient])
-  #   Supervisor.start_child(__MODULE__, spec)
-  # end
 end

@@ -20,7 +20,7 @@ defmodule TopicServer do
   end
 
   def handle_call(:return_msgs, from, state) do
-    # Create a query
+    # Query all messages in topic from messages.repo
     query = from u in "messages",
     where: u.topic == @topic,
     select: u.message
@@ -64,8 +64,8 @@ defmodule TopicServer do
   def save_msg(payload) do
     msg = %Messages.Message{
       content: payload[:content],
-      # timestamps: :calendar.universal_time(),
-      # from: payload[:from],
+      timestamps: :calendar.universal_time(),
+      from: payload[:from],
       urgency: payload[:urgency],
       server: payload[:topic]
     }

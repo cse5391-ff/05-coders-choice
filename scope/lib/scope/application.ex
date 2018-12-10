@@ -10,7 +10,7 @@ defmodule Scope.Application do
 
     # List all child processes to be supervised
     children = [
-     # { Messages.Repo, name: Messages.Repo },
+      { Messages.Repo, name: Messages.Repo },
       { Phoenix.PubSub.PG2, name: Scope.PubSub },
       { Scope.ChatServer, name: Scope.ChatServer },
     ]
