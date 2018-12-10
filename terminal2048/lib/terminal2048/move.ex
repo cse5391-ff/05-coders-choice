@@ -1,80 +1,112 @@
 defmodule Terminal2048.Move do
 
-  def move_left(game = %Terminal2048.State{}) do
-    row_with_score = game.board
+  def handle_move(game, direction) do
+    game
+    |> move(direction)
+    |> update_game_state
+    |> return_game(game, direction)
+  end
+
+  defp move(game, :left),  do: move_left({game.board, game.score})
+  defp move(game, :right), do: move_right({game.board, game.score})
+  defp move(game, :up),    do: move_up({game.board, game.score})
+  defp move(game, :down),  do: move_down({game.board, game.score})
+
+  defp update_game_state({board, score}) do
+    [:left, :right, :up, :down]
+    |> Enum.all?(fn direction -> !can_move({board, score}, direction) end)
+    |> handle_game_state
+  end
+
+  defp return_game(game_state, game, direction) do
+    {new_board, new_score} = move(game, direction)
+
+    %Terminal2048.State{ game |
+      game_state: game_state,
+      board: new_board,
+      score: new_score
+    }
+  end
+
+  defp move_left({board, score}) do
+    row_with_score = board
       |> Enum.chunk_every(4)
       |> Enum.map(&leftward_operation(&1))
 
-    board = row_with_score
+    new_board = row_with_score
       |> Enum.map(&List.first/1)
       |> List.flatten
+      |> Terminal2048.Board.place_number
 
-    score = row_with_score
+    new_score = row_with_score
       |> Enum.map(&List.last/1)
       |> List.flatten
       |> Enum.sum
 
-    %Terminal2048.State{ game | board: board, score: score}
+    {new_board, score + new_score}
   end
 
-  def move_right(game = %Terminal2048.State{}) do
-    row_with_score = game.board
+  defp move_right({board, score}) do
+    row_with_score = board
       |> Enum.chunk_every(4)
       |> Enum.map(&Enum.reverse/1)
       |> Enum.map(&leftward_operation(&1))
 
-    board = row_with_score
+    new_board = row_with_score
       |> Enum.map(&List.first/1)
       |> Enum.map(&Enum.reverse/1)
       |> List.flatten
+      |> Terminal2048.Board.place_number
 
-    score = row_with_score
+    new_score = row_with_score
       |> Enum.map(&List.last/1)
       |> List.flatten
       |> Enum.sum
 
-    %Terminal2048.State{ game | board: board, score: score}
+    {new_board, score + new_score}
   end
 
-  def move_up(game = %Terminal2048.State{}) do
-    row_with_score = game.board
+  defp move_up({board, score}) do
+    row_with_score = board
       |> Enum.chunk_every(4)
       |> rotate_left([])
       |> Enum.map(&leftward_operation(&1))
 
-    board = row_with_score
+    new_board = row_with_score
       |> Enum.map(&List.first/1)
       |> rotate_right([])
       |> List.flatten
+      |> Terminal2048.Board.place_number
 
-    score = row_with_score
+    new_score = row_with_score
       |> Enum.map(&List.last/1)
       |> List.flatten
       |> Enum.sum
 
-    %Terminal2048.State{ game | board: board, score: score}
+    {new_board, score + new_score}
   end
 
-  def move_down(game = %Terminal2048.State{}) do
-    row_with_score = game.board
+  defp move_down({board, score}) do
+    row_with_score = board
       |> Enum.chunk_every(4)
       |> rotate_right([])
       |> Enum.map(&leftward_operation(&1))
 
-    board = row_with_score
+    new_board = row_with_score
       |> Enum.map(&List.first/1)
       |> rotate_left([])
       |> List.flatten
+      |> Terminal2048.Board.place_number
 
-    score = row_with_score
+    new_score = row_with_score
       |> Enum.map(&List.last/1)
       |> List.flatten
       |> Enum.sum
 
-    %Terminal2048.State{ game | board: board, score: score}
+    {new_board, score + new_score}
   end
 
-  def leftward_operation(row) do
+  defp leftward_operation(row) do
     {row, score} = row
       |> remove_nil
       |> merge
@@ -107,5 +139,13 @@ defmodule Terminal2048.Move do
     |> Enum.map(&Enum.reverse/1)
     |> Enum.reverse
   end
+
+  defp can_move({board, score}, :left),  do: {board, score} != move_left({board, score})
+  defp can_move({board, score}, :right), do: {board, score} != move_right({board, score})
+  defp can_move({board, score}, :up),    do: {board, score} != move_up({board, score})
+  defp can_move({board, score}, :down),  do: {board, score} != move_down({board, score})
+
+  defp handle_game_state(true),  do: :lost
+  defp handle_game_state(false), do: :continue
 
 end

@@ -1,44 +1,42 @@
 defmodule Terminal2048.Player do
 
   def play() do
-    {:ok, game} = Game.start_link
-    Port.open({:spawn, "tty_sl -c -e"}, [:binary, :eof])
-
-    # reference: https://cultivatehq.com/posts/pseudo-random-number-generator-in-elixir/
-    << a :: 32, b :: 32, c :: 32 >> = :crypto.rand_bytes(12)
-    :random.seed(a, b, c)
-
-    play(game)
+    play(Terminal2048.Board.new_game)
   end
 
   defp play(game) do
-    IO.write([clear_screen(), render(game)])
-    move(game)
-    play(game)
+    get_next_move({game, game.game_state})
   end
 
-  defp clear_screen(), do: [ IO.ANSI.home, IO.ANSI.clear ]
-  defp render(game), do: Game.state(game) |> inspect
-
-  defp move(game) do
-    receive do
-      {_port, {:data, data}} ->
-        data
-        |> get_next_move()
-        |> handle_key(game)
-        :ok
-      _ ->
-        :ok
-    end
+  defp get_next_mmove({game, :lost}) do
+    draw_current_board(game)
+    IO.puts("\nSorry, you lose.")
   end
 
-  defp get_next_move("\e[A"), do: :up
-  defp get_next_move("\e[B"), do: :down
-  defp get_next_move("\e[C"), do: :left
-  defp get_next_move("\e[D"), do: :right
-  defp get_next_move(_),      do: nil
+  def get_next_move({game, _game_state}) do
+    draw_current_board(game)
+    #report_move_status(game_state)
+    move = "\nMake your move: "
+      |> IO.gets
+      |> String.downcase
+      |> String.trim
+      |> get_move
 
-  defp handle_key(nil, _), do: :ok
-  defp handle_key(key, game), do: Game.move(game, key)
+    Terminal2048.Board.make_move(game, move)
+    |> get_next_move
+  end
+
+  def draw_current_board(game) do
+    clear_screen()
+    IO.puts(Terminal2048.Board.draw_current_board(game))
+  end
+
+  defp clear_screen(), do: IO.write("\e[H\e[2J")
+
+  defp get_move("w"), do: :up
+  defp get_move("s"), do: :down
+  defp get_move("a"), do: :left
+  defp get_move("d"), do: :right
+  defp get_move(_),   do: nil
 
 end
