@@ -35,7 +35,7 @@ git clone --recurse-submodules git@github.com:lchansen/05-coders-choice.git
 ## Runnning the Progam
 `docker-compose up`
 
-[Note to @pragdave] If you have some running containers you wish to experiment on, feel free. Else, you can spool up some containers by running this app I found (Github: dockersamples/example-voting-app) by typing `docker-compose up` in the "sample_containers" directory.
+[Note to @pragdave] If you have some running containers you wish to experiment on, feel free. Else, you can spool up some containers by running this app I found (Github: dockersamples/example-voting-app) by typing `docker-compose up` in the "example_voting_app" directory.
 
 ## Using the Program
 As long as your mobile phone is confirmed to reveive SMS messages from the Twilio service, you may send the following commands:
@@ -63,4 +63,4 @@ Responses are generally very quick, except for certain Docker operations that ha
 Note: skydock gives you access to your own machine's docker server, unless you run it remotely. You can technically even send an SMS call to shutdown itself by sending the SMS `kill skydock_service`. This is because the skydock_service container has a pointer to the real docker socket.
 
 ## Example
-After running the sample_containers app, text `get containers` to the phone number provided. If a container exists with the frindly name "redis", you could check its logs by typing `logs redis`. If you wanted to resrart it, you could send `stop redis` and then `start redis`. Experiment with any way you would like. 
+After running the example_voting_app app, text `get containers` to the phone number provided. If a container exists with the frindly name "redis", you could check its logs by typing `logs redis`. If you wanted to resrart it, you could send `stop redis` and then `start redis`. Experiment with any way you would like. 
