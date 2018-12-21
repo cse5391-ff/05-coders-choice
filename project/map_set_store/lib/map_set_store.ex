@@ -3,10 +3,12 @@ defmodule MapSetStore do
   Uses a named genserver to maintain / wrap a MapSet.
   """
 
+  alias MapSetStore.Interface
+
   defdelegate     start(name, args \\ []), to: Interface
+  defdelegate       get(name),             to: Interface
   defdelegate       add(name, args),       to: Interface
   defdelegate    remove(name, args),       to: Interface
-  defdelegate       get(name),             to: Interface
   defdelegate contains?(name, value),      to: Interface
 
 end

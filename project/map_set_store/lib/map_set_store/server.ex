@@ -1,18 +1,21 @@
 defmodule MapSetStore.Server do
+  @moduledoc """
+  Genserver that maintains a MapSet.
+  """
 
   use GenServer
 
-  def init(args) do
-    {:ok, args}
+  def init(mapset) do
+    {:ok, mapset}
   end
 
-  def handle_cast({:add, args}, state) do
-    updated_state = state |> MapSet.union(args)
+  def handle_cast({:add, values}, state) do
+    updated_state = state |> MapSet.union(values)
     {:noreply, updated_state}
   end
 
-  def handle_cast({:remove, args}, state) do
-    updated_state = state |> MapSet.difference(args)
+  def handle_cast({:remove, values}, state) do
+    updated_state = state |> MapSet.difference(values)
     {:noreply, updated_state}
   end
 
@@ -24,10 +27,10 @@ defmodule MapSetStore.Server do
   end
 
   def handle_call({:contains?, value}, _from, state) do
-    return_val = state |> MapSet.member?(value)
+    return_val     = state |> MapSet.member?(value)
     updated_state  = state
 
-    {:reply, return_val, new_state}
+    {:reply, return_val, updated_state}
   end
 
 end
