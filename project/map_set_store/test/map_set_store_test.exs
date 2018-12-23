@@ -5,16 +5,16 @@ defmodule MapSetStoreTest do
 
     setup do
 
-      fixture = [
+      fixture = %{
         empty:        :mss_empty,
         with_vals:    :mss_with_vals,
         initial_vals: [1,3,5,7]
-      ]
+      }
 
       {:ok, _} = MapSetStore.start(fixture.empty)
       {:ok, _} = MapSetStore.start(fixture.with_vals, fixture.initial_vals)
 
-      fixture
+      {:ok, fixture}
 
     end
 
@@ -28,13 +28,13 @@ defmodule MapSetStoreTest do
       mss_name = fixture.empty
 
       MapSetStore.add(mss_name, [1])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([1]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([1]))
 
       MapSetStore.add(mss_name, [2])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([1,2]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([1,2]))
 
       MapSetStore.add(mss_name, [3])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([1,2,3]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([1,2,3]))
 
     end
 
@@ -43,10 +43,10 @@ defmodule MapSetStoreTest do
       mss_name = fixture.empty
 
       MapSetStore.add(mss_name, [1,3,5])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([1,3,5]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([1,3,5]))
 
       MapSetStore.add(mss_name, [5,7,9])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([1,3,5,7,9]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([1,3,5,7,9]))
 
     end
 
@@ -55,16 +55,16 @@ defmodule MapSetStoreTest do
       mss_name = fixture.with_vals
 
       MapSetStore.remove(mss_name, [1])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([3,5,7]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([3,5,7]))
 
       MapSetStore.remove(mss_name, [5])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([3,7]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([3,7]))
 
       MapSetStore.remove(mss_name, [3])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([7]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([7]))
 
       MapSetStore.remove(mss_name, [7])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([]))
 
     end
 
@@ -73,10 +73,10 @@ defmodule MapSetStoreTest do
       mss_name = fixture.with_vals
 
       MapSetStore.remove(mss_name, [1, 5])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([3,7]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([3,7]))
 
       MapSetStore.remove(mss_name, [3, 7, 9])
-      assert MapSet.equal?(MapSetStore.get(:mss), MapSet.new([]))
+      assert MapSet.equal?(MapSetStore.get(mss_name), MapSet.new([]))
 
     end
 
@@ -86,6 +86,9 @@ defmodule MapSetStoreTest do
 
       assert MapSetStore.contains?(mss_name, 3)
       assert MapSetStore.contains?(mss_name, 7)
+
+      MapSetStore.remove(mss_name, [3])
+
       assert !MapSetStore.contains?(mss_name, 3)
 
     end
