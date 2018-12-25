@@ -6,14 +6,24 @@ defmodule MapSetStore.Interface do
 
   alias MapSetStore.Server
 
-  @type item() :: number() | String.t() | atom()
+  #@type item() :: number() | String.t() | atom()
 
-  def     start(name, args),  do: Server |> GenServer.start_link(to_mapset(args), name: name)
+  #@spec start(String.t, item | [item]) ::
+  def   start(name, args),  do: Server |> GenServer.start_link(to_mapset(args), name: name)
+
+  #@spec
   def       get(name),        do: name   |> GenServer.call(:get)
+
+  #@spec
   def       add(name, args),  do: name   |> GenServer.cast({:add,       to_mapset(args)})
+
+  #@spec
   def    remove(name, args),  do: name   |> GenServer.cast({:remove,    to_mapset(args)})
+
+  #@spec
   def contains?(name, value), do: name   |> GenServer.call({:contains?, value})
 
+  #@spec
   defp to_mapset(args), do: args |> MapSet.new()
 
 end
