@@ -22,7 +22,7 @@ defmodule IdManager.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:mapsetstore, path: "../map_set_store"}
+      {:mapsetstore, path: "../map_set_store", app: false}
     ]
   end
 end

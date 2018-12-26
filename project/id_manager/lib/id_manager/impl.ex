@@ -1,6 +1,6 @@
 defmodule IdManager.Impl do
 
-  @chars  = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ" |> String.codepoints()
+  @chars "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ" |> String.codepoints()
 
   def generate_id(type, length)
     when type in [:room, :user]
@@ -12,7 +12,7 @@ defmodule IdManager.Impl do
 
     cond do
       MapSetStore.contains?(server_name, id) ->
-        generate_id()
+        generate_id(type, length)
       true ->
         :ok = server_name |> MapSetStore.add(id)
         id
