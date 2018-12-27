@@ -3,19 +3,28 @@ defmodule IdManagerTest do
 
   describe "IdManager Tests" do
 
-    setup do
+    test "Generates unique codes" do
 
-      fixture = [
-
+      room_ids = [
+        IdManager.generate_id(:room, 15),
+        IdManager.generate_id(:room, 15),
+        IdManager.generate_id(:room, 15),
+        IdManager.generate_id(:room, 15)
       ]
 
-      {:ok, _} = MapSetStore.start(:room_ids)
-      {:ok, _} = MapSetStore.start(:user_ids)
+      user_ids = [
+        IdManager.generate_id(:user, 10),
+        IdManager.generate_id(:user, 10),
+        IdManager.generate_id(:user, 10),
+        IdManager.generate_id(:user, 10)
+      ]
 
-    end
+      assert room_ids == Enum.uniq(room_ids)
+      assert MapSet.equal?(MapSet.new(room_ids), MapSetStore.get(:room_ids))
 
-    test "greets the world" do
-      assert IdManager.hello() == :world
+      assert user_ids == Enum.uniq(user_ids)
+      assert MapSet.equal?(MapSet.new(user_ids), MapSetStore.get(:user_ids))
+
     end
 
   end

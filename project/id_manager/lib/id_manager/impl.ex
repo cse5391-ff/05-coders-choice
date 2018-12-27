@@ -14,7 +14,7 @@ defmodule IdManager.Impl do
       MapSetStore.contains?(server_name, id) ->
         generate_id(type, length)
       true ->
-        :ok = server_name |> MapSetStore.add(id)
+        :ok = server_name |> MapSetStore.add([id])
         id
     end
 
