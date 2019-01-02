@@ -24,18 +24,17 @@ defmodule TwoPianos.LobbyChannel do
   end
 
   def handle_in("join_existing_room", %{"room_code" => code}, socket) do
+
     case RoomManager.fetch_id_by_code(code) do
       nil -> socket |> push("invalid_code")
       id  -> socket |> push("valid_code", %{room_id: id})
     end
-    # Need way to lookup room_id based on code.
-    # IDEA: Create queryable RoomManager Module that handles Room creation (Generation of room_id and map w/ code and users),
-    # has room_id / room_code lookup as api function
+
     {:noreply, socket}
+
   end
 
   def handle_in("match_with_stranger", _, socket) do
-    # Will broadcast room id to both users' user channels on successful match
     RandomUserMatcher.place_into_queue(socket.user_id)
     {:noreply, socket}
   end
