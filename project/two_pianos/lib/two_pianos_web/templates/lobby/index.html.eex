@@ -42,7 +42,7 @@
 
   <div class="col-md-2 center-text">
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Room Code...">
+      <input id="room-code-input" type="text" class="form-control" placeholder="Room Code...">
       <span class="input-group-btn">
         <button id="join-existing-btn" class="btn btn-primary" type="button">Join!</button>
       </span>

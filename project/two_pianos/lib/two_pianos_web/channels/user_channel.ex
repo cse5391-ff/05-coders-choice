@@ -8,6 +8,10 @@ defmodule TwoPianos.UserChannel do
     {:ok, socket}
   end
 
-  # Client-side can handle receiving event "matched_user"
+  def broadcast_match(id1, id2, room_id) do
+    TwoPianos.Endpoint.broadcast("user:" <> id1, "matched_user", room_id)
+    TwoPianos.Endpoint.broadcast("user:" <> id2, "matched_user", room_id)
+    :ok
+  end
 
 end

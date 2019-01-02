@@ -47,12 +47,20 @@ export class TwoPianos{
         
         // on "Join Room" button press
         document.getElementById("join-existing-btn").addEventListener("click", e => {
-            this.channels.lobby.push("join_existing_room")
+            let room_code = document.getElementById("room-code-input").value
+            this.channels.lobby.push("join_existing_room", room_code)
         })
 
         // on "Join Stranger" button press
         document.getElementById("match-stranger-btn").addEventListener("click", e => {
             this.channels.lobby.push("match_with_stranger")
+        })
+
+        // RECEIVERS
+
+        // on "room_created"
+        this.channels.lobby.on("room_created", msg => {
+            let room_id = msg.room_id
         })
     }
 
@@ -61,7 +69,7 @@ export class TwoPianos{
 
         // on "match_found"
         this.channels.user.on("match_found", msg => {
-            
+            let room_id = msg.room_id
         })
     }
 
