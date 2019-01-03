@@ -12,7 +12,7 @@ defmodule MapStore.Interface do
     name |> GenServer.call(:get)
   end
 
-  def get_val_from_key(name, key) do
+  def get(name, key) do
     name |> GenServer.call({:get, key})
   end
 
@@ -21,7 +21,7 @@ defmodule MapStore.Interface do
   end
 
   def remove(name, key) do
-    name |> GenServer.cast({:remove, key, val})
+    name |> GenServer.cast({:remove, key})
   end
 
   def contains_key?(name, key) do
