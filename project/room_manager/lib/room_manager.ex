@@ -1,18 +1,27 @@
 defmodule RoomManager do
-  @moduledoc """
-  Documentation for RoomManager.
-  """
 
-  @doc """
-  Hello world.
+  def new(_type = :protected, user_id) do
+    #room_id   = ...
+    #room_code = ...
 
-  ## Examples
-
-      iex> RoomManager.hello
-      :world
-
-  """
-  def hello do
-    :world
+    #{room_id, room_code}
   end
+
+  def new(_type = match, user_id1, user_id2) do
+    #room_id = ...
+
+    #room_id
+  end
+
+  def get_id_by_code(code) do
+    #room_id = ...
+
+    #room_id
+  end
+
+  def user_authorized?(room_id, user_id) do
+    #room = ...
+
+  end
+
 end

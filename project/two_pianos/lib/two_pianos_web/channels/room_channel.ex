@@ -6,7 +6,7 @@ defmodule TwoPianos.RoomChannel do
 
   def join("room:" <> room_id, _, socket) do
 
-    if authorized?(socket.assigns.user_id, room_id) do
+    if RoomManager.user_authorized?(room_id, socket.assigns.user_id) do
       # Needs to check if current user is authorized to enter this room's channel
       {:ok, socket}
     else
