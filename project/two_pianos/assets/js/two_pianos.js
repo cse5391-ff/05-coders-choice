@@ -2,12 +2,6 @@ import { Socket } from "phoenix"
 import { Piano }  from "./piano"
 
 export class TwoPianos{
-
-    /* 
-        socket  -> socket connection to phoenix server
-        channel -> socket channel the user is connected to
-        pianos  -> { "mine": <piano>, "theirs": <piano> }
-    */
     
     constructor(){
 
