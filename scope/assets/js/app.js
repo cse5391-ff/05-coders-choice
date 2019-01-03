@@ -23,22 +23,24 @@ import "phoenix_html"
  let channel = socket.channel('chat_room:lobby', {});
  let list = $('#message-list');
  let message = $('#msg');
- let name = $('#name');
+ let username = $('#username');
  let urgency = $('#urgency');
+ let chatroom = "chatroom01";
 
  message.on('keypress', event => {
      if (event.keyCode == 13) {
          channel.push('shout', {
-            name: name.val(),
+            username: username.val(),
             message: message.val(),
-            urgency: urgency.val()
+            urgency: urgency.val(),
+            chatroom: chatroom,
          });
          message.val('');
      }
  })
 
  channel.on('shout', payload => {
-     list.append(`<b>${payload.name || 'new_user'}:</b> ${payload.message}<br>`);
+     list.append(`<b>${payload.username || 'new_user'}:</b> ${payload.message}<br>`);
      list.prop({
          scrollTop: list.prop('scrollHeight')
      })

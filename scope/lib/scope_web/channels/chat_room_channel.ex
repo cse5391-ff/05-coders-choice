@@ -30,6 +30,8 @@ defmodule ScopeWeb.ChatRoomChannel do
       %{
         username: msg.username,
         message: msg.message,
+        urgency: msg.urgency,
+        chatroom: msg.chatroom,
       }) end)
     {:noreply, socket}
   end
