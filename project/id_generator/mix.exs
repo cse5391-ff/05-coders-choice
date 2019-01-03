@@ -1,9 +1,9 @@
-defmodule IdManager.MixProject do
+defmodule IdGenerator.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :id_manager,
+      app: :id_generator,
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
@@ -14,15 +14,15 @@ defmodule IdManager.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
-      mod: {IdManager.Application, []}
+      extra_applications: [:logger]
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:mapsetstore, path: "../map_set_store", app: false}
+      # {:dep_from_hexpm, "~> 0.3.0"},
+      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
     ]
   end
 end
