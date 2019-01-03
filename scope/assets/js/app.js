@@ -54,3 +54,11 @@ import "phoenix_html"
  .receive('error', resp => {
      console.log('Unable to join', resp);
  });
+
+ $(document).ready(function () {
+
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
+
+});
