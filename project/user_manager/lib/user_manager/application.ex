@@ -13,4 +13,5 @@ defmodule UserManager.Application do
     MapStore.DynamicSupervisor.start_child(:mss1, :user_ids)
 
   end
+
 end
