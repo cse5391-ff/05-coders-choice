@@ -10,7 +10,7 @@ defmodule UserManager.Application do
 
     Supervisor.start_link(children, strategy: :one_for_one)
 
-    MapStore.DynamicSupervisor.start_child(:mss1, :user_ids)
+    MapSetStore.DynamicSupervisor.start_child(:mss1, :user_ids)
 
   end
 
