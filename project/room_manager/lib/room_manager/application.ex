@@ -14,4 +14,5 @@ defmodule RoomManager.Application do
     MapStore.DynamicSupervisor.start_child(:ms2, :room_codes)
 
   end
+
 end

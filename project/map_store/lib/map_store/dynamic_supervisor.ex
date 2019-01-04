@@ -8,7 +8,7 @@ defmodule MapStore.DynamicSupervisor do
 
   # Look back into id after done... Not sure what it's for.
   def start_child(id, name) do
-    DynamicSupervisor.start_child(__MODULE__, %{id: id, start: {MapSetStore, :start, [name]}})
+    DynamicSupervisor.start_child(__MODULE__, %{id: id, start: {MapStore, :start, [name]}})
   end
 
   def init(_arg) do

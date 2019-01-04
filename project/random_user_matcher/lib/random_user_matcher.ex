@@ -6,7 +6,7 @@ defmodule RandomUserMatcher do
 
   alias RandomUserMatcher.Interface
 
-  defdelegate start(),          to: Interface
-  defdelegate place_into_queue, to: Interface
+  defdelegate start(name // :matcher), to: Interface
+  defdelegate match(user_id),          to: Interface
 
 end

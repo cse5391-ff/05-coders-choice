@@ -1,16 +1,19 @@
 defmodule RandomUserMatcher.Interface do
 
-  @doc """
-  Launches the matcher process.
-  """
-  def start() do
+  alias RandomUserMatcher.Server
 
-  end
+  def start(name), do: GenServer.start_link(Server, nil, name: name)
 
-  @doc """
-  Sends the matcher process a user ID
-  """
-  def place_into_queue(user_id) do
+  # Consider moving this module into phoenix project, needs access to TwoPianos UserChannel anyway...
+  def match(user_id) do
+
+    case GenServer.call(:matcher, {:match, user_id}) do
+      :waiting ->
+        :waiting
+      {:match, matched_user_id} ->
+        room_id = RoomManager.new(:match, user_id, matched_user_id)
+        TwoPianos.UserChannel.broadcast_match(user_id, matched_user_id, room_id)
+    end
 
   end
 
