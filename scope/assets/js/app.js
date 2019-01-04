@@ -40,6 +40,11 @@ import "phoenix_html"
      }
  })
 
+//  trigger channel switch
+channel_list.on('click', 'li', function(){
+    channel.push('channel_switch', $(this).text());
+})
+
  channel.on('shout', payload => {
      list.append(`<b>${payload.username || 'new_user'}:</b> ${payload.message}<br>`);
      list.prop({

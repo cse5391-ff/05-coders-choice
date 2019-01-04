@@ -23,6 +23,13 @@ defmodule Scope.Message do
     Scope.Repo.all(Scope.Message, limit: limit)
   end
 
+  def get_msgs_from(chatroom) do
+    query = from u in Scope.Message,
+              where: u.chatroom == ^chatroom
+
+    Scope.Repo.all(query)
+  end
+
   # get all channels
   def get_channels() do
     query = from u in Scope.Message,

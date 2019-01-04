@@ -37,6 +37,18 @@ defmodule ScopeWeb.ChatRoomChannel do
     {:noreply, socket}
   end
 
+  def handle_in("channel_switch", channel, socket) do
+    Scope.Message.get_msgs_from(channel)
+    |> Enum.each(fn msg -> push(socket, "shout",
+      %{
+        username: msg.username,
+        message: msg.message,
+        urgency: msg.urgency,
+        chatroom: msg.chatroom,
+      }) end)
+    {:noreply, socket}
+  end
+
   # switch to maintain conceptual integrity
   def handle_info(:list_channels, socket) do
     Scope.Message.get_channels()
