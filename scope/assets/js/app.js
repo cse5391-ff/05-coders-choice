@@ -26,6 +26,7 @@ import "phoenix_html"
  let username = $('#username');
  let urgency = $('#urgency');
  let chatroom = "chatroom01";
+ let channel_list = $('#channel-list');
 
  message.on('keypress', event => {
      if (event.keyCode == 13) {
@@ -46,6 +47,10 @@ import "phoenix_html"
      })
  })
 
+ channel.on('list_channels', payload => {
+    channel_list.append(`<li>${payload.channel}</li>`);
+ })
+
  channel
  .join()
  .receive('ok', resp => {
@@ -55,10 +60,11 @@ import "phoenix_html"
      console.log('Unable to join', resp);
  });
 
- $(document).ready(function () {
+$(document).ready(function () {
 
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
     });
 
 });
+

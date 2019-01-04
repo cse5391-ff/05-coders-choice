@@ -4,6 +4,7 @@ defmodule ScopeWeb.ChatRoomChannel do
   def join("chat_room:lobby", payload, socket) do
     if authorized?(payload) do
       send(self(), :after_join)
+      send(self(), :list_channels)
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
@@ -32,6 +33,16 @@ defmodule ScopeWeb.ChatRoomChannel do
         message: msg.message,
         urgency: msg.urgency,
         chatroom: msg.chatroom,
+      }) end)
+    {:noreply, socket}
+  end
+
+  # switch to maintain data isolation
+  def handle_info(:list_channels, socket) do
+    Scope.Message.get_channels()
+    |> Enum.each(fn msg -> push(socket, "list_channels",
+      %{
+        channel: "Channel 1",
       }) end)
     {:noreply, socket}
   end

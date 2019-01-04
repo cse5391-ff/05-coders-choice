@@ -4,7 +4,7 @@
     <h3>Channels</h3>
   </div>
 
-  <ul class='list-unstyled channel-list'>
+  <ul id='channel-list' class='list-unstyled'>
     <li class="active">Dummy list item</li>
   </ul>
 </nav>

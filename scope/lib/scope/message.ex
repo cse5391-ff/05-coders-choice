@@ -1,7 +1,7 @@
 defmodule Scope.Message do
   use Ecto.Schema
   import Ecto.Changeset
-
+  import Ecto.Query, only: [from: 2, distinct: 3]
 
   schema "messages" do
     field :chatroom, :string
@@ -21,5 +21,13 @@ defmodule Scope.Message do
 
   def get_msgs(limit \\ 20) do
     Scope.Repo.all(Scope.Message, limit: limit)
+  end
+
+  # get all channels available to a user
+  def get_channels(username \\ '*') do
+    query = from u in Scope.Message,
+              select: u.chatroom
+
+    Scope.Repo.all(query)
   end
 end
