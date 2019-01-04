@@ -37,12 +37,12 @@ defmodule ScopeWeb.ChatRoomChannel do
     {:noreply, socket}
   end
 
-  # switch to maintain data isolation
+  # switch to maintain conceptual integrity
   def handle_info(:list_channels, socket) do
     Scope.Message.get_channels()
     |> Enum.each(fn msg -> push(socket, "list_channels",
       %{
-        channel: "Channel 1",
+        channel: msg,
       }) end)
     {:noreply, socket}
   end
