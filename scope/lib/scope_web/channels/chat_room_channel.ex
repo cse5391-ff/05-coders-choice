@@ -38,6 +38,7 @@ defmodule ScopeWeb.ChatRoomChannel do
   end
 
   def handle_in("channel_switch", channel, socket) do
+    push(socket, "clear_frame", %{})
     Scope.Message.get_msgs_from(channel)
     |> Enum.each(fn msg -> push(socket, "shout",
       %{

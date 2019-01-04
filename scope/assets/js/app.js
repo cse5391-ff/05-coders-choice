@@ -56,6 +56,10 @@ channel_list.on('click', 'li', function(){
     channel_list.append(`<li>${payload.channel}</li>`);
  })
 
+ channel.on('clear_frame', event => {
+     list.html('')
+ })
+
  channel
  .join()
  .receive('ok', resp => {
