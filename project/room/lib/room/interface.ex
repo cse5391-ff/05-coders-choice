@@ -1,11 +1,10 @@
 defmodule Room.Interface do
 
-  def start(name, args) do
-    GenServer.start_link(MapSetStore.Server, args, name: name)
+  def start(name, type, startup_state) do
+    GenServer.start_link(Room.Server, {type, startup_state}, name: name)
   end
 
-  def add_user(name, user_id, code) do
-    GenServer.cast(name, {:add_user, user_id, code})
-  end
+  def join(room_id, user_id),  do: GenServer.call(room_id, {:join, user_id})
+  def leave(room_id, user_id), do: GenServer.cast(room_id, {:leave, user_id})
 
 end
