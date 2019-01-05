@@ -1,32 +1,33 @@
 defmodule RoomManager.Impl do
 
-  # Create protected room (generate room id, room code and store info along w/ creators id)
-  def new_room(_type = :protected, user_id) do
-    # Spawns :protected room process and returns room_id and room_code
+  alias RoomManager.IdManager
 
-    #room_id   = ...
-    #room_code = ...
+  def new_room(_type = :protected, creator_id) do
 
-    #{room_id, room_code}
+    room_id = IdManager.generate_room_id(10)
+    room_code = IdManager.generate_room_code(5)
+
+    # Spawn Room
+    Room.DynamicSupervisor.start_child(room_id, :protected, creator_id)
+
+    # Key = code, val = id
+    MapStore.add(:code_id_linker, room_code, room_id)
+
+    {room_id, room_code}
+
   end
 
-  # Create match room (generate room id, store along w/ both users' ids)
-  def new_room(_type = :match, {user_id1, user_id2}) do
-    # Spawns :match room process and returns room_id
+  def new_room(_type = :match, user_ids = {_id1, _id2}) do
 
-    #room_id = ...
+    room_id = IdManager.generate_room_id(10)
 
-    #room_id
+    # Spawn Room
+    Room.DynamicSupervisor.start_child(room_id, :match, user_ids)
+
+    room_id
+
   end
 
-  # Fetch room id from room code
-  def get_id_by_code(code) do
-    # Interact w/ MapStore to get relevant id by code
-    # Return nil if code doesn't exist (may already be handled by MapStore API)
-
-    #room_id = ...
-
-    #room_id
-  end
+  def get_id_by_code(code), do: :code_id_linker |> MapStore.get(code)
 
 end

@@ -12,6 +12,7 @@ defmodule RoomManager.Application do
 
     Supervisor.start_link(children, strategy: :one_for_one)
 
+    # For IdManager
     MapSetStore.DynamicSupervisor.start_child(:mss1, :room_codes)
     MapSetStore.DynamicSupervisor.start_child(:mss2, :room_ids)
 
