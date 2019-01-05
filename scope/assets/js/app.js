@@ -20,12 +20,13 @@ import "phoenix_html"
 
  import socket from "./socket"
 
- let channel = socket.channel('chat_room:lobby', {});
+ let chatroom = "lobby";
+ let lobby = socket.channel(`chat_room:lobby`, {});
+ let channel;
  let list = $('#message-list');
  let message = $('#msg');
  let username = $('#username');
  let urgency = $('#urgency');
- let chatroom = "chatroom01";
  let channel_list = $('#channel-list');
 
  message.on('keypress', event => {
@@ -42,25 +43,40 @@ import "phoenix_html"
 
 //  trigger channel switch
 channel_list.on('click', 'li', function(){
-    channel.push('channel_switch', $(this).text());
+    // this should send to channel_view via socket
+    lobby.push('channel_switch', $(this).text());
 })
 
- channel.on('shout', payload => {
+lobby.on('shout', payload => {
      list.append(`<b>${payload.username || 'new_user'}:</b> ${payload.message}<br>`);
      list.prop({
          scrollTop: list.prop('scrollHeight')
      })
  })
 
- channel.on('list_channels', payload => {
-    channel_list.append(`<li>${payload.channel}</li>`);
+lobby.on('list_channels', payload => {
+    channel_list.append(`<li id="${payload.channel}">${payload.channel}</li>`);
  })
 
- channel.on('clear_frame', event => {
+lobby.on('clear_frame', event => {
      list.html('')
  })
 
- channel
+lobby.on('update_active_navbar', payload => {
+    // remove all active classes
+    $('.active').removeClass('active');
+    $(`#${payload.active}`).addClass('active');
+ })
+
+lobby.on('load_new_channel', payload => {
+    chatroom = payload.new;
+    channel = socket.channel(`chat_room:${chatroom}`, {})
+    channel.join()
+      .receive("ok", resp => { console.log("Joined successfully", resp) })
+      .receive("error", resp => { console.log("Unable to join", resp) })
+ })
+
+lobby
  .join()
  .receive('ok', resp => {
      console.log('Joined successfully', resp);
@@ -74,6 +90,5 @@ $(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
     });
-
 });
 
