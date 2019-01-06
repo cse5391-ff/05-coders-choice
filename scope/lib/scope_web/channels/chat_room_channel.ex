@@ -21,6 +21,7 @@ defmodule ScopeWeb.ChatRoomChannel do
       IO.puts socket.assigns[:channel]
 
       send(self(), :after_join)
+      send(self(), :list_channels)
 
       # Here we can update the room to be the room they wanted to join.
       {:ok, socket}
@@ -29,13 +30,14 @@ defmodule ScopeWeb.ChatRoomChannel do
     end
   end
 
-  def handle_in("change_channel", payload = %{channel: channel}, socket) do
-    update_active_navbar(channel, socket)
-    push(socket, "clear_frame", %{})
-    push(socket, "load_new_channel", %{new: channel})
-    {:reply, {:ok, payload}, socket
-                             |>assign(:channel, channel)}
-  end
+  # def handle_in("change_channel", payload = %{channel: channel}, socket) do
+  #   IO.puts channel
+  #   update_active_navbar(channel, socket)
+  #   push(socket, "clear_frame", %{})
+  #   push(socket, "load_new_channel", %{new: channel})
+  #   {:noreply, socket
+  #              |>assign(:channel, channel)}
+  # end
 
   def handle_in("shout", payload, socket) do
     spawn(fn -> save_msg(payload) end)
@@ -63,7 +65,6 @@ defmodule ScopeWeb.ChatRoomChannel do
   end
 
   def handle_info(:after_join, socket) do
-    IO.puts socket.assigns[:channel]
     #get room_id from the socket
     get_msgs(socket.assigns[:channel], socket)
     {:noreply, socket}

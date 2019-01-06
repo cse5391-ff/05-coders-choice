@@ -20,8 +20,8 @@ import "phoenix_html"
 
  import socket from "./socket"
 
- let chatroom = "lobby";
- let channel = socket.channel("chat_room:lobby", {});
+ let chatroom = "chatroom007";
+ let channel = socket.channel(`chat_room:${chatroom}`, {});
  let list = $('#message-list');
  let message = $('#msg');
  let username = $('#username');
@@ -51,8 +51,12 @@ import "phoenix_html"
 
 //  trigger channel switch
 channel_list.on('click', 'li', function(){
-    // this should send to channel_view via socket
-    channel.push('change_channel', $(this).text());
+    // list.html('')
+    chatroom = $(this).html();
+    channel = socket.channel(`chat_room:${chatroom}`, {})
+    channel.join()
+      .receive("ok", resp => { console.log("Joined successfully", resp) })
+      .receive("error", resp => { console.log("Unable to join", resp) })
 })
 
 channel.on('shout', payload => {
@@ -64,10 +68,6 @@ channel.on('shout', payload => {
 
 channel.on('list_channels', payload => {
     channel_list.append(`<li id="${payload.channel}">${payload.channel}</li>`);
- })
-
-channel.on('clear_frame', event => {
-     list.html('')
  })
 
 channel.on('update_active_navbar', payload => {
