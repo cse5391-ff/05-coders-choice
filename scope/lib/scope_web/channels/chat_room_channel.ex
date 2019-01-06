@@ -40,13 +40,9 @@ defmodule ScopeWeb.ChatRoomChannel do
   # end
 
   def handle_in("shout", payload, socket) do
-    spawn(fn -> save_msg(payload) end)
+    spawn(fn -> Scope.ChatFetcher.save_msg(payload) end)
     push(socket, "shout", payload)
     {:noreply, socket}
-  end
-
-  def save_msg(msg) do
-    Scope.Message.changeset(%Scope.Message{}, msg) |> Scope.Repo.insert
   end
 
   def update_active_navbar(channel, socket) do
@@ -56,7 +52,7 @@ defmodule ScopeWeb.ChatRoomChannel do
   end
 
   def handle_info(:list_channels, socket) do
-    Scope.Message.get_channels()
+    Scope.ChannelListFetcher.get_channels()
     |> Enum.each(fn msg -> push(socket, "list_channels",
       %{
         channel: msg,
@@ -71,7 +67,7 @@ defmodule ScopeWeb.ChatRoomChannel do
   end
 
   def get_msgs(channel, socket) do
-    Scope.Message.get_msgs_from(channel)
+    Scope.ChatFetcher.get_msgs(channel)
     |> Enum.each(fn msg -> push(socket, "shout",
       %{
         username: msg.username,

@@ -20,6 +20,7 @@ import "phoenix_html"
 
  import socket from "./socket"
 
+//  Initial chat setup sourced from 
  let chatroom = "chatroom007";
  let channel = socket.channel(`chat_room:${chatroom}`, {});
  let list = $('#message-list');
