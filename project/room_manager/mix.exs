@@ -22,7 +22,9 @@ defmodule RoomManager.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:map_store, path: "../map_store"},
+      {:map_store,     path: "../map_store",     app: false},
+      {:map_set_store, path: "../map_set_store", app: false},
+      {:room,          path: "../room",          app: false}
     ]
   end
 end

@@ -2,7 +2,7 @@ defmodule RandomUserMatcher.Server do
 
   use GenServer
 
-  def init() do
+  def init(_) do
     {:ok, nil}
   end
 

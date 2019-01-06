@@ -2,7 +2,7 @@ defmodule RoomManager.Impl do
 
   alias RoomManager.IdManager
 
-  def new_room(_type = :protected, creator_id) do
+  def create_room(_type = :protected, creator_id) do
 
     room_id = IdManager.generate_room_id(10)
     room_code = IdManager.generate_room_code(5)
@@ -17,7 +17,7 @@ defmodule RoomManager.Impl do
 
   end
 
-  def new_room(_type = :match, user_ids = {_id1, _id2}) do
+  def create_room(_type = :match, user_ids = {_id1, _id2}) do
 
     room_id = IdManager.generate_room_id(10)
 

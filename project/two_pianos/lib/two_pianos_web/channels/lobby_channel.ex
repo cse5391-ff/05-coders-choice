@@ -8,7 +8,7 @@ defmodule TwoPianos.LobbyChannel do
 
   def handle_in("create_room", _, socket) do
     # Create protected room (Generate unique room ID and code)
-    {room_id, room_code} = RoomManager.new(:protected, socket.assigns.user_id)
+    {room_id, room_code} = RoomManager.create_room(:protected, socket.assigns.user_id)
 
     # Push room id and room code back to user -> they will join the room's specific channel, will be
     # able to see the code, and will have a piano to mess around with

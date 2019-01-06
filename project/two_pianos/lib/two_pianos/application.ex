@@ -1,23 +1,22 @@
 defmodule TwoPianos.Application do
+
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec
 
     children = [
-
-      supervisor(TwoPianosWeb.Endpoint, []),
-
-      worker()
-
+      { Supervisor, strategy: :one_for_one, name: UserManager.Supervisor },
+      { Supervisor, strategy: :one_for_one, name: RoomManager.Supervisor },
+      { Supervisor, strategy: :one_for_one, name: RandomUserMatcher.Supervisor }
     ]
 
-    opts = [strategy: :one_for_one, name: TwoPianos.Supervisor]
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link(children, strategy: :one_for_one)
+
   end
 
   def config_change(changed, _new, removed) do
     TwoPianosWeb.Endpoint.config_change(changed, removed)
     :ok
   end
+
 end

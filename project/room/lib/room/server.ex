@@ -59,8 +59,7 @@ defmodule Room.Server do
   #  true
   #end
 
-  defp user_authorized?(user_id, %{type: :match, permitted: permitted}) when user_id in permitted, do: true
-  defp user_authorized?(_user_id, %{type: :match}),                                                do: false
+  defp user_authorized?(user_id, state = %{type: :match}), do: user_id in state.permitted
 
   defp user_authorized?(user_id, state = %{type: :protected}) do
     cond do
