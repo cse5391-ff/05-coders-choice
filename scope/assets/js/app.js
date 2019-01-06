@@ -21,7 +21,7 @@ import "phoenix_html"
  import socket from "./socket"
 
  let chatroom = "lobby";
- let channel = socket.channel("chat_room:chatroom01", {});
+ let channel = socket.channel("chat_room:lobby", {});
  let list = $('#message-list');
  let message = $('#msg');
  let username = $('#username');
@@ -52,7 +52,7 @@ import "phoenix_html"
 //  trigger channel switch
 channel_list.on('click', 'li', function(){
     // this should send to channel_view via socket
-    channel.push('channel_switch', $(this).text());
+    channel.push('change_channel', $(this).text());
 })
 
 channel.on('shout', payload => {

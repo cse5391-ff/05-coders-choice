@@ -3,9 +3,10 @@ defmodule ScopeWeb.ChatRoomChannel do
 
   def join("chat_room:lobby", payload, socket) do
     if authorized?(payload) do
+      updated_socket = socket
+                       |>assign(:channel, "lobby")
       send(self(), :after_join)
       send(self(), :list_channels)
-      updated_socket = socket.assign(:channel, "lobby")
       {:ok, updated_socket}
     else
       {:error, %{reason: "unauthorized"}}
@@ -15,8 +16,10 @@ defmodule ScopeWeb.ChatRoomChannel do
   def join("chat_room:" <> room_id, payload, socket) do
     if authorized?(payload) do
       #store room id of channel
-      socket
-            |>assign(:channel, room_id)
+      socket = socket
+               |>assign(:channel, room_id)
+      IO.puts socket.assigns[:channel]
+
       send(self(), :after_join)
 
       # Here we can update the room to be the room they wanted to join.
@@ -60,6 +63,7 @@ defmodule ScopeWeb.ChatRoomChannel do
   end
 
   def handle_info(:after_join, socket) do
+    IO.puts socket.assigns[:channel]
     #get room_id from the socket
     get_msgs(socket.assigns[:channel], socket)
     {:noreply, socket}
