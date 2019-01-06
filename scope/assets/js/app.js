@@ -20,14 +20,21 @@ import "phoenix_html"
 
  import socket from "./socket"
 
- let chatroom = "lobby";
- let lobby = socket.channel(`chat_room:lobby`, {});
- let channel;
+ let channel = socket.channel(`chat_room:lobby`, {});
  let list = $('#message-list');
  let message = $('#msg');
  let username = $('#username');
  let urgency = $('#urgency');
  let channel_list = $('#channel-list');
+
+ channel
+ .join()
+ .receive('ok', resp => {
+     console.log('Joined successfully', resp);
+ })
+ .receive('error', resp => {
+     console.log('Unable to join', resp);
+ });
 
  message.on('keypress', event => {
      if (event.keyCode == 13) {
@@ -44,31 +51,31 @@ import "phoenix_html"
 //  trigger channel switch
 channel_list.on('click', 'li', function(){
     // this should send to channel_view via socket
-    lobby.push('channel_switch', $(this).text());
+    channel.push('channel_switch', $(this).text());
 })
 
-lobby.on('shout', payload => {
+channel.on('shout', payload => {
      list.append(`<b>${payload.username || 'new_user'}:</b> ${payload.message}<br>`);
      list.prop({
          scrollTop: list.prop('scrollHeight')
      })
  })
 
-lobby.on('list_channels', payload => {
+channel.on('list_channels', payload => {
     channel_list.append(`<li id="${payload.channel}">${payload.channel}</li>`);
  })
 
-lobby.on('clear_frame', event => {
+channel.on('clear_frame', event => {
      list.html('')
  })
 
-lobby.on('update_active_navbar', payload => {
+channel.on('update_active_navbar', payload => {
     // remove all active classes
     $('.active').removeClass('active');
     $(`#${payload.active}`).addClass('active');
  })
 
-lobby.on('load_new_channel', payload => {
+channel.on('load_new_channel', payload => {
     chatroom = payload.new;
     channel = socket.channel(`chat_room:${chatroom}`, {})
     channel.join()
@@ -76,14 +83,6 @@ lobby.on('load_new_channel', payload => {
       .receive("error", resp => { console.log("Unable to join", resp) })
  })
 
-lobby
- .join()
- .receive('ok', resp => {
-     console.log('Joined successfully', resp);
- })
- .receive('error', resp => {
-     console.log('Unable to join', resp);
- });
 
 $(document).ready(function () {
 

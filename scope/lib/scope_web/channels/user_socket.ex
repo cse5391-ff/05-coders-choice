@@ -2,7 +2,6 @@ defmodule ScopeWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "chat_room:lobby", ScopeWeb.ChannelView
   channel "chat_room:*", ScopeWeb.ChatRoomChannel
 
   ## Transports
