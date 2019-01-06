@@ -63,11 +63,13 @@ defmodule ScopeWeb.ChatRoomChannel do
   def handle_info(:after_join, socket) do
     #get room_id from the socket
     get_msgs(socket.assigns[:channel], socket)
+    # |> Scope.ChannelReadHelper.read_msgs
     {:noreply, socket}
   end
 
   def get_msgs(channel, socket) do
-    Scope.ChatFetcher.get_msgs(channel)
+    msgs = Scope.ChatFetcher.get_msgs(channel)
+    msgs
     |> Enum.each(fn msg -> push(socket, "shout",
       %{
         username: msg.username,
@@ -75,6 +77,8 @@ defmodule ScopeWeb.ChatRoomChannel do
         urgency: msg.urgency,
         chatroom: msg.chatroom,
       }) end)
+    msgs
+
   end
 
   # Add authorization logic here as required.

@@ -8,12 +8,17 @@
     margin-bottom: 30px;
 }
 
+#content {
+    width: 100%;
+}
 
 .wrapper {
     display: flex;
     width: 100%;
     align-items:stretch;
 }
+
+/* CSS for sidebar from https://bootstrapious.com/p/bootstrap-sidebar */
 
 #sidebar {
     min-width: 200px;
@@ -24,8 +29,6 @@
 #sidebar.active {
     margin-left: -200px;
 }
-
-/* CSS from https://bootstrapious.com/p/bootstrap-sidebar */
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
@@ -51,14 +54,15 @@ a, a:hover, a:focus {
 
 #sidebar {
     /* don't forget to add all the previously mentioned styles here too */
-    background: #7386D5;
-    color: #fff;
+    background: rgb(240, 242, 252);
+    color: rgba(70, 59, 59, 0.863);
     transition: all 0.3s;
 }
 
 #sidebar .sidebar-header {
-    padding: 20px;
-    background: #6d7fcc;
+    padding: 20px 0px 20px 20px;
+    background: #7b8de0;
+    color: #fff;
 }
 
 #sidebar ul.components {
@@ -92,3 +96,7 @@ ul ul a {
 }
 
 /* End CSS from bootstrapious */
+
+#channel-list {
+    padding: 0px 0px 0px 15px;
+}
