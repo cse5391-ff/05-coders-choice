@@ -10,10 +10,6 @@ defmodule Room.DynamicSupervisor do
     DynamicSupervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
 
-  #def start_child(id, name, type, startup_state) do
-  #  DynamicSupervisor.start_child(__MODULE__, %{id: id, start: {Room, :start, [name, type, startup_state]}})
-  #end
-
   def start_child(name, type, startup_state) do
     DynamicSupervisor.start_child(__MODULE__, %{start: {Room, :start, [name, type, startup_state]}})
   end

@@ -2,6 +2,10 @@ defmodule MapStore.DynamicSupervisor do
 
   use DynamicSupervisor
 
+  def init(_arg) do
+    DynamicSupervisor.init(strategy: :one_for_one)
+  end
+
   def start_link(arg) do
     DynamicSupervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
@@ -11,8 +15,14 @@ defmodule MapStore.DynamicSupervisor do
     DynamicSupervisor.start_child(__MODULE__, %{id: id, start: {MapStore, :start, [name]}})
   end
 
-  def init(_arg) do
-    DynamicSupervisor.init(strategy: :one_for_one)
+  def child_spec(opts) do
+    %{
+      id:       __MODULE__,
+      start:   {__MODULE__, :start_link, [opts]},
+      type:    :supervisor,
+      restart: :permanent,
+      shutdown: 500
+    }
   end
 
 end

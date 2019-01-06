@@ -21,7 +21,7 @@ defmodule TwoPianos.LobbyChannel do
   def handle_in("join_existing_room", %{"room_code" => code}, socket) do
 
     case RoomManager.get_id_by_code(code) do
-      nil -> socket |> push("invalid_code")
+      nil -> socket |> push("invalid_code", nil)
       id  -> socket |> push("valid_code", %{room_id: id})
     end
 

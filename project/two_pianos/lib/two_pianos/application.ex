@@ -5,9 +5,9 @@ defmodule TwoPianos.Application do
   def start(_type, _args) do
 
     children = [
-      { Supervisor, strategy: :one_for_one, name: UserManager.Supervisor },
-      { Supervisor, strategy: :one_for_one, name: RoomManager.Supervisor },
-      { Supervisor, strategy: :one_for_one, name: RandomUserMatcher.Supervisor }
+      { UserManager.Supervisor, strategy: :one_for_one, name: UserManager.Supervisor },
+      { RoomManager.Supervisor, strategy: :one_for_one, name: RoomManager.Supervisor },
+      { RandomUserMatcher.Supervisor, strategy: :one_for_one, name: RandomUserMatcher.Supervisor }
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)
