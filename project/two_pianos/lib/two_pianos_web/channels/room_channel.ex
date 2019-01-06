@@ -2,15 +2,11 @@ defmodule TwoPianos.RoomChannel do
 
   use TwoPianosWeb, :channel
 
-  # As of now, only functionality is to broadcast pressed and released keys to other user in room
-
   def join("room:" <> room_id, _, socket) do
 
-    if RoomManager.user_authorized?(room_id, socket.assigns.user_id) do
-      # Needs to check if current user is authorized to enter this room's channel
-      {:ok, socket}
-    else
-      {:error, %{reason: "Unauthorized"}}
+    case Room.join(room_id, socket.assigns.user_id) do
+      :success           -> {:ok,    socket}
+      {:failure, reason} -> {:error, %{reason: reason}}
     end
 
   end

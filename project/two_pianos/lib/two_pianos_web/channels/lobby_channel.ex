@@ -2,11 +2,6 @@ defmodule TwoPianos.LobbyChannel do
 
   use TwoPianosWeb, :channel
 
-  # REFACTOR IDEA:
-  #     Instead of IdManager, create RoomManager
-  #       - Generates / stores unique room_ids and room_codes
-  #       - Allows or denies access to room channel topic based on qualities of user / associated room
-
   def join("lobby", _anon_variable, socket) do
     {:ok, socket}
   end
@@ -35,8 +30,14 @@ defmodule TwoPianos.LobbyChannel do
   end
 
   def handle_in("match_with_stranger", _, socket) do
-    RandomUserMatcher.place_into_queue(socket.user_id)
+
+    case RandomUserMatcher.match(socket.assigns.user_id) do
+      :waiting                  -> :ok
+      {:match, matched_user_id} -> TwoPianos.UserChannel.broadcast_match(socket.assigns.user_id, matched_user_id)
+    end
+
     {:noreply, socket}
+
   end
 
 end
