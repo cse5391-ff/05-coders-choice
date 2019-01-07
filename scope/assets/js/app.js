@@ -21,7 +21,7 @@ import "phoenix_html"
  import socket from "./socket"
 
 //  Initial chat setup sourced from 
- let chatroom = "chatroom007";
+ let chatroom = "lobby";
  let channel = socket.channel(`chat_room:${chatroom}`, {});
  let list = $('#message-list');
  let message = $('#msg');
@@ -54,7 +54,7 @@ import "phoenix_html"
 
 //  trigger channel switch
 channel_list.on('click', 'li', function(){
-    // list.html('')
+    clear_msg_list();
     chatroom = $(this).html();
     channel = socket.channel(`chat_room:${chatroom}`, {})
     channel.join()
@@ -63,6 +63,11 @@ channel_list.on('click', 'li', function(){
 
     update_listeners()
 })
+
+// do not update list_channels because it only needs to be called once
+channel.on('list_channels', payload => {
+    channel_list.append(`<li id="${payload.channel}">${payload.channel}</li>`);
+ })
 
 //listeners must be updated because channel is listening to a new topic
 function update_listeners(){
@@ -73,33 +78,16 @@ function update_listeners(){
         })
     })
     
-    channel.on('shout', payload => {
-        list.append(`<div class="msg col-md-12"><b>${payload.username || 'new_user'}:</b> ${payload.message}</div>`);
-        list.prop({
-            scrollTop: list.prop('scrollHeight')
-        })
-    })
-
-    channel.on('list_channels', payload => {
-        channel_list.append(`<li id="${payload.channel}">${payload.channel}</li>`);
-     })
-    
     channel.on('update_active_navbar', payload => {
         // remove all active classes
         $('.active').removeClass('active');
         $(`#${payload.active}`).addClass('active');
      })
-    
-    channel.on('load_new_channel', payload => {
-        chatroom = payload.new;
-        channel = socket.channel(`chat_room:${chatroom}`, {})
-        channel.join()
-          .receive("ok", resp => { console.log("Joined successfully", resp) })
-          .receive("error", resp => { console.log("Unable to join", resp) })
-     })
 }
 
-
+function clear_msg_list() {
+    list.html("");
+}
 $(document).ready(function () {
 
     $('#sidebarCollapse').on('click', function () {

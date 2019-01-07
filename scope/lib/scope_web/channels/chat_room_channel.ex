@@ -21,7 +21,6 @@ defmodule ScopeWeb.ChatRoomChannel do
       IO.puts socket.assigns[:channel]
 
       send(self(), :after_join)
-      send(self(), :list_channels)
 
       # Here we can update the room to be the room they wanted to join.
       {:ok, socket}
