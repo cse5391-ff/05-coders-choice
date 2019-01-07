@@ -1,4 +1,4 @@
-defmodule IdGenerator.Impl do
+defmodule IdGenerator.Interface do
 
   @chars "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ" |> String.codepoints()
 

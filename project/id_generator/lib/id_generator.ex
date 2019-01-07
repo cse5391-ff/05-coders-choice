@@ -1,7 +1,7 @@
 defmodule IdGenerator do
 
-  alias IdGenerator.Impl
+  alias IdGenerator.Interface
 
-  defdelegate generate_id(length), to: Impl
+  defdelegate generate_id(length), to: Interface
 
 end
