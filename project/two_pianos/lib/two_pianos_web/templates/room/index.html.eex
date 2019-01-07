@@ -17,9 +17,9 @@
             <div id="chat-box"></div>
 
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Message...">
+                <input id="message-input" type="text" class="form-control" placeholder="Message...">
                 <span class="input-group-btn">
-                    <button class="btn btn-primary" type="button">Send!</button>
+                    <button id="message-post-btn" class="btn btn-primary" type="button">Send!</button>
                 </span>
             </div>
 

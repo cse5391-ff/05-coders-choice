@@ -6,6 +6,41 @@ export class Piano{
         this.min_ring_time = 275
         this.notes         = {}
 
+        this.keycodes = {
+    
+            // Octave 1
+            '90': 'c-1-1',  // z
+            '83': 'cs-1-1', // s
+            '88': 'd-1-1',  // x
+            '68': 'ds-1-1', // d
+            '67': 'e-1-1',  // c
+            '86': 'f-1-1',  // v
+            '71': 'fs-1-1', // g
+            '66': 'g-1-1',  // b
+            '72': 'gs-1-1', // h
+            '78': 'a-1-1',  // n
+            '74': 'as-1-1', // j
+            '77': 'b-1-1',  // m
+    
+            // Octave 2
+            '87': 'c-2-1',  // w 
+            '51': 'cs-2-1', // 3
+            '69': 'd-2-1',  // e 
+            '52': 'ds-2-1', // 4
+            '82': 'e-2-1',  // r
+            '84': 'f-2-1',  // t
+            '54': 'fs-2-1', // 6
+            '89': 'g-2-1',  // y
+            '55': 'gs-2-1', // 7
+            '85': 'a-2-1',  // u
+            '56': 'as-2-1', // 8
+            '73': 'b-2-1',  // i
+    
+            // High C
+            '79': 'c-3-1'   // o
+    
+        }
+
         this.populate_html()
         this.fill_notes(audio_dir_path)
         this.init_keys()
@@ -81,56 +116,21 @@ export class Piano{
 
         let input = document.getElementsByTagName("Input")[0]
     
-        let keycodes = {
-    
-            // Octave 1
-            '90': 'c-1-1',  // z
-            '83': 'cs-1-1', // s
-            '88': 'd-1-1',  // x
-            '68': 'ds-1-1', // d
-            '67': 'e-1-1',  // c
-            '86': 'f-1-1',  // v
-            '71': 'fs-1-1', // g
-            '66': 'g-1-1',  // b
-            '72': 'gs-1-1', // h
-            '78': 'a-1-1',  // n
-            '74': 'as-1-1', // j
-            '77': 'b-1-1',  // m
-    
-            // Octave 2
-            '87': 'c-2-1',  // w 
-            '51': 'cs-2-1', // 3
-            '69': 'd-2-1',  // e 
-            '52': 'ds-2-1', // 4
-            '82': 'e-2-1',  // r
-            '84': 'f-2-1',  // t
-            '54': 'fs-2-1', // 6
-            '89': 'g-2-1',  // y
-            '55': 'gs-2-1', // 7
-            '85': 'a-2-1',  // u
-            '56': 'as-2-1', // 8
-            '73': 'b-2-1',  // i
-    
-            // High C
-            '79': 'c-3-1'   // o
-    
-        }
-    
         let that = this
 
         document.onkeydown = function(e) {
             e = e || window.event
     
-            if (!e.repeat && e.keyCode in keycodes && !(input === document.activeElement)){
-                that.press(keycodes[e.keyCode])
+            if (!e.repeat && e.keyCode in that.keycodes && !(input === document.activeElement)){
+                that.press(that.keycodes[e.keyCode])
             }
         }
     
         document.onkeyup = function(e) {
             e = e || window.event
     
-            if (e.keyCode in keycodes && !(input === document.activeElement)){
-                that.release(keycodes[e.keyCode])
+            if (e.keyCode in that.keycodes && !(input === document.activeElement)){
+                that.release(that.keycodes[e.keyCode])
             }
         }
     
@@ -138,6 +138,7 @@ export class Piano{
 
     // API
     press(note){
+
         this.notes[note].pressed    = true
         this.notes[note].last_press = new Date().getTime()
 
@@ -174,6 +175,44 @@ export class Piano{
             this.notes[note].audio.currentTime = 0
         }
 
+    }
+
+    static get_keycodes(){
+
+        return {
+    
+            // Octave 1
+            '90': 'c-1',  // z
+            '83': 'cs-1', // s
+            '88': 'd-1',  // x
+            '68': 'ds-1', // d
+            '67': 'e-1',  // c
+            '86': 'f-1',  // v
+            '71': 'fs-1', // g
+            '66': 'g-1',  // b
+            '72': 'gs-1', // h
+            '78': 'a-1',  // n
+            '74': 'as-1', // j
+            '77': 'b-1',  // m
+    
+            // Octave 2
+            '87': 'c-2',  // w 
+            '51': 'cs-2', // 3
+            '69': 'd-2',  // e 
+            '52': 'ds-2', // 4
+            '82': 'e-2',  // r
+            '84': 'f-2',  // t
+            '54': 'fs-2', // 6
+            '89': 'g-2',  // y
+            '55': 'gs-2', // 7
+            '85': 'a-2',  // u
+            '56': 'as-2', // 8
+            '73': 'b-2',  // i
+    
+            // High C
+            '79': 'c-3'   // o
+    
+        }
     }
 
 }
