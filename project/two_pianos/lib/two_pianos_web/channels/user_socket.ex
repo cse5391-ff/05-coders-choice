@@ -1,4 +1,5 @@
 defmodule TwoPianosWeb.UserSocket do
+
   use Phoenix.Socket
 
   ## Channels

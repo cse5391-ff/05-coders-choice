@@ -19,7 +19,7 @@ defmodule UserManager.Supervisor do
   def init(:ok) do
 
     children = [
-      { MapSetStore.DynamicSupervisor, name: :UserIdMSSSupervisor },
+      { MapSetStore.DynamicSupervisor, name: :UserManagerMSSSupervisor },
       UserManager.Starter
     ]
 

@@ -5,7 +5,7 @@ defmodule RoomManager.Application do
   def start(_type, _args) do
 
     children = [
-      {Supervisor, strategy: :one_for_one, name: RoomManager.Supervisor}
+      {RoomManager.Supervisor, strategy: :one_for_one, name: RoomManager.Supervisor}
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)

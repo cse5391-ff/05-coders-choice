@@ -2,7 +2,7 @@ defmodule RoomManager.IdManager.Impl do
 
   def generate_room_id(length) do
 
-    room_id = IdGenerator.generate_id(length)
+    room_id = IdGenerator.generate_id(length) |> String.to_atom()
 
     if MapSetStore.contains?(:room_ids, room_id) do
       generate_room_id(length)
@@ -15,7 +15,7 @@ defmodule RoomManager.IdManager.Impl do
 
   def generate_room_code(length) do
 
-    room_code = IdGenerator.generate_id(length)
+    room_code = IdGenerator.generate_id(length) |> String.to_atom()
 
     if MapSetStore.contains?(:room_codes, room_code) do
       generate_room_code(length)

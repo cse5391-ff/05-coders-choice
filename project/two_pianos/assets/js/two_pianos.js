@@ -36,13 +36,32 @@ export class TwoPianos{
 
         // on "Create New Room" button press
         document.getElementById("create-btn").addEventListener("click", e => {
+
             this.channels.lobby.push("create_room")
+            .receive(
+                "room_created", (resp) => {
+                    console.log(resp)
+                    // Navigate to /room, use resp.room_id, resp.room_code
+                }
+            )
+
         })
         
         // on "Join Room" button press
         document.getElementById("join-existing-btn").addEventListener("click", e => {
+
             let room_code = document.getElementById("room-code-input").value
-            this.channels.lobby.push("join_existing_room", room_code)
+
+            this.channels.lobby.push("join_existing_room", {room_code: room_code})
+            .receive(
+                "invalid_code", (resp) => {
+                    console.log("invalid, ", resp)
+                },
+                "valid_code", (resp) => {
+                    console.log(resp)
+                }
+            )
+
         })
 
         // on "Join Stranger" button press

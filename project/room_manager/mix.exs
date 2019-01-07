@@ -24,7 +24,8 @@ defmodule RoomManager.MixProject do
     [
       {:map_store,     path: "../map_store",     app: false},
       {:map_set_store, path: "../map_set_store", app: false},
-      {:room,          path: "../room",          app: false}
+      {:room,          path: "../room",          app: false},
+      {:id_generator,  path: "../id_generator",  app: false}
     ]
   end
 end

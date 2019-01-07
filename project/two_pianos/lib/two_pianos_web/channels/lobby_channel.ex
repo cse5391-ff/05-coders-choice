@@ -1,39 +1,39 @@
-defmodule TwoPianos.LobbyChannel do
+defmodule TwoPianosWeb.LobbyChannel do
 
   use TwoPianosWeb, :channel
 
-  def join("lobby", _anon_variable, socket) do
+  def join("lobby", _, socket) do
     {:ok, socket}
   end
 
   def handle_in("create_room", _, socket) do
     # Create protected room (Generate unique room ID and code)
-    {room_id, room_code} = RoomManager.create_room(:protected, socket.assigns.user_id)
+    {room_id, room_code} = RoomManager.create_room(:protected, socket.assigns[:user_id])
 
-    # Push room id and room code back to user -> they will join the room's specific channel, will be
+    # reply w/ room id and room code -> they will join the room's specific channel, will be
     # able to see the code, and will have a piano to mess around with
-    socket |> push("room_created", %{room_id: room_id, room_code: room_code})
-
-    # Look into replying with info instead of pushing it (unnecessary to set up js listener for 1-time thing)
-    {:noreply, socket}
+    {:reply, {:room_created, %{room_id: room_id, room_code: room_code}}, socket}
   end
 
   def handle_in("join_existing_room", %{"room_code" => code}, socket) do
 
     case RoomManager.get_id_by_code(code) do
-      nil -> socket |> push("invalid_code", nil)
-      id  -> socket |> push("valid_code", %{room_id: id})
+      nil ->
+        {:reply, {:invalid_code, %{}}, socket}
+      room_id  ->
+        {:reply, {:valid_code, %{room_id: room_id}}}
     end
-
-    {:noreply, socket}
 
   end
 
   def handle_in("match_with_stranger", _, socket) do
 
     case RandomUserMatcher.match(socket.assigns.user_id) do
-      :waiting                  -> :ok
-      {:match, matched_user_id} -> TwoPianos.UserChannel.broadcast_match(socket.assigns.user_id, matched_user_id)
+      :waiting ->
+        :ok
+      {:match, matched_user_id} ->
+        room_id = RoomManager.create_room(:match, {socket.assigns[:user_id], matched_user_id})
+        TwoPianos.UserChannel.broadcast_match(room_id, socket.assigns[:user_id], matched_user_id)
     end
 
     {:noreply, socket}

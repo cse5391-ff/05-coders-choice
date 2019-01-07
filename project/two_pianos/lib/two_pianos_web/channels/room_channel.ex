@@ -1,4 +1,4 @@
-defmodule TwoPianos.RoomChannel do
+defmodule TwoPianosWeb.RoomChannel do
 
   use TwoPianosWeb, :channel
 

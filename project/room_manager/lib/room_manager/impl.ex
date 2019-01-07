@@ -4,7 +4,7 @@ defmodule RoomManager.Impl do
 
   def create_room(_type = :protected, creator_id) do
 
-    room_id = IdManager.generate_room_id(10)
+    room_id   = IdManager.generate_room_id(10)
     room_code = IdManager.generate_room_code(5)
 
     # Spawn Room

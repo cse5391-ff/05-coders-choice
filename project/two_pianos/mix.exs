@@ -18,6 +18,7 @@ defmodule TwoPianos.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
+      mod: {TwoPianos.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -41,7 +42,8 @@ defmodule TwoPianos.Mixfile do
 
       {:user_manager,        path: "../user_manager"},
       {:room_manager,        path: "../room_manager"},
-      {:random_user_matcher, path: "../random_user_matcher"}
+      {:random_user_matcher, path: "../random_user_matcher"},
+      {:room,                path: "../room", app: false}
     ]
   end
 end
