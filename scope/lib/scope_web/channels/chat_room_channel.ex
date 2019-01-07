@@ -37,9 +37,9 @@ defmodule ScopeWeb.ChatRoomChannel do
     channel = socket.assigns[:channel]
     update_active_navbar(channel, socket)
     #get room_id from the socket
-    map = get_msgs(channel, socket)
+    unread_map = get_msgs(channel, socket)
     |> Scope.ChannelReadHelper.read_msgs
-    # push(socket, "read_channel", )
+    push(socket, "read_channel", unread_map)
     {:noreply, socket}
   end
 

@@ -25,6 +25,7 @@ defmodule Scope.ChannelReadHelper do
     Scope.ChatFetcher.get_msgs_count()
     |> Enum.into(%{})
     |> calc_difference(Scope.ChannelRead.get())
+    |> remove_all_reads
   end
 
   def calc_difference(total, read) do
@@ -32,5 +33,11 @@ defmodule Scope.ChannelReadHelper do
     |> Map.merge(read, fn _k, v1, v2 ->
                   v1 - v2
                 end)
+  end
+
+  def remove_all_reads(unread) do
+    unread
+    |> Enum.filter(fn {_k, v} ->v != 0 end)
+    |> Enum.into(%{})
   end
 end
