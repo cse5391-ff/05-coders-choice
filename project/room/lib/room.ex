@@ -14,8 +14,24 @@ defmodule Room do
 
   alias Room.Interface
 
+  @doc """
+  Starts up GenServer room with the room_id as it's name.
+
+  Types:
+  * :protected => startup_state = creator_id
+  *   :match   => startup_state = {user_id1, user_id2}
+  """
   defdelegate start(room_id, type, startup_state), to: Interface
-  defdelegate join(room_id, user_id),              to: Interface
-  defdelegate leave(room_id, user_id),             to: Interface
+
+  @doc """
+  Attempts to place user in specified room. Different rooms have different authorization / occupancy rules.
+  Returns :success on successful join, {:failure, reason} on failure
+  """
+  defdelegate join(room_id, user_id), to: Interface
+
+  @doc """
+  Removes user from named room.
+  """
+  defdelegate leave(room_id, user_id), to: Interface
 
 end
