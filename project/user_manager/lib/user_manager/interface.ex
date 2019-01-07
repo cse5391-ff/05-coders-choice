@@ -1,4 +1,4 @@
-defmodule UserManager.Impl do
+defmodule UserManager.Interface do
 
   def generate_user_id(length) do
 

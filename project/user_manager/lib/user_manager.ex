@@ -1,7 +1,7 @@
 defmodule UserManager do
 
-  alias UserManager.Impl
+  alias UserManager.Interface
 
-  defdelegate generate_user_id(length), to: Impl
+  defdelegate generate_user_id(length), to: Interface
 
 end

@@ -1,4 +1,4 @@
-defmodule RoomManager.Impl do
+defmodule RoomManager.Interface do
 
   alias RoomManager.IdManager
 

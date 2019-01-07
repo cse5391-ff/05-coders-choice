@@ -1,4 +1,4 @@
-defmodule RoomManager.IdManager.Impl do
+defmodule RoomManager.IdManager.Interface do
 
   def generate_room_id(length) do
 
