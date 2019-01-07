@@ -39,7 +39,11 @@ defmodule ScopeWeb.ChatRoomChannel do
     #get room_id from the socket
     unread_map = get_msgs(channel, socket)
     |> Scope.ChannelReadHelper.read_msgs
-    push(socket, "read_channel", unread_map)
+    |> Enum.each(fn {channel, unread} -> push(socket, "read_channel",
+      %{
+        channel: channel,
+        unread: unread
+      }) end)
     {:noreply, socket}
   end
 

@@ -85,9 +85,10 @@ function update_listeners(){
      })
 
      // update labels for all channels
-     channel.on('read_channels', payload => {
-         console.log("hello");
-        $(`#${payload.channel}`).add(`<span class="badge">${payload.count}</span>`)
+     channel.on('read_channel', payload => {
+        console.log(`${payload.unread}`);
+        $('.badge').html("");
+        $(`#${payload.channel}`).append(`<span class="badge">${payload.unread}</span>`)
      })
 }
 
