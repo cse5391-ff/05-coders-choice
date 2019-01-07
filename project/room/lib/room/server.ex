@@ -8,6 +8,10 @@ defmodule Room.Server do
 
   ### GENSERVER FUNCTIONS ###
 
+  def init({_, nil}),      do: raise "Can't start room w/ nil"
+  def init({_, {nil, _}}), do: raise "Can't start room w/ nil"
+  def init({_, {_, nil}}), do: raise "Can't start room w/ nil"
+
   def init({:protected, user_id}) do
 
     initial_state = %{
@@ -52,12 +56,6 @@ defmodule Room.Server do
   defp room_empty?(state),           do: MapSet.size(state.occupants) == 0
 
   defp creator_present?(state = %{type: :protected}), do: state.occupants |> MapSet.member?(state.creator)
-
-  #defp user_authorized?(user_id, state = %{type: :match, permitted: permitted_users})
-  #  when user_id in permitted_users
-  #do
-  #  true
-  #end
 
   defp user_authorized?(user_id, state = %{type: :match}), do: user_id in state.permitted
 

@@ -2,8 +2,9 @@ defmodule TwoPianosWeb.LobbyChannel do
 
   use TwoPianosWeb, :channel
 
-  def join("lobby", _, socket) do
-    {:ok, socket}
+  def join("lobby", %{"user_id" => user_id}, socket) do
+    user_id_atom = user_id |> String.to_atom()
+    {:ok, assign(socket, :user_id, user_id_atom)}
   end
 
   def handle_in("create_room", _, socket) do
@@ -17,24 +18,30 @@ defmodule TwoPianosWeb.LobbyChannel do
 
   def handle_in("join_existing_room", %{"room_code" => code}, socket) do
 
-    case RoomManager.get_id_by_code(code) do
-      nil ->
-        {:reply, {:invalid_code, %{}}, socket}
-      room_id  ->
-        {:reply, {:valid_code, %{room_id: room_id}}}
+    code_atom = code |> String.to_atom()
+
+    id = RoomManager.get_id_by_code(code_atom)
+
+    case id do
+      nil      -> {:reply, {:invalid_code,         %{}        }, socket}
+      room_id  -> {:reply, {:valid_code,   %{room_id: room_id}}, socket}
     end
 
   end
 
   def handle_in("match_with_stranger", _, socket) do
 
-    case RandomUserMatcher.match(socket.assigns[:user_id]) do
-      :waiting ->
-        {:reply, {:waiting, %{}}, socket}
+    match_status = RandomUserMatcher.match(socket.assigns[:user_id])
+
+    case match_status do
+
       {:match, matched_user_id} ->
         room_id = RoomManager.create_room(:match, {socket.assigns[:user_id], matched_user_id})
-        TwoPianosWeb.UserChannel.broadcast_match(room_id, socket.assigns[:user_id], matched_user_id)
+        TwoPianosWeb.UserChannel.broadcast_match(room_id, matched_user_id)
         {:reply, {:match, %{room_id: room_id}}, socket}
+
+      other -> {:reply, {other, %{}}, socket} # :waiting / :already_waiting
+
     end
 
   end

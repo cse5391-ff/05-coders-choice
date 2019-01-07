@@ -3,6 +3,7 @@ defmodule UserManager.Impl do
   def generate_user_id(length) do
 
     user_id = IdGenerator.generate_id(length)
+              |> String.to_atom()
 
     # This is kinda gross, rethink later. Opens up concurrency can of worms...
     # LEARN FROM ACTOR MODEL. Whole point is to limit action to that specific actor.
