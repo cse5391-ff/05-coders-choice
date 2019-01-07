@@ -10,12 +10,16 @@ defmodule RandomUserMatcher.Server do
     {:ok, nil}
   end
 
-  def handle_call({:match_with, user_id1}, _from, nil) do
-    {:reply, :waiting, user_id1}
+  def handle_call({:match_with, user_id}, _from, nil) do
+    {:reply, :waiting, user_id}
   end
 
-  def handle_call({:match_with, _user_id1}, _from, user_id2) do
-    {:reply, {:match, user_id2}, nil}
+  def handle_call({:match_with, user_id}, _from, user_id) do
+    {:reply, :already_waiting, user_id}
+  end
+
+  def handle_call({:match_with, new_user_id}, _from, waiting_user_id) do
+    {:reply, {:match, waiting_user_id}, nil}
   end
 
 end
