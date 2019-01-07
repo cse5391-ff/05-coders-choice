@@ -1,42 +1,17 @@
 defmodule ScopeWeb.ChatRoomChannel do
   use ScopeWeb, :channel
 
-  def join("chat_room:lobby", payload, socket) do
-    if authorized?(payload) do
-      updated_socket = socket
-                       |>assign(:channel, "lobby")
-      send(self(), :after_join)
-      send(self(), :list_channels)
-      {:ok, updated_socket}
-    else
-      {:error, %{reason: "unauthorized"}}
-    end
-  end
-
   def join("chat_room:" <> room_id, payload, socket) do
-    if authorized?(payload) do
       #store room id of channel
       socket = socket
                |>assign(:channel, room_id)
       IO.puts socket.assigns[:channel]
 
+      send(self(), :list_channels)
       send(self(), :after_join)
 
-      # Here we can update the room to be the room they wanted to join.
       {:ok, socket}
-    else
-      {:error, %{reason: "unauthorized"}}
-    end
   end
-
-  # def handle_in("change_channel", payload = %{channel: channel}, socket) do
-  #   IO.puts channel
-  #   update_active_navbar(channel, socket)
-  #   push(socket, "clear_frame", %{})
-  #   push(socket, "load_new_channel", %{new: channel})
-  #   {:noreply, socket
-  #              |>assign(:channel, channel)}
-  # end
 
   def handle_in("shout", payload, socket) do
     spawn(fn -> Scope.ChatFetcher.save_msg(payload) end)
@@ -51,7 +26,7 @@ defmodule ScopeWeb.ChatRoomChannel do
   end
 
   def handle_info(:list_channels, socket) do
-    Scope.ChannelListFetcher.get_channels()
+    Scope.ChatFetcher.get_channels()
     |> Enum.each(fn msg -> push(socket, "list_channels",
       %{
         channel: msg,
@@ -60,8 +35,10 @@ defmodule ScopeWeb.ChatRoomChannel do
   end
 
   def handle_info(:after_join, socket) do
+    channel = socket.assigns[:channel]
+    update_active_navbar(channel, socket)
     #get room_id from the socket
-    get_msgs(socket.assigns[:channel], socket)
+    get_msgs(channel, socket)
     # |> Scope.ChannelReadHelper.read_msgs
     {:noreply, socket}
   end
@@ -77,12 +54,6 @@ defmodule ScopeWeb.ChatRoomChannel do
         chatroom: msg.chatroom,
       }) end)
     # Scope.ChannelReadHelper.read_msgs(msgs)
-
-  end
-
-  # Add authorization logic here as required.
-  defp authorized?(_payload) do
-    true
   end
 
 end

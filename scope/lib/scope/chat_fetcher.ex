@@ -8,7 +8,12 @@ defmodule Scope.ChatFetcher do
     Scope.Message.changeset(%Scope.Message{}, msg) |> Scope.Repo.insert
   end
 
+  def get_channels() do
+    Scope.Message.get_channels()
+  end
+
   def get_msg_from_chat_count() do
     # return number of msgs from each chat
   end
+
 end
