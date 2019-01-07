@@ -22,23 +22,24 @@ import "phoenix_html"
 
 //  Initial chat setup sourced from 
  let chatroom = "lobby";
- let channel = socket.channel(`chat_room:${chatroom}`, {});
+ let channel;
  let list = $('#message-list');
  let message = $('#msg');
  let username = $('#username');
  let urgency = $('#urgency');
  let channel_list = $('#channel-list');
+ let modal = $('#modal');
+ let span = $('.close')[0];
+ join_channel(chatroom)
 
- channel
- .join()
- .receive('ok', resp => {
-     console.log('Joined successfully', resp);
- })
- .receive('error', resp => {
-     console.log('Unable to join', resp);
- });
+ function join_channel(chatroom) {
+    channel = socket.channel(`chat_room:${chatroom}`, {})
+    channel.join()
+      .receive("ok", resp => { console.log("Joined successfully", resp) })
+      .receive("error", resp => { console.log("Unable to join", resp) });
 
- update_listeners();
+    update_listeners()
+ }
 
  message.on('keypress', event => {
      if (event.keyCode == 13) {
@@ -52,17 +53,34 @@ import "phoenix_html"
      }
  })
 
+$('#add_new').on('click', function(){
+    // trigger dialogue box
+    modal.show();
+    span.onclick = function() {
+        modal.hide();
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.hide();
+        }
+    }
+    
+    
+      if(false) {
+         clear_msg_list();
+          clear_unread_badges();
+          chatroom = $(this).attr('id');
+          // join channel
+        join_channel(chatroom)
+      }
+})
+
 //  trigger channel switch
 channel_list.on('click', 'li', function(){
     clear_msg_list();
     clear_unread_badges();
     chatroom = $(this).attr('id');
-    channel = socket.channel(`chat_room:${chatroom}`, {})
-    channel.join()
-      .receive("ok", resp => { console.log("Joined successfully", resp) })
-      .receive("error", resp => { console.log("Unable to join", resp) });
-
-    update_listeners()
+    join_channel(chatroom);
 })
 
 // do not update list_channels because it only needs to be called once

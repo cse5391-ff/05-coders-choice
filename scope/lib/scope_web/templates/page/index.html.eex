@@ -4,8 +4,19 @@
     <h3>Channels</h3>
   </div>
 
+  <div id="modal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Enter a chat name (e.g. chatroom004)</p>
+    <input type="text"><input type="submit">
+  </div>
+
+  </div>
+
+  <div id="add_new">+ add new </div>
   <ul id='channel-list' class='list-unstyled'>
-  <li id="add_new">+ add new </li>
   </ul>
 </nav>
 <div id='content'>
