@@ -88,6 +88,7 @@ function update_listeners(){
 function clear_msg_list() {
     list.html("");
 }
+
 $(document).ready(function () {
 
     $('#sidebarCollapse').on('click', function () {

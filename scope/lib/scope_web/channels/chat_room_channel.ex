@@ -76,7 +76,7 @@ defmodule ScopeWeb.ChatRoomChannel do
         urgency: msg.urgency,
         chatroom: msg.chatroom,
       }) end)
-    msgs
+    # Scope.ChannelReadHelper.read_msgs(msgs)
 
   end
 

@@ -5,6 +5,7 @@
   </div>
 
   <ul id='channel-list' class='list-unstyled'>
+  <li id="add_new">+ add new </li>
   </ul>
 </nav>
 <div id='content'>
