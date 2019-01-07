@@ -55,7 +55,7 @@ import "phoenix_html"
 //  trigger channel switch
 channel_list.on('click', 'li', function(){
     clear_msg_list();
-    $('.badge').html("");
+    clear_unread_badges();
     chatroom = $(this).attr('id');
     channel = socket.channel(`chat_room:${chatroom}`, {})
     channel.join()
@@ -94,6 +94,10 @@ function update_listeners(){
 
 function clear_msg_list() {
     list.html("");
+}
+
+function clear_unread_badges() {
+    $('.badge').html("");
 }
 
 $(document).ready(function () {
