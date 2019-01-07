@@ -38,6 +38,8 @@ import "phoenix_html"
      console.log('Unable to join', resp);
  });
 
+ update_listeners();
+
  message.on('keypress', event => {
      if (event.keyCode == 13) {
          channel.push('shout', {
@@ -57,33 +59,45 @@ channel_list.on('click', 'li', function(){
     channel = socket.channel(`chat_room:${chatroom}`, {})
     channel.join()
       .receive("ok", resp => { console.log("Joined successfully", resp) })
-      .receive("error", resp => { console.log("Unable to join", resp) })
+      .receive("error", resp => { console.log("Unable to join", resp) });
+
+    update_listeners()
 })
 
-channel.on('shout', payload => {
-     list.append(`<div class="msg col-md-12"><b>${payload.username || 'new_user'}:</b> ${payload.message}</div>`);
-     list.prop({
-         scrollTop: list.prop('scrollHeight')
+//listeners must be updated because channel is listening to a new topic
+function update_listeners(){
+    channel.on('shout', payload => {
+        list.append(`<div class="msg col-md-12"><b>${payload.username || 'new_user'}:</b> ${payload.message}</div>`);
+        list.prop({
+            scrollTop: list.prop('scrollHeight')
+        })
+    })
+    
+    channel.on('shout', payload => {
+        list.append(`<div class="msg col-md-12"><b>${payload.username || 'new_user'}:</b> ${payload.message}</div>`);
+        list.prop({
+            scrollTop: list.prop('scrollHeight')
+        })
+    })
+
+    channel.on('list_channels', payload => {
+        channel_list.append(`<li id="${payload.channel}">${payload.channel}</li>`);
      })
- })
-
-channel.on('list_channels', payload => {
-    channel_list.append(`<li id="${payload.channel}">${payload.channel}</li>`);
- })
-
-channel.on('update_active_navbar', payload => {
-    // remove all active classes
-    $('.active').removeClass('active');
-    $(`#${payload.active}`).addClass('active');
- })
-
-channel.on('load_new_channel', payload => {
-    chatroom = payload.new;
-    channel = socket.channel(`chat_room:${chatroom}`, {})
-    channel.join()
-      .receive("ok", resp => { console.log("Joined successfully", resp) })
-      .receive("error", resp => { console.log("Unable to join", resp) })
- })
+    
+    channel.on('update_active_navbar', payload => {
+        // remove all active classes
+        $('.active').removeClass('active');
+        $(`#${payload.active}`).addClass('active');
+     })
+    
+    channel.on('load_new_channel', payload => {
+        chatroom = payload.new;
+        channel = socket.channel(`chat_room:${chatroom}`, {})
+        channel.join()
+          .receive("ok", resp => { console.log("Joined successfully", resp) })
+          .receive("error", resp => { console.log("Unable to join", resp) })
+     })
+}
 
 
 $(document).ready(function () {
