@@ -13,7 +13,7 @@ defmodule Scope.Application do
       # Start the endpoint when the application starts
       supervisor(ScopeWeb.Endpoint, []),
       # Start your own worker by calling: Scope.Worker.start_link(arg1, arg2, arg3)
-      # worker(Scope.Worker, [arg1, arg2, arg3]),
+      {Scope.ChannelRead, name: Scope.ChannelRead}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

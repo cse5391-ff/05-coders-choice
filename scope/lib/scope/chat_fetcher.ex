@@ -12,8 +12,9 @@ defmodule Scope.ChatFetcher do
     Scope.Message.get_channels()
   end
 
-  def get_msg_from_chat_count() do
+  def get_msgs_count() do
     # return number of msgs from each chat
+    Scope.Message.get_msgs_count()
   end
 
 end

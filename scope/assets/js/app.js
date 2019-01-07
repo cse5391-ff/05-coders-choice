@@ -83,6 +83,11 @@ function update_listeners(){
         $('.active').removeClass('active');
         $(`#${payload.active}`).addClass('active');
      })
+
+     // update labels for all channels
+     channel.on('read_channels', event => {
+        $(`#${payload.channel}`).add(`<span class="badge">${payload.count}</span>`)
+     })
 }
 
 function clear_msg_list() {

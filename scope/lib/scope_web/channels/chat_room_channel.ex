@@ -5,7 +5,6 @@ defmodule ScopeWeb.ChatRoomChannel do
       #store room id of channel
       socket = socket
                |>assign(:channel, room_id)
-      IO.puts socket.assigns[:channel]
 
       send(self(), :list_channels)
       send(self(), :after_join)
@@ -38,8 +37,9 @@ defmodule ScopeWeb.ChatRoomChannel do
     channel = socket.assigns[:channel]
     update_active_navbar(channel, socket)
     #get room_id from the socket
-    get_msgs(channel, socket)
-    # |> Scope.ChannelReadHelper.read_msgs
+    map = get_msgs(channel, socket)
+    |> Scope.ChannelReadHelper.read_msgs
+    # push(socket, "read_channel", )
     {:noreply, socket}
   end
 
@@ -53,7 +53,7 @@ defmodule ScopeWeb.ChatRoomChannel do
         urgency: msg.urgency,
         chatroom: msg.chatroom,
       }) end)
-    # Scope.ChannelReadHelper.read_msgs(msgs)
+    msgs
   end
 
 end
