@@ -1,4 +1,7 @@
 defmodule RoomManager do
+  @moduledoc """
+  Handles creation of rooms, generation of room codes / ids, and linking protected rooms ids with their codes.
+  """
 
   alias RoomManager.Interface
 

@@ -1,7 +1,6 @@
 defmodule RandomUserMatcher do
   @moduledoc """
-  Launched as soon as app is up and running.
-  Matches random users together.
+  Very basic GenServer that matches two random users together.
   """
 
   alias RandomUserMatcher.Interface

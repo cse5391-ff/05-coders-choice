@@ -1,4 +1,8 @@
 defmodule UserManager do
+  @moduledoc """
+  Handles generation of user_ids
+  """
+
 
   alias UserManager.Interface
 

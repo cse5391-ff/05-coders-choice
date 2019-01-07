@@ -1,4 +1,7 @@
 defmodule MapSetStore.DynamicSupervisor do
+  @moduledoc """
+  Named Dynamic Supervisor for the MapSetStore. Allows for multiple MapSetStore Supervisors throughout an app.
+  """
 
   use DynamicSupervisor
 
