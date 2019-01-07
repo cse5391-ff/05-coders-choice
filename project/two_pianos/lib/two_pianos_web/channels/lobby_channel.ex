@@ -28,15 +28,14 @@ defmodule TwoPianosWeb.LobbyChannel do
 
   def handle_in("match_with_stranger", _, socket) do
 
-    case RandomUserMatcher.match(socket.assigns.user_id) do
+    case RandomUserMatcher.match(socket.assigns[:user_id]) do
       :waiting ->
-        :ok
+        {:reply, {:waiting, %{}}, socket}
       {:match, matched_user_id} ->
         room_id = RoomManager.create_room(:match, {socket.assigns[:user_id], matched_user_id})
-        TwoPianos.UserChannel.broadcast_match(room_id, socket.assigns[:user_id], matched_user_id)
+        TwoPianosWeb.UserChannel.broadcast_match(room_id, socket.assigns[:user_id], matched_user_id)
+        {:reply, {:match, %{room_id: room_id}}, socket}
     end
-
-    {:noreply, socket}
 
   end
 

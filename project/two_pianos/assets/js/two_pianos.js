@@ -67,23 +67,27 @@ export class TwoPianos{
         // on "Join Stranger" button press
         document.getElementById("match-stranger-btn").addEventListener("click", e => {
             this.channels.lobby.push("match_with_stranger")
+            .receive(
+                "waiting", () => {
+                    console.log("waiting")
+                },
+                "match", (resp) => {
+                    console.log("Match!", resp.room_id)
+                }
+            )
         })
 
-        // RECEIVERS
-
-        // on "room_created"
-        this.channels.lobby.on("room_created", msg => {
-            let room_id = msg.room_id
-        })
     }
 
     setupUserHandlers(){
-        // RECEIVERS
 
         // on "match_found"
-        this.channels.user.on("match_found", msg => {
-            let room_id = msg.room_id
-        })
+        this.channels.user.on(
+            "matched_user", msg => {
+                console.log("Matched!", msg.room_id)
+            }
+        )
+
     }
 
 }

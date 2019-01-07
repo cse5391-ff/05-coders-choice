@@ -4,7 +4,7 @@ defmodule TwoPianosWeb.RoomChannel do
 
   def join("room:" <> room_id, _, socket) do
 
-    case Room.join(room_id, socket.assigns.user_id) do
+    case Room.join(room_id, socket.assigns[:user_id]) do
       :success           -> {:ok,    socket}
       {:failure, reason} -> {:error, %{reason: reason}}
     end

@@ -8,9 +8,8 @@ defmodule TwoPianosWeb.UserChannel do
     {:ok, socket |> assign(:user_id, user_id)}
   end
 
-  def broadcast_match(id1, id2, room_id) do
-    TwoPianosWeb.Endpoint.broadcast("user:" <> id1, "matched_user", room_id)
-    TwoPianosWeb.Endpoint.broadcast("user:" <> id2, "matched_user", room_id)
+  def broadcast_match(user_id, room_id) do
+    TwoPianosWeb.Endpoint.broadcast("user:" <> user_id, "matched_user", %{room_id: room_id})
     :ok
   end
 
