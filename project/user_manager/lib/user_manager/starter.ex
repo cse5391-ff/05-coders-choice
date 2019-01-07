@@ -1,7 +1,7 @@
 defmodule UserManager.Starter do
 
   def start() do
-    :UserIdMSSSupervisor |> MapSetStore.DynamicSupervisor.start_child(:mss1, :user_ids)
+    :UserIdMSSSupervisor |> MapSetStore.DynamicSupervisor.start_child(:user_ids)
   end
 
   def child_spec(_) do

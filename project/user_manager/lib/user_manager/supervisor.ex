@@ -2,21 +2,6 @@ defmodule UserManager.Supervisor do
 
   use Supervisor
 
-  def init(:ok) do
-
-    children = [
-      { MapSetStore.DynamicSupervisor, strategy: :one_for_one, name: :UserIdMSSSupervisor },
-      UserManager.Starter
-    ]
-
-    Supervisor.init(children, strategy: :one_for_one)
-
-  end
-
-  def start_link(opts) do
-    Supervisor.start_link(__MODULE__, :ok, opts)
-  end
-
   def child_spec(opts) do
     %{
       id:       __MODULE__,
@@ -25,6 +10,21 @@ defmodule UserManager.Supervisor do
       restart: :permanent,
       shutdown: 500
     }
+  end
+
+  def start_link(opts) do
+    Supervisor.start_link(__MODULE__, :ok, opts)
+  end
+
+  def init(:ok) do
+
+    children = [
+      { MapSetStore.DynamicSupervisor, name: :UserIdMSSSupervisor },
+      UserManager.Starter
+    ]
+
+    Supervisor.init(children, strategy: :one_for_one)
+
   end
 
 end

@@ -18,11 +18,11 @@ defmodule MapStore.DynamicSupervisor do
 
   # Called on supervisor process start_up
   def start_link(opts) do
-    DynamicSupervisor.start_link(__MODULE__, opts)
+    DynamicSupervisor.start_link(__MODULE__, :ok, opts)
   end
 
   # Callback run as part of start_link / after start_link? returns supervisor specification
-  def init(_) do
+  def init(:ok) do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
@@ -31,10 +31,10 @@ defmodule MapStore.DynamicSupervisor do
   # Creates named MapSetStore.Server under specified MapSetStore Supervisor
   def start_child(supervisor_name, child_name) do
 
-    child_num = DynamicSupervisor.count_children(supervisor_name) + 1
+    %{workers: num_workers} = DynamicSupervisor.count_children(supervisor_name)
 
     c_spec = %{
-      id:    "ms#{child_num}" |> String.to_atom(),
+      id:    "ms#{num_workers + 1}" |> String.to_atom(),
       start: {MapStore, :start, [child_name]}
     }
 
