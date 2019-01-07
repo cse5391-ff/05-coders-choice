@@ -100,3 +100,8 @@ ul ul a {
 #channel-list {
     padding: 0px 0px 0px 15px;
 }
+
+#msg {
+    width: auto;
+    float: none;
+}

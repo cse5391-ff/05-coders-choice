@@ -8,18 +8,21 @@
   </ul>
 </nav>
 <div id='content'>
-<div id='message-list' class='row'>
+<div id='message-list'>
 </div>
 <div class='row form-group'>
-  <div class='col-md-2'>
-    <input type='text' id='urgency' class='form-control' placeholder='Urgency' />
-  </div>
-  <div class='col-md-3'>
+  <div class='col-md-4'>
     <input type='text' id='username' class='form-control' placeholder='Name' />
   </div>
-  <div class='col-md-7'>
-    <input type='text' id='msg' class='form-control' placeholder='Message' />
+  <div class='col-md-8'>
+    <div class='input-group'>
+        <input type="checkbox" name="urgency" id="urgency" value="urgent"> !
+        <input type="checkbox" name="urgency" value="peripheral"> *
+        <input type="hidden" name="urgency" value="normal">
+        <input type='text' id='msg' class='form-control' placeholder='Message' aria-describedby="basic-addon2">
+    </div>
   </div>
+  
 </div>
 </div>
 </div>
