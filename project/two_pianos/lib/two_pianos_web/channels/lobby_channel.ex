@@ -37,7 +37,7 @@ defmodule TwoPianosWeb.LobbyChannel do
 
       {:match, matched_user_id} ->
         room_id = RoomManager.create_room(:match, {socket.assigns[:user_id], matched_user_id})
-        TwoPianosWeb.UserChannel.broadcast_match(room_id, matched_user_id)
+        TwoPianosWeb.UserChannel.broadcast_match(matched_user_id, room_id)
         {:reply, {:match, %{room_id: room_id}}, socket}
 
       other -> {:reply, {other, %{}}, socket} # :waiting / :already_waiting

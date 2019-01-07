@@ -16,25 +16,20 @@ export class TwoPianos{
         // Init and join lobby and user channels
         this.channels = {}
 
-        this.channels.lobby = this.socket.channel("lobby", {user_id: this.user_id})
-        this.channels.lobby.join()
-
-        this.channels.user  = this.socket.channel(`user:${this.user_id}`)
-        this.channels.user.join()
-
         // Create User's piano (lobby)
         this.pianos        = {}
         this.pianos.mine   = new Piano(1)
         this.pianos.theirs = null
 
-        this.setupLobbyHandlers()
-        this.setupUserHandlers()
+        this.setupAndConnectLobbyChannel()
+        this.setupAndConnectUserChannel()
     }
 
-    setupLobbyHandlers(){
-        // SENDERS
+    setupAndConnectLobbyChannel(){
 
-        // on "Create New Room" button press
+        this.channels.lobby = this.socket.channel("lobby", {user_id: this.user_id})
+
+        // Create New Room button press
         document.getElementById("create-btn").addEventListener("click", e => {
 
             this.channels.lobby.push("create_room")
@@ -47,7 +42,7 @@ export class TwoPianos{
 
         })
         
-        // on "Join Room" button press
+        // Join Room button press
         document.getElementById("join-existing-btn").addEventListener("click", e => {
 
             let room_code = document.getElementById("room-code-input").value
@@ -62,7 +57,7 @@ export class TwoPianos{
 
         })
 
-        // on "Join Stranger" button press
+        // Join Stranger button press
         document.getElementById("match-stranger-btn").addEventListener("click", e => {
 
             this.channels.lobby.push("match_with_stranger", {test: "test"})
@@ -77,15 +72,21 @@ export class TwoPianos{
                 })
         })
 
+        this.channels.lobby.join()
+
     }
 
-    setupUserHandlers(){
+    setupAndConnectUserChannel(){
 
-        // on "match_found"
+        this.channels.user = this.socket.channel(`user:${this.user_id}`)
+
+        // when another user connects to you after you hit "join stranger" button
         this.channels.user
             .on("matched_user", (msg) => {
-                console.log("Matched!", msg.room_id)
+                console.log(`Matched! ${msg.room_id}`)
             })
+
+        this.channels.user.join()
 
     }
 
