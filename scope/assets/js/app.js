@@ -42,11 +42,18 @@ import "phoenix_html"
  }
 
  message.on('keypress', event => {
-     if (event.keyCode == 13) {
+    var urgency = "normal";
+    if($('#urgent').is(':checked')){
+        urgency = "urgent";
+    }
+    else if($('#peripheral').is(':checked')){
+        urgency = "peripheral";
+    }
+    if (event.keyCode == 13) {
          channel.push('shout', {
             username: username.val(),
             message: message.val(),
-            urgency: urgency.val(),
+            urgency: urgency,
             chatroom: chatroom,
          });
          message.val('');
@@ -64,16 +71,17 @@ $('#add_new').on('click', function(){
           modal.hide();
         }
     }
-    
-    
-      if(false) {
-         clear_msg_list();
-          clear_unread_badges();
-          chatroom = $(this).attr('id');
-          // join channel
-        join_channel(chatroom)
-      }
-})
+
+    $('#new_submit').on('click', function(){
+        clear_msg_list();
+        clear_unread_badges();
+        chatroom = $('chat_name').val;
+        // join channel
+      join_channel(chatroom);
+    })
+
+    }
+)
 
 //  trigger channel switch
 channel_list.on('click', 'li', function(){
@@ -88,10 +96,21 @@ channel.on('list_channels', payload => {
     channel_list.append(`<li id="${payload.channel}">${payload.channel}</li>`);
  })
 
-//listeners must be updated because channel is listening to a new topic
+// listeners must be updated because channel is listening to a new topic
 function update_listeners(){
     channel.on('shout', payload => {
-        list.append(`<div class="msg col-md-12"><b>${payload.username || 'new_user'}:</b> ${payload.message}</div>`);
+        var prepend;
+        if(payload.urgency=="urgent") {
+            prepend = "!";
+        }
+        else if(payload.urgency=="peripheral") {
+            prepend = "*";
+        }
+        else {
+            prepend = "";
+        }
+
+        list.append(`<div class="msg col-md-12">${prepend} <b>${payload.username || 'new_user'}:</b> ${payload.message}</div>`);
         list.prop({
             scrollTop: list.prop('scrollHeight')
         })

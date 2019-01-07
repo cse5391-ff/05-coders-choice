@@ -10,7 +10,7 @@
   <div class="modal-content">
     <span class="close">&times;</span>
     <p>Enter a chat name (e.g. chatroom004)</p>
-    <input type="text"><input type="submit">
+    <input type="text" id="chat_name"><input type="submit" id="new_submit">
   </div>
 
   </div>
@@ -28,8 +28,8 @@
   </div>
   <div class='col-md-8'>
     <div class='input-group'>
-        <input type="checkbox" name="urgency" id="urgency" value="urgent"> !
-        <input type="checkbox" name="urgency" value="peripheral"> *
+        <input type="checkbox" name="urgency" id="urgent" value="urgent"> !
+        <input type="checkbox" name="urgency" id="peripheral" value="peripheral"> *
         <input type="hidden" name="urgency" value="normal">
         <input type='text' id='msg' class='form-control' placeholder='Message' aria-describedby="basic-addon2">
     </div>
