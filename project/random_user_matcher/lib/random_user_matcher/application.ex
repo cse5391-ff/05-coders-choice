@@ -5,7 +5,7 @@ defmodule RandomUserMatcher.Application do
   def start(_type, _args) do
 
     children = [
-      { Supervisor, strategy: :one_for_one, name: RandomUserMatcher.Supervisor }
+      { RandomUserMatcher.Supervisor, strategy: :one_for_one, name: RandomUserMatcher.Supervisor }
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)
