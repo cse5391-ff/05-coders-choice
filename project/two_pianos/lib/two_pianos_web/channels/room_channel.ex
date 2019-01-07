@@ -11,15 +11,15 @@ defmodule TwoPianosWeb.RoomChannel do
 
   end
 
-  def handle_in("keys_pressed", keys, socket) do
+  def handle_in("keys_pressed", %{keys_pressed: keys}, socket) do
     socket |> broadcast!("press", keys)
   end
 
-  def handle_in("keys_released", keys, socket) do
+  def handle_in("keys_released", %{keys_released: keys}, socket) do
     socket |> broadcast!("release", keys)
   end
 
-  def handle_in("message_posted", message, socket) do
+  def handle_in("message_posted", %{message_posted: message}, socket) do
     socket |> broadcast!("chat_message", message)
   end
 
