@@ -7,6 +7,8 @@ defmodule Room do
   2) Match (has 2 inhabitants) - for jamming with a random stranger
   """
 
+  alias Room.Interface
+
   defdelegate start(room_id, type, startup_state), to: Interface
   defdelegate join(room_id, user_id),              to: Interface
   defdelegate leave(room_id, user_id),             to: Interface

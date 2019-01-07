@@ -40,7 +40,7 @@ defmodule Room.Server do
     end
   end
 
-  def handle_cast({:leave, user_id}, _from, state) do
+  def handle_cast({:leave, user_id}, state) do
     updated_occupants = state.occupants |> MapSet.delete(user_id)
     {:noreply, %{state | occupants: updated_occupants}}
   end
@@ -69,8 +69,8 @@ defmodule Room.Server do
     end
   end
 
-  defp protected_authorized?(user_id, state = %{type: :protected, creator: user_id}), do: true
-  defp protected_authorized?(user_id, state = %{type: :protected}),                   do: state.creator in state.occupants
+  defp protected_authorized?(user_id, _state = %{type: :protected, creator: user_id}), do: true
+  defp protected_authorized?(_user_id, state = %{type: :protected}),                   do: state |> creator_present?()
 
 
 
