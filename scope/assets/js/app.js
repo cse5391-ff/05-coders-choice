@@ -55,7 +55,7 @@ import "phoenix_html"
 //  trigger channel switch
 channel_list.on('click', 'li', function(){
     clear_msg_list();
-    chatroom = $(this).html();
+    chatroom = $(this).attr('id');
     channel = socket.channel(`chat_room:${chatroom}`, {})
     channel.join()
       .receive("ok", resp => { console.log("Joined successfully", resp) })
@@ -87,7 +87,7 @@ function update_listeners(){
      // update labels for all channels
      channel.on('read_channel', payload => {
         console.log(`${payload.unread}`);
-        $('.badge').html("");
+        $(`#${payload.channel} .badge`).html("");
         $(`#${payload.channel}`).append(`<span class="badge">${payload.unread}</span>`)
      })
 }
