@@ -12,30 +12,30 @@ Run ```mix phx.server``` to run the app.
 
 ## Instructions
 
-##### Create a new channel
+**Create a new channel**
 
-  by clicking the "+ add new" icon
+Click the "+ add new" icon
 
-  type in your channel name ( e.g. "chatroom112")
+Type in your channel name ( e.g. "chatroom112")
 
-#####  Join a channel
+**Join a channel**
 
-  by clicking the left icon you would like to join
+Click the left icon you would like to join
 
-##### Send a message
-  by entering your username
+**Send a message**
+Enter your username
 
-  selecting an urgency level(normal - "", peripheral - "*", urgent - "!")
+Select an urgency setting(normal - "", peripheral - "*", urgent - "!")
 
-  type your message and press enter
+Type your message and press enter
 
-##### View all unread messages in the side panel
+**View all unread messages in the side panel**
 
-  View your inbox by clicking on the channel name on the left-hand side.
+View your inbox by clicking on the channel name on the left-hand side.
 
-  Channel automatically updates to reflect read messages
+Channel automatically updates to reflect read messages
 
 ### Cautions:
-  Add new channel is buggy, would recommend using the in use channels
+  - Add new channel is buggy, I would recommend using the in use channels.
 
-  Message updates cross browser come after rejoining channel.
+  - Message updates cross browser come after rejoining channel.
