@@ -58,6 +58,14 @@ defmodule ScopeWeb.ChatRoomChannel do
     |> send_msgs_to_socket(socket)
 
     msgs
+    |> read_msgs(socket)
+
+  end
+
+  def read_msgs(msgs, _socket) when msgs == nil, do: IO.puts("no messages found.")
+
+  def read_msgs(msgs, socket) do
+    msgs
     |> Scope.ChannelReadHelper.read_msgs
     |> Enum.each(fn {channel, unread} -> push(socket, "read_channel",
       %{

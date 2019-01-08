@@ -58,11 +58,12 @@ $('#add_new').on('click', function(){
     }
 
     $('#new_submit').on('click', function(){
-        clear_msg_list();
-        clear_unread_badges();
-        chatroom = $('chat_name').val;
+       // clear_msg_list();
+       // clear_unread_badges();
+        chatroom = $('#chat_name').val();
+        console.log(chatroom);
         // join channel
-      join_channel(chatroom);
+       // join_channel(chatroom);
     })
 
     }

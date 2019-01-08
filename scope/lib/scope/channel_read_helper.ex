@@ -1,7 +1,8 @@
 defmodule Scope.ChannelReadHelper do
-  # Channel Read Helper handles when a user reads messages from a channel,
-  # and stores view history state (by count per channel) in an Agent
-
+  @moduledoc """
+  Channel Read Helper handles a user reading messages from a chat,
+  and stores view history (by count per channel) in an Agent
+  """
   def read_msgs(msgs) do
     msgs
     |> get_channel

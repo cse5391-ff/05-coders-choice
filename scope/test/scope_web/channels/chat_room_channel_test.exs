@@ -16,6 +16,11 @@ defmodule ScopeWeb.ChatRoomChannelTest do
     assert_reply ref, :ok, %{"hello" => "there"}
   end
 
+  test "joins channel", %{socket: socket} do
+    ref = push socket, "shout", {%{"msg" => "new msg"}}
+    assert_reply ref == {:noreply, socket}
+  end
+
   test "shout broadcasts to chat_room:lobby", %{socket: socket} do
     push socket, "shout", %{"hello" => "all"}
     assert_broadcast "shout", %{"hello" => "all"}
