@@ -34,24 +34,35 @@ export class RoomChannel{
 
         })
 
-        room_channel
-            .on("keys_pressed", (resp) => {
-                their_piano.press(resp.keys_pressed)
-            })
-            .on("keys_released", (resp) => {
-                their_piano.release(resp.keys_released)
-            })
-            .on("message_posted", (resp) => {
-                RoomChannel.render_message("them", resp.message_posted)
-            })
+        room_channel.on("keys_pressed", (resp) => {
+            their_piano.press(resp.keys_pressed)
+        })
+            
+        room_channel.on("keys_released", (resp) => {
+            their_piano.release(resp.keys_released)
+        })
 
+        room_channel.on("message_posted", (resp) => {
+            RoomChannel.render_message("them", resp.message_posted)
+        })
+
+        room_channel.join()
+            .receive("ok", resp => {
+                console.log("Room Channel: Joined successfully", resp) 
+            })
+            .receive("error", resp => { 
+                console.log("Room Channel: Unable to join", resp) 
+            })
+            
+        return room_channel
+        
     }
 
-    render_message(you_or_them, message) {
+    static render_message(you_or_them, message) {
         let chat_box       = document.getElementById("chat-box")
         let message_block  = document.createElement('p')
 
-        message.insertAdjacentHTML(`<b>${you_or_them === 'you' ? '(:' : ':)'}</b>${message}`)
+        message_block.insertAdjacentHTML('afterbegin', `<b>${you_or_them === 'you' ? '(:' : ':)'}</b>${message}`)
         chat_box.appendChild(message_block)
     }
 

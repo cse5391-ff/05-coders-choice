@@ -20,4 +20,9 @@ defmodule RoomManager do
   """
   defdelegate get_id_by_code(code), to: Interface
 
+  @doc """
+  Checks if the provided room exists.
+  """
+  defdelegate room_exists?(room_id), to: Interface
+
 end

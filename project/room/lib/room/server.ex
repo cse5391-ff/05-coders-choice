@@ -36,6 +36,7 @@ defmodule Room.Server do
 
   end
 
+  def handle_call({:join,   nil  }, _from, state), do: {:reply, {:failure, "User ID can not be nil"}, state}
   def handle_call({:join, user_id}, _from, state) do
     cond do
       room_full?(state)                 -> {:reply, {:failure, "room full"}, state}

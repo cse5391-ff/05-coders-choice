@@ -9,9 +9,16 @@ export class LobbyChannel{
 
             lobby_channel.push("create_room")
                 .receive("room_created", (resp) => {
-                        console.log(resp)
-                        // Navigate to /room, use resp.room_id, resp.room_code
-                    })
+
+                    console.log(`Lobby Channel: Room Created\nroom_id: ${resp.room_id}, room_code: ${resp.room_code}`)
+
+                    localStorage.setItem("room_id", resp.room_id)
+
+                    setTimeout(function(){
+                        window.location.replace("http://localhost:4000/room")
+                    }, 2000)
+
+                })
 
         })
         
@@ -22,10 +29,20 @@ export class LobbyChannel{
 
             lobby_channel.push("join_existing_room", {room_code: room_code})
                 .receive("invalid_code", (resp) => {
-                    console.log("invalid, ", resp)
+
+                    console.log(`Lobby Channel: Join Existing\ninvalid code ${room_code}`)
+
                 })
                 .receive("valid_code", (resp) => {
-                    console.log("valid, ", resp)
+
+                    console.log(`Lobby Channel: Join Existing\nvalid code ${room_code}, connecting to room ${resp.room_id}`)
+
+                    localStorage.setItem("room_id", resp.room_id)
+
+                    setTimeout(function(){
+                        window.location.replace("http://localhost:4000/room")
+                    }, 2000)
+
                 })
 
         })
@@ -35,13 +52,25 @@ export class LobbyChannel{
 
             lobby_channel.push("match_with_stranger", {test: "test"})
                 .receive("waiting", (resp) => {
-                    console.log("waiting")
+
+                    console.log("Lobby Channel: Match With Stranger\nWaiting")
+
                 })
                 .receive("already_waiting", (resp) => {
-                    console.log("already waiting")
+
+                    console.log("Lobby Channel: Match With Stranger\nAlready Waiting")
+
                 })
                 .receive("match", (resp) => {
-                    console.log(`Match! ${resp.room_id}`)
+
+                    console.log(`Lobby Channel: Match With Stranger\nMatch, room_id: ${resp.room_id}`)
+
+                    localStorage.setItem("room_id", resp.room_id)
+
+                    setTimeout(function(){
+                        window.location.replace("http://localhost:4000/room")
+                    }, 2000)
+
                 })
         })
 

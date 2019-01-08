@@ -30,4 +30,11 @@ defmodule RoomManager.Interface do
 
   def get_id_by_code(code), do: :code_id_linker |> MapStore.get(code)
 
+  def room_exists?(room_id) do
+    case Process.whereis(room_id) do
+      nil -> false
+      _   -> true
+    end
+  end
+
 end
