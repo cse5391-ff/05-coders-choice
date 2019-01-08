@@ -1,8 +1,15 @@
 defmodule ScopeWeb.ChatRoomChannel do
   use ScopeWeb, :channel
+  """
+    ChatRoomChannel processes all socket calls
+    and allows new channel joins and
+    message sends via websockets
 
+    Note: chatroom and channel are used interchangably,
+    though Phoenix Channels connect to the socket via JS.
+  """
   def join("chat_room:" <> room_id, payload, socket) do
-      #store room id of channel
+      #store room id of channel (chatroom)
       socket = socket
                |>assign(:channel, room_id)
 
@@ -18,6 +25,7 @@ defmodule ScopeWeb.ChatRoomChannel do
     {:noreply, socket}
   end
 
+  # update the highlighted channel DOM Object
   def update_active_navbar(channel, socket) do
     push(socket, "update_active_navbar", %{
       active: channel
@@ -33,10 +41,11 @@ defmodule ScopeWeb.ChatRoomChannel do
     {:noreply, socket}
   end
 
+  # joining channel calls DOM objects to reflect
+  # new connection. All states are updated.
   def handle_info(:after_join, socket) do
     channel = socket.assigns[:channel]
     update_active_navbar(channel, socket)
-    #get room_id from the socket
     unread_map = get_msgs(channel, socket)
     |> Scope.ChannelReadHelper.read_msgs
     |> Enum.each(fn {channel, unread} -> push(socket, "read_channel",

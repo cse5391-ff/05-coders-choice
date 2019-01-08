@@ -1,11 +1,14 @@
 defmodule Scope.ChannelReadHelper do
+  # Channel Read Helper handles when a user reads messages from a channel,
+  # and stores view history state (by count per channel) in an Agent
 
   def read_msgs(msgs) do
     msgs
     |> get_channel
     |> Scope.ChannelRead.update_state(count_msgs(msgs))
 
-    IO.inspect print_new_unread()
+    # return updated unread counts
+    print_new_unread()
   end
 
   def get_channel(msgs) do

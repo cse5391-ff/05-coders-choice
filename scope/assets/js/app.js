@@ -1,26 +1,9 @@
-// Brunch automatically concatenates all files in your
-// watched paths. Those paths can be configured at
-// config.paths.watched in "brunch-config.js".
-//
-// However, those files will only be executed if
-// explicitly imported. The only exception are files
-// in vendor, which are never wrapped in imports and
-// therefore are always executed.
-
-// Import dependencies
-//
-// If you no longer want to use a dependency, remember
-// to also remove its path from "config.paths.watched".
 import "phoenix_html"
+import socket from "./socket"
 
-// Import local files
-//
-// Local files can be imported directly using relative
-// paths "./socket" or full ones "web/static/js/socket".
+//  Initial chat setup
+//  Source: https://github.com/tensor-programming/phoenix_1.3_chat_app
 
- import socket from "./socket"
-
-//  Initial chat setup sourced from 
  let chatroom = "lobby";
  let channel;
  let list = $('#message-list');
@@ -60,6 +43,8 @@ import "phoenix_html"
      }
  })
 
+// add new channel not fully operational, 
+// would recommend using currently in use channels
 $('#add_new').on('click', function(){
     // trigger dialogue box
     modal.show();
@@ -144,15 +129,12 @@ $(document).ready(function () {
     });
 });
 
+// keeps only one of the urgency checkboxes checked
+// Source: https://stackoverflow.com/questions/9709209/html-select-only-one-checkbox-in-a-group
 $("input:checkbox").on('click', function() {
-    // in the handler, 'this' refers to the box clicked on
     var $box = $(this);
     if ($box.is(":checked")) {
-      // the name of the box is retrieved using the .attr() method
-      // as it is assumed and expected to be immutable
       var group = "input:checkbox[name='" + $box.attr("name") + "']";
-      // the checked state of the group/box on the other hand will change
-      // and the current value is retrieved using .prop() method
       $(group).prop("checked", false);
       $box.prop("checked", true);
     } else {

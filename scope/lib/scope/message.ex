@@ -50,13 +50,4 @@ defmodule Scope.Message do
               select: {u.chatroom, count(u.id)}
     Scope.Repo.all(query)
   end
-
-  # for removing bad entries
-  def remove_bad_channel() do
-    bad_channel = "+ add new "
-    query = from u in Scope.Message,
-              where: u.chatroom == ^bad_channel
-
-    Scope.Repo.delete_all(query)
-  end
 end
