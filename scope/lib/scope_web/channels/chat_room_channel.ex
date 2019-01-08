@@ -1,6 +1,6 @@
 defmodule ScopeWeb.ChatRoomChannel do
   use ScopeWeb, :channel
-  """
+  @moduledoc """
     ChatRoomChannel processes all socket calls
     and allows new channel joins and
     message sends via websockets
@@ -8,7 +8,8 @@ defmodule ScopeWeb.ChatRoomChannel do
     Note: chatroom and channel are used interchangably,
     though Phoenix Channels connect to the socket via JS.
   """
-  def join("chat_room:" <> room_id, payload, socket) do
+
+  def join("chat_room:" <> room_id, _payload, socket) do
       #store room id of channel (chatroom)
       socket = socket
                |>assign(:channel, room_id)
@@ -42,22 +43,34 @@ defmodule ScopeWeb.ChatRoomChannel do
   end
 
   # joining channel calls DOM objects to reflect
-  # new connection. All states are updated.
+  # new connection. Updates all states.
   def handle_info(:after_join, socket) do
     channel = socket.assigns[:channel]
     update_active_navbar(channel, socket)
-    unread_map = get_msgs(channel, socket)
+    load_msgs(channel, socket)
+    {:noreply, socket}
+  end
+
+  def load_msgs(channel, socket) do
+    # push messages and update read status
+    msgs = get_msgs(channel)
+    msgs
+    |> send_msgs_to_socket(socket)
+
+    msgs
     |> Scope.ChannelReadHelper.read_msgs
     |> Enum.each(fn {channel, unread} -> push(socket, "read_channel",
       %{
         channel: channel,
         unread: unread
       }) end)
-    {:noreply, socket}
   end
 
-  def get_msgs(channel, socket) do
-    msgs = Scope.ChatFetcher.get_msgs(channel)
+  def get_msgs(channel) do
+    Scope.ChatFetcher.get_msgs(channel)
+  end
+
+  def send_msgs_to_socket(msgs, socket) do
     msgs
     |> Enum.each(fn msg -> push(socket, "shout",
       %{
@@ -66,7 +79,6 @@ defmodule ScopeWeb.ChatRoomChannel do
         urgency: msg.urgency,
         chatroom: msg.chatroom,
       }) end)
-    msgs
   end
 
 end
