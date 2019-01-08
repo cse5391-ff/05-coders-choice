@@ -23,9 +23,10 @@ Type in your channel name ( e.g. "chatroom112")
 Click the left icon you would like to join
 
 **Send a message**
+
 Enter your username
 
-Select an urgency setting(normal - "", peripheral - "*", urgent - "!")
+Select an urgency setting(normal - "[blank]", peripheral - "*", urgent - "!")
 
 Type your message and press enter
 
@@ -36,6 +37,6 @@ View your inbox by clicking on the channel name on the left-hand side.
 Channel automatically updates to reflect read messages
 
 ### Cautions:
-  - Add new channel is buggy, I would recommend using the in use channels.
+  - Add channel is buggy, I would recommend using the in use channels.
 
-  - Message updates cross browser come after rejoining channel.
+  - Message sending cross browser responds after rejoining channel.
